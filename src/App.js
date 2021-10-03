@@ -2,8 +2,8 @@ import './App.css';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import Login from './pages/Login';
-// import ResetPassword from './pages/ResetPassword';
-// import NewPassword from './pages/NewPassword';
+import ResetPassword from './pages/ResetPassword';
+import NewPassword from './pages/NewPassword';
 import SignUp from './pages/SignUp';
 
 function App() {
@@ -16,12 +16,12 @@ function App() {
         <Route path='/login'>
           <Login />
         </Route>
-        {/* <Route path='/reset'>
+        <Route path='/reset'>
           <ResetPassword />
         </Route>
         <Route path='/new-password'>
           <NewPassword />
-        </Route> */}
+        </Route>
         <Route path='/signup'>
           <SignUp />
         </Route>
