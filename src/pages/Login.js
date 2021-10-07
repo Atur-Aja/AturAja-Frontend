@@ -39,7 +39,11 @@ export default function Login () {
           </div>
         </div>
         <div className='grid mt-24'>
-          <button className='bg-biru hover:bg-biruTua rounded-lg shadow-xl text-white font-bold px-20 py-2 place-self-center'>Sign in</button>
+          <div className='flex justify-center'>
+            <Link to='/homepage'>
+              <button className='bg-biru hover:bg-biruTua rounded-lg shadow-xl text-white font-bold px-20 py-2 place-self-center'>Sign in</button>
+            </Link>
+          </div>
           <div className='flex place-self-center mt-2'>
             <p className='text-black text-xs'>Don't have an account?</p>
             <Link to='/signup'>

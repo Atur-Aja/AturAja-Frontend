@@ -4,9 +4,9 @@ import Meeting from '../assets/meeting.jpg';
 
 export default function LandingPage () {
   return (
-    <div>
+    <div className='bg-abuMuda'>
       <Navbar />
-      <div className='px-16 mt-28 flex'>
+      <div className='px-16 mt-28 flex bg-abuMuda'>
         <img src={Meeting} className='w-1/2' alt='people meeting'/>
         <div className='w-1/2 flex flex-wrap content-center text-abu'>
           <div>

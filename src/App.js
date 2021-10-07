@@ -5,7 +5,7 @@ import Login from './pages/Login';
 import ResetPassword from './pages/ResetPassword';
 import NewPassword from './pages/NewPassword';
 import SignUp from './pages/SignUp';
-//import HomePage from './pages/HomePage';
+import HomePage from './pages/HomePage';
 
 function App() {
   return (
@@ -26,9 +26,9 @@ function App() {
         <Route path='/signup'>
           <SignUp />
         </Route>
-        {/* <Route path='/homepage'>
+        <Route path='/homepage'>
           <HomePage />
-        </Route> */}
+        </Route>
       </Switch>
     </BrowserRouter>
   );

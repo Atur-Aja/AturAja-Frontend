@@ -51,9 +51,11 @@ export default function SignUp () {
             </div>
           </div>
           <div className='grid mt-14'>
-            <Link to='/login'>
-						<button className='bg-biru hover:bg-biruTua rounded-lg shadow-xl text-white font-bold px-20 py-2 place-self-center'>Sign up</button>
-            </Link>
+            <div className='flex justify-center'>
+              <Link to='/login'>
+						    <button className='bg-biru hover:bg-biruTua rounded-lg shadow-xl text-white font-bold px-20 py-2 place-self-center'>Sign up</button>
+              </Link>
+            </div>
             <div className='flex place-self-center mt-2'>
 							<p className='text-black text-xs'>Already have an account?</p>
 							<Link to='/login'>
