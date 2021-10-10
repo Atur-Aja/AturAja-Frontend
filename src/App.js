@@ -1,5 +1,6 @@
 import './App.css';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import React from 'react';
+import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import Login from './pages/Login';
 import ResetPassword from './pages/ResetPassword';
@@ -9,7 +10,7 @@ import HomePage from './pages/HomePage';
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter >
       <Switch>
         <Route exact path='/'>
           <LandingPage />
