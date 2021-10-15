@@ -1,6 +1,7 @@
 import React from 'react';
 import Sidebar from '../components/Sidebar';
 import Plus from '../assets/plus.svg';
+import Task from '../components/Task';
 
 export default function HomePage () {
     return (
@@ -16,6 +17,7 @@ export default function HomePage () {
                     <img src={Plus} alt='plus'/>
                 </div>
             </div>
+            <Task />
         </div>
         <div className='h-132 w-96 my-16 bg-white rounded-lg border-solid border-4 border-opacity-50 border-biru'>
             <div className='h-12 w-32 ml-4 mt-4 bg-white rounded-lg border-solid border-4 border-biru font-mulish text-2xl font-black grid place-content-center'>

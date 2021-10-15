@@ -6,6 +6,8 @@ import ResetPassword from './pages/ResetPassword';
 import NewPassword from './pages/NewPassword';
 import SignUp from './pages/SignUp';
 import HomePage from './pages/HomePage';
+import Task from './components/Task';
+import Schedule from './components/Schedule';
 
 function App() {
   return (
@@ -28,6 +30,12 @@ function App() {
         </Route>
         <Route path='/homepage'>
           <HomePage />
+        </Route>
+        <Route path='/task'>
+          <Task />
+        </Route>
+        <Route path='/schedule'>
+          <Schedule />
         </Route>
       </Switch>
     </BrowserRouter>
