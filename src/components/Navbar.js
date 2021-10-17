@@ -1,16 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../assets/logo.svg';
+import { IconMenu } from './Icons';
 
-export default function Navbar () {
+export default function Navbar ({ toggle, toggleCreate }) {
   return (
-    <div className='flex justify-between px-16 py-2 bg-gradient-to-r from-biru to-ijo'>
-      <div className='flex flex-wrap content-center'>
-        <img src={Logo} className='shadow-2xl' alt='logo'/>
-        <p className='text-white font-comforta font-semibold flex flex-wrap content-center ml-2 text-2xl'>atur aja</p>
+    <div className='flex justify-between pr-16 pl-4 py-2 bg-biruTua sticky top-0 z-40 shadow-xl'>
+      <div className='flex flex-wrap content-center text-white'>
+        <IconMenu onClick={toggle}/>
+        <img src={Logo} className='shadow-2xl ml-6' alt='logo'/>
+        <p className='font-comforta font-semibold flex flex-wrap content-center ml-2 text-2xl'>atur aja</p>
       </div>
       <div className='flex flex-wrap content-center text-white font-mulish'>
-        <div className='flex flex-wrap content-center'>
+        <p className='cursor-pointer' onClick={toggleCreate}>+ Create</p>
+        
+        {/* <div className='flex flex-wrap content-center'>
           <Link to='/'>
             <p className='font-semibold text-lg mx-4 hover:text-gray-400'>Fitur</p>
           </Link>
@@ -28,7 +32,7 @@ export default function Navbar () {
           <Link to='/signup'>
             <button className='bg-white hover:bg-gray-400 px-8 py-2 rounded-full text-gray-600 ml-2 shadow-2xl'>Sign up</button>
           </Link>
-        </div>
+        </div> */}
       </div>
     </div>
   );

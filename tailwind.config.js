@@ -28,8 +28,9 @@ module.exports = {
       ijo: '#23E8A6',
       biru: '#10C2D3',
       biruTua: '#056676',
-      abu: '#939393',
+      abu: '#EDEFF2',
       abuMuda: '#F8F9FB',
+      abuTua: '#939393',
 
       black: '#000',
       white: '#fff',
@@ -191,6 +192,7 @@ module.exports = {
       '40': '10rem',
       '48': '12rem',
       '56': '14rem',
+      '60': '15rem',
       '64': '16rem',
       '72': '18rem',
       '80': '20rem',

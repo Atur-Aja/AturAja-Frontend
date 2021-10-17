@@ -13,7 +13,7 @@ export default function NewPassword () {
     setIsRevealConf(!isRevealConf);
   }
   return (
-    <div className='h-screen flex justify-center bg-gradient-to-br from-ijo to-blue-500 pt-24'>
+    <div className='h-screen flex justify-center bg-biruTua pt-24'>
       <div className='w-112 h-144 rounded-xl px-8 py-14 bg-abuMuda'>
         <div className='flex flex-wrap content-center justify-center'>
           <img src={Logo} className='w-24' alt='logo'/>

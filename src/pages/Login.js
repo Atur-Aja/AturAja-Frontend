@@ -4,7 +4,7 @@ import {ReactComponent as Email} from '../assets/email.svg';
 import {ReactComponent as Eye} from '../assets/eye.svg';
 import {ReactComponent as EyeOff} from '../assets/eye-off.svg';
 import Logo from '../assets/logo.svg';
-import { Link, Redirect } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { login } from '../actions/auth';
 import { clearMessage } from "../actions/message";
 
@@ -18,8 +18,8 @@ export default function Login () {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const { isLoggedIn } = useSelector(state => state.auth);
   const { message } = useSelector(state => state.message);
+  let history = useHistory();
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -39,21 +39,22 @@ export default function Login () {
 
     dispatch(login(email, password))
       .then(() => {
-        <Redirect to='/homepage' />;
-        // props.history.push('/homepage');
-        // window.location.reload();
+        history.push('/home')
       })
       .catch(() => {
         setLoading(false);
       });
   };
 
-  if (isLoggedIn) {
-    return <Redirect to='/homepage' />;
-  }
+  const { user } = useSelector(state => state.auth)
+  useEffect(() => {
+    if(user) {
+      history.push('/home')
+    }
+  })
 
   return (
-    <div className='h-screen flex justify-center bg-gradient-to-br from-ijo to-blue-500 pt-24'>
+    <div className='h-screen flex justify-center bg-biruTua pt-24'>
       <div className='w-112 h-144 rounded-xl px-8 py-14 bg-abuMuda'>
         <div className='flex flex-wrap content-center justify-center'>
           <img src={Logo} className='w-24' alt='logo'/>

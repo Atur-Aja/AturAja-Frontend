@@ -1,18 +1,18 @@
 import axios from 'axios';
-import { apiUrl } from '../helpers/config';
+import { Url } from '../helpers/server';
 import {
 	REGISTER_SUCCESS,
 	REGISTER_FAILED,
 	LOGIN_SUCCESS,
 	LOGIN_FAILED,
 	LOGOUT,
-	SET_MESSAGE
+	SET_MESSAGE,
 } from './type';
 
 
 export function register (username, email, password, password_validate, phone_number) {
 	return (dispatch) => {
-		return axios.post(apiUrl + "/register", {
+		return axios.post(Url.Register, {
 			username,
 			email,
 			password,
@@ -43,38 +43,27 @@ export function register (username, email, password, password_validate, phone_nu
 
 export function login (email, password) {
 	return (dispatch) => {
-		return axios.post(apiUrl + "/login", {email, password})
+		return axios.post(Url.Login, {email, password})
 		.then(response => {
-			if (response.data.access_token) {
-				localStorage.setItem("user", JSON.stringify(response.data));
-			}
-			return response.data;
-		})
-		.then(data => {
-			dispatch({
+			return dispatch({
 				type: LOGIN_SUCCESS,
-				payload: { user: data },
+				payload: response.data
+			})
+		})
+		.catch( error => {
+			dispatch({
+				type: LOGIN_FAILED,
 			});
-			return Promise.resolve();
-		}, error => {
-				dispatch({
-					type: LOGIN_FAILED,
-				});
-				dispatch({
-					type: SET_MESSAGE,
-					payload: error.toString(),
-				});
-				return Promise.reject();
-		}
-	);
+			dispatch({
+				type: SET_MESSAGE,
+				payload: error.toString(),
+			});
+		})
 	}
 };
 
 export function logout() {
-	return (dispatch) => {
-		localStorage.removeItem("user");
-		dispatch({
-			type: LOGOUT,
-		})
+	return {
+		type: LOGOUT
 	}
 }

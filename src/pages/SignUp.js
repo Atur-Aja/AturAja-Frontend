@@ -63,7 +63,7 @@ export default function SignUp () {
   };
 
   return (
-    <div className='h-screen flex justify-center bg-gradient-to-br from-ijo to-blue-500 pt-24'>
+    <div className='h-screen flex justify-center bg-biruTua pt-24'>
       <div className='w-112 h-144 rounded-xl px-8 py-14 bg-abuMuda'>
         <div className='mx-4 grid'>
           <p className='text-black text-lg font-bold place-self-center'>Create your account</p>

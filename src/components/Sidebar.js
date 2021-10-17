@@ -1,44 +1,54 @@
 import React from 'react';
-//import { Link } from 'react-router-dom';
-import Logo from '../assets/logo.svg';
-import Home from '../assets/home.svg';
-import Calendar from '../assets/calendar.svg';
-import List from '../assets/list.svg';
-import Task from '../assets/task.svg';
-import Friend from '../assets/friends.svg';
-import Group from '../assets/group.svg';
-import Setting from '../assets/setting.svg';
+import { Link } from 'react-router-dom';
+import { useDispatch } from "react-redux";
+import { logout } from '../actions/auth';
+import { IconHome, IconLogout, IconSchedule, IconSetting, IconTask } from './Icons';
+
+const menuLinks = [
+	{target: '/', text: 'Home', icon: <IconHome/>},
+	{target: '/', text: 'Schedule', icon: <IconSchedule/>},
+	{target: '/', text: 'Task', icon: <IconTask/>},
+	{target: '/', text: 'Friends', icon: <IconTask/>},
+	{target: '/', text: 'Groups', icon: <IconTask/>},
+]
+
+const MenuLink = ({target, text, icon, open, ...props}) => {
+	return (
+		<Link to={target} className='px-4 py-2 flex rounded-lg cursor-pointer' onClick={props.onClick}>
+			{icon}
+			<p className={'text-lg ml-4' + (open ? '' : ' hidden group-hover:block')}>{text}</p>
+		</Link>
+	)
+}
 
 
-export default function Sidebar () {
+export default function Sidebar ({ isOpen }) {
+	const dispatch = useDispatch();
+	const logOut = () => {
+		dispatch(logout());
+	};
+
   return (
-      <div class='min-h-screen flex'>
-          <div class='bg-gradient-to-r from-biru to-ijo w-49'>
-              <div className='flex-col justify-center'>
-                <img src={Logo} className='shadow-2xl' alt='logo'/>
-                <div class='rounded-full h-10 w-10 flex items-center justify-center bg-white'>
-                    <img src={Home} alt='home'/>
-                </div>
-                <div class='rounded-full h-10 w-10 flex items-center justify-center bg-white'>
-                    <img src={Calendar} alt='calender'/>
-                </div>
-                <div class='rounded-full h-10 w-10 flex items-center justify-center bg-white'>
-                    <img src={List} alt='list'/>
-                </div>
-                <div class='rounded-full h-10 w-10 flex items-center justify-center bg-white'>
-                    <img src={Task} alt='task'/>
-                </div>
-                <div class='rounded-full h-10 w-10 flex items-center justify-center bg-white'>
-                    <img src={Friend} alt='friend'/>
-                </div>
-                <div class='rounded-full h-10 w-10 flex items-center justify-center bg-white'>
-                    <img src={Group} alt='group'/>
-                </div>
-                <div class='rounded-full h-10 w-10 flex items-center justify-center bg-white'>
-                    <img src={Setting} alt='setting'/>
-                </div>
-              </div>
-          </div> 
-      </div>
+		<div className={'bg-biruTua shadow-lg group fixed top-0 left-0 ' + (isOpen ? 'w-60 z-20 lg:z-30' : 'w-14 hover:w-60 hidden lg:block lg:z-30 transition-all ease-in-out duration-300')}>
+			<div className='h-screen text-white pt-20 pb-4 grid place-content-between'>
+				<div>
+					{
+						menuLinks.map(({target, text, icon}, idx) => 
+							<MenuLink 
+								key={idx} 
+								target={target}
+								icon={icon}
+								text={text}
+								open={isOpen}
+							/>
+						)
+					}
+				</div>
+				<div>
+					<MenuLink target='/' icon={<IconSetting />} text={'Settings'} open={isOpen} />
+					<MenuLink target='/login' icon={<IconLogout />} text={'Logout'} open={isOpen} onClick={logOut}/>
+				</div>
+			</div>
+		</div>
   );
 }

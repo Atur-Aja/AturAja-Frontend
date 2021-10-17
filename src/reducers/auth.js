@@ -4,14 +4,13 @@ import {
 	LOGIN_SUCCESS,
 	LOGIN_FAILED,
 	LOGOUT,
-	SET_MESSAGE
+	SET_MESSAGE,
 } from '../actions/type';
 
-const user = JSON.parse(localStorage.getItem('user'));
-
-const initialState = user 
-  ? {isLoggedIn: true, user} 
-	: {isLoggedIn: false, user: null};
+const initialState = {
+	user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null,
+	error: null,
+}
 
 export default function auth(state = initialState, action) {
 	switch(action.type) {
@@ -26,22 +25,23 @@ export default function auth(state = initialState, action) {
 				isLoggedIn: false,
 			};
 		case LOGIN_SUCCESS:
+			localStorage.setItem('user', JSON.stringify(action.payload));
+			localStorage.setItem('user-token', action.payload.access_token)
 			return {
-				...state,
-				isLoggedIn: true,
-				user: action.payload.user,
+				user: action.payload,
+				error: null
 			};
 		case LOGIN_FAILED:
 			return {
-				...state,
-				isLoggedIn: false,
 				user: null,
+				error: action.payload
 			};
 		case LOGOUT:
+			localStorage.removeItem('user');
+			localStorage.removeItem('user-token');
 			return {
-				...state,
-				isLoggedIn: false,
 				user: null,
+				error: null
 			};
 		default:
 			return state;
