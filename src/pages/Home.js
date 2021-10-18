@@ -137,19 +137,27 @@ export default function HomePage ({ show, onClose }) {
   const closeTask = () => setTaskModal(false);
   const closeSchedule = () => setScheduleModal(false);
 
+  const [schedule, setSchedule] = useState({});
+  const handleListSchedule = (schedule) => {
+    setSchedule(schedule);
+    setScheduleModal(true);
+  }
+
   return (
 		<div className='grid'>
 			<CreateButton onClose={onClose} show={show} taskModal={showTask} scheduleModal={showSchedule}/>
       <TaskModal onClose={closeTask} show={taskModal}/>
-      <ScheduleModal onClose={closeSchedule} show={scheduleModal}/>
+      <ScheduleModal onClose={closeSchedule} show={scheduleModal} schedule={schedule}/>
 			<div className='h-screen -mt-14 flex bg-abu'>
 				<div className='w-2/5 pt-16 px-4 bg-abuMuda'>
 					<p className='font-semibold text-xl'>Schedule</p>
-          {schedules.map((schedule) => {
+          {(schedules?.length && schedules.map((schedule) => {
             return(
-              <Schedule title={schedule.title} startTime={schedule.start_time} endTime={schedule.end_time} location={schedule.location} />
+              <div key={schedule.id} onClick={() => handleListSchedule(schedule)}>
+                <Schedule title={schedule.title} startTime={schedule.start_time} endTime={schedule.end_time} location={schedule.location} />
+              </div>
             )
-          })}
+          })) || null}
 				</div>
 				<div className='w-2/5 pt-16 px-4 border-l border-black border-opacity-10 bg-abuMuda'>
           <p className='font-semibold text-xl'>Tasks</p>
