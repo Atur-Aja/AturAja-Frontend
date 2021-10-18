@@ -4,6 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import CreateButton from '../components/Modal/CreateButton';
 import "@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css";
 import { Calendar, utils } from "@hassanmojab/react-modern-calendar-datepicker";
+import Task from '../components/Cards/task';
+import Schedule from '../components/Cards/schedule';
+import { getAllSchedule } from '../actions/schedule';
+import TaskModal from '../components/Modal/TaskModal';
+import ScheduleModal from '../components/Modal/ScheduleModal';
 
 const myCustomLocale = {
   // months list by order
@@ -105,6 +110,14 @@ const myCustomLocale = {
 const days = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
 
 export default function HomePage ({ show, onClose }) {
+  const schedules = useSelector(state => state.schedule.results);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllSchedule());
+  }, [dispatch])
+  
+  console.log(schedules);
+
 	const today = utils().getToday();
 	const [selectedDay, setSelectedDay] = useState(today);
   const [nativeDate, setNativeDate] = useState('');
@@ -117,15 +130,30 @@ export default function HomePage ({ show, onClose }) {
     setNativeDay(day);
 	})
 
+  const [taskModal, setTaskModal] = useState(false);
+  const [scheduleModal, setScheduleModal] = useState(false);
+  const showTask = () => setTaskModal(true);
+  const showSchedule = () => setScheduleModal(true);
+  const closeTask = () => setTaskModal(false);
+  const closeSchedule = () => setScheduleModal(false);
+
   return (
 		<div className='grid'>
-			<CreateButton onClose={onClose} show={show}/>
+			<CreateButton onClose={onClose} show={show} taskModal={showTask} scheduleModal={showSchedule}/>
+      <TaskModal onClose={closeTask} show={taskModal}/>
+      <ScheduleModal onClose={closeSchedule} show={scheduleModal}/>
 			<div className='h-screen -mt-14 flex bg-abu'>
-				<div className='w-2/5 pt-16 px-16 bg-abuMuda'>
-					haiiiii
+				<div className='w-2/5 pt-16 px-4 bg-abuMuda'>
+					<p className='font-semibold text-xl'>Schedule</p>
+          {schedules.map((schedule) => {
+            return(
+              <Schedule title={schedule.title} startTime={schedule.start_time} endTime={schedule.end_time} location={schedule.location} />
+            )
+          })}
 				</div>
-				<div className='w-2/5 pt-16 px-16 border-l border-black border-opacity-10 bg-abuMuda'>
-					halooooo
+				<div className='w-2/5 pt-16 px-4 border-l border-black border-opacity-10 bg-abuMuda'>
+          <p className='font-semibold text-xl'>Tasks</p>
+          <Task />
 				</div>
 				<div className='my-16 ml-6 pt-12'>
 					<div className='flex'>

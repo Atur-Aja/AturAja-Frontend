@@ -26,7 +26,8 @@ export default function auth(state = initialState, action) {
 			};
 		case LOGIN_SUCCESS:
 			localStorage.setItem('user', JSON.stringify(action.payload));
-			localStorage.setItem('user-token', action.payload.access_token)
+			localStorage.setItem('user-token', action.payload.access_token);
+			localStorage.setItem('username', action.payload.username);
 			return {
 				user: action.payload,
 				error: null
@@ -39,6 +40,7 @@ export default function auth(state = initialState, action) {
 		case LOGOUT:
 			localStorage.removeItem('user');
 			localStorage.removeItem('user-token');
+			localStorage.removeItem('username');
 			return {
 				user: null,
 				error: null
