@@ -1,5 +1,5 @@
 import axios from "axios";
-import { apiUrl, baseUrl } from "../helpers/config";
+import { apiUrl } from "../helpers/config";
 import { Url } from "../helpers/server";
 import { GET_ALL_SCHEDULE, CREATE_SCHEDULE, DELETE_SCHEDULE_BY_ID, GET_SCHEDULE_BY_ID, UPDATE_SCHEDULE_BY_ID } from "./type";
 
@@ -53,7 +53,6 @@ export function createSchedule(title, description, location, start_date, end_dat
         notification,
       })
       .then((response) => {
-        console.log(response);
         dispatch({
           type: CREATE_SCHEDULE,
         });

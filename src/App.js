@@ -9,6 +9,7 @@ import SignUp from "./pages/SignUp";
 import Home from "./pages/Home";
 import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
+import Schedule from "./pages/Schedule";
 
 function AuthRoute({ component: Component, ...rest }) {
   const isLoggedIn = localStorage.getItem("user") ? localStorage.getItem("user") : false;
@@ -43,6 +44,7 @@ function App() {
           <div className={"transition-all ease-in-out duration-200 " + (isNavOpen ? "lg:ml-60" : "lg:ml-14")}>
             <Switch>
               <AuthRoute path="/home" component={() => <Home show={isShow} onClose={() => setShow(false)} />} />
+              <AuthRoute path="/schedule" component={Schedule} />
             </Switch>
           </div>
         </Route>

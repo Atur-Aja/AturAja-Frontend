@@ -55,14 +55,17 @@ export default function ScheduleModal({ onClose, show, schedule }) {
   const handleAddSchedule = (e) => {
     e.preventDefault();
     dispatch(createSchedule(title, description, location, start_date, end_date, start_time, end_time, repeat, notification));
-  };
-  const handleDeleteSchedule = (e) => {
-    e.preventDefault();
-    dispatch(deleteScheduleById(schedule.id));
+    return onClose();
   };
   const handleUpdateSchedule = (e) => {
     e.preventDefault();
     dispatch(updateScheduleById(schedule.id, title, description, location, start_date, end_date, start_time, end_time, repeat, notification));
+    return onClose();
+  };
+  const handleDeleteSchedule = (e) => {
+    e.preventDefault();
+    dispatch(deleteScheduleById(schedule.id));
+    return onClose();
   };
 
   const onChangeStartTime = (e) => {
@@ -110,11 +113,9 @@ export default function ScheduleModal({ onClose, show, schedule }) {
             <InputField label={"End Date"} onChange={(date) => setEndDate(date)} value={end_date} type={"date"} />
             <div className="mt-2">
               <p className="font-semibold">Time</p>
-              <label for="start">From: </label>
+              <label>From: </label>
               <input type="time" name="start" value={start_time} className="border rounded-lg text-sm px-2 py-1" onChange={onChangeStartTime} />
-              <label for="start" className="ml-3">
-                To:{" "}
-              </label>
+              <label className="ml-3">To: </label>
               <input type="time" name="start" value={end_time} className="border rounded-lg text-sm px-2 py-1" onChange={onChangeEndTime} />
             </div>
             <SelectField label={"Repeat"} options={repeatOptions} value={repeat} onChange={(repeat) => setRepeat(repeat)} />
