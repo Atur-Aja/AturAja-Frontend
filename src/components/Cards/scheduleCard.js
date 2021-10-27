@@ -5,12 +5,14 @@ export default function ScheduleCard({ title, startTime, endTime, startDate, end
   return (
     <div className="bg-white shadow-lg rounded-md px-4 py-2 mt-4 cursor-pointer">
       <p className="font-semibold">{title}</p>
-      <div className="flex text-biruTua mt-3">
-        <IconSchedule />
-        <p className="text-black ml-3">
-          {startDate} - {endDate}
-        </p>
-      </div>
+      {startDate ? (
+        <div className="flex text-biruTua mt-3">
+          <IconSchedule />
+          <p className="text-black ml-3">
+            {startDate} - {endDate}
+          </p>
+        </div>
+      ) : null}
       <div className="flex text-biruTua mt-3">
         <IconClock />
         <p className="text-black ml-3">

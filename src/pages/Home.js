@@ -131,12 +131,12 @@ export default function HomePage({ show, onClose }) {
   };
 
   return (
-    <div className="grid">
+    <div className="h-screen">
       <CreateButton onClose={onClose} show={show} taskModal={showTask} scheduleModal={showSchedule} />
       <TaskModal onClose={closeTask} show={taskModal} />
       <ScheduleModal onClose={closeSchedule} show={scheduleModal} schedule={schedule} />
-      <div className="h-screen -mt-14 flex bg-abu">
-        <div className="w-2/5 pt-16 px-4 bg-abuMuda">
+      <div className="h-full -mt-14 flex">
+        <div className="w-2/5 py-16 px-4 overflow-y-auto">
           <p className="font-semibold text-xl">Schedule</p>
           {(schedules?.length &&
             schedules.map((schedule) => {
@@ -155,11 +155,11 @@ export default function HomePage({ show, onClose }) {
             })) ||
             null}
         </div>
-        <div className="w-2/5 pt-16 px-4 border-l border-black border-opacity-10 bg-abuMuda">
+        <div className="w-2/5 pt-16 px-4 border-l border-black border-opacity-10">
           <p className="font-semibold text-xl">Tasks</p>
           <Task />
         </div>
-        <div className="my-16 ml-6 pt-12">
+        <div className="ml-6 py-20 px-4 bg-abu">
           <div className="flex">
             <p className="text-5xl mr-2">{nativeDate}</p>
             <p className="text-3xl pb-1 self-end">{nativeDay}</p>

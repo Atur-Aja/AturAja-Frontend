@@ -10,6 +10,8 @@ export default function Schedule() {
 
   const handleDateMap = (schedules) => {
     const dateMap = [];
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
     schedules.forEach((data) => {
       if (!dateMap.includes(data.start_date)) {
@@ -21,7 +23,10 @@ export default function Schedule() {
       }
     });
 
-    return dateMap;
+    dateMap.sort();
+    const dateMapFiltered = dateMap.filter((data) => new Date(data) > today);
+
+    return dateMapFiltered;
   };
 
   const dateMapFormatted = [];
@@ -75,7 +80,16 @@ export default function Schedule() {
         ? groupedSchedule.map((schedule) => {
             return (
               <div key={schedule.date} className="mb-16">
-                <p className="text-lg font-semibold">{moment(schedule.date).format("dddd, DD MMMM YYYY")}</p>
+                <p className="text-lg font-semibold">
+                  {moment(schedule.date).calendar(null, {
+                    sameDay: "[Today]",
+                    nextDay: "[Tomorrow]",
+                    nextWeek: "dddd, DD MMMM YYYY",
+                    lastDay: "[Yesterday]",
+                    lastWeek: "[Last] dddd",
+                    sameElse: "dddd, DD MMMM YYYY",
+                  })}
+                </p>
                 <div className="border-t border-black" />
                 {schedule.data.map((list) => {
                   return (
