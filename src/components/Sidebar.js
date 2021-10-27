@@ -5,11 +5,11 @@ import { logout } from "../actions/auth";
 import { IconHome, IconLogout, IconSchedule, IconSetting, IconTask } from "./Icons";
 
 const menuLinks = [
-  { target: "/", text: "Home", icon: <IconHome /> },
-  { target: "/", text: "Schedule", icon: <IconSchedule /> },
-  { target: "/", text: "Task", icon: <IconTask /> },
-  { target: "/", text: "Friends", icon: <IconTask /> },
-  { target: "/", text: "Groups", icon: <IconTask /> },
+  { target: "/home", text: "Home", icon: <IconHome /> },
+  { target: "/schedule", text: "Schedule", icon: <IconSchedule /> },
+  { target: "/task", text: "Task", icon: <IconTask /> },
+  { target: "/friends", text: "Friends", icon: <IconTask /> },
+  { target: "/groups", text: "Groups", icon: <IconTask /> },
 ];
 
 const MenuLink = ({ target, text, icon, open, ...props }) => {
@@ -41,7 +41,7 @@ export default function Sidebar({ isOpen }) {
           ))}
         </div>
         <div>
-          <MenuLink target="/" icon={<IconSetting />} text={"Settings"} open={isOpen} />
+          <MenuLink target="/setting" icon={<IconSetting />} text={"Settings"} open={isOpen} />
           <MenuLink target="/login" icon={<IconLogout />} text={"Logout"} open={isOpen} onClick={logOut} />
         </div>
       </div>

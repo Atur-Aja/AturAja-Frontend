@@ -146,6 +146,8 @@ export default function HomePage({ show, onClose }) {
                     title={schedule.title}
                     startTime={moment(schedule.start_time, "HH:mm:ss").format("LT")}
                     endTime={moment(schedule.end_time, "HH:mm:ss").format("LT")}
+                    startDate={moment(schedule.start_date).format("ll")}
+                    endDate={moment(schedule.end_date).format("ll")}
                     location={schedule.location}
                   />
                 </div>
