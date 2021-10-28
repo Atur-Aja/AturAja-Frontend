@@ -6,5 +6,7 @@ import IconSetting from "./IconSetting";
 import IconLogout from "./IconLogout";
 import IconLocation from "./IconLocation";
 import IconClock from "./IconClock";
+import IconFriend from "./IconFriend";
+import IconGroup from "./IconGroup";
 
-export { IconHome, IconSchedule, IconTask, IconMenu, IconSetting, IconLogout, IconLocation, IconClock };
+export { IconHome, IconSchedule, IconTask, IconMenu, IconSetting, IconLogout, IconLocation, IconClock, IconFriend, IconGroup };

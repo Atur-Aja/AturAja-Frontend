@@ -65,10 +65,12 @@ export default function Schedule() {
       const groupedScheduleCopy = [];
       Object.keys(dateGrouped).map((key) => {
         const currentArray = dateGrouped[key];
-        groupedScheduleCopy.push({
-          date: key,
-          data: currentArray,
-        });
+        if (currentArray.length > 0) {
+          groupedScheduleCopy.push({
+            date: key,
+            data: currentArray,
+          });
+        }
       });
       setGroupedSchedule(groupedScheduleCopy);
     }

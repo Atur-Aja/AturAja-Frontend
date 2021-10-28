@@ -2,14 +2,14 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout } from "../actions/auth";
-import { IconHome, IconLogout, IconSchedule, IconSetting, IconTask } from "./Icons";
+import { IconHome, IconLogout, IconSchedule, IconSetting, IconTask, IconFriend, IconGroup } from "./Icons";
 
 const menuLinks = [
   { target: "/home", text: "Home", icon: <IconHome /> },
   { target: "/schedule", text: "Schedule", icon: <IconSchedule /> },
   { target: "/task", text: "Task", icon: <IconTask /> },
-  { target: "/friends", text: "Friends", icon: <IconTask /> },
-  { target: "/groups", text: "Groups", icon: <IconTask /> },
+  { target: "/friends", text: "Friends", icon: <IconFriend /> },
+  { target: "/groups", text: "Groups", icon: <IconGroup /> },
 ];
 
 const MenuLink = ({ target, text, icon, open, ...props }) => {
