@@ -3,9 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import CreateButton from "../components/Modal/CreateButton";
 import "@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css";
 import { Calendar, utils } from "@hassanmojab/react-modern-calendar-datepicker";
-import Task from "../components/Cards/task";
+import TaskCard from "../components/Cards/taskCard";
 import ScheduleCard from "../components/Cards/scheduleCard";
 import { getAllSchedule } from "../actions/schedule";
+import { getAllTask } from "../actions/task";
 import TaskModal from "../components/Modal/TaskModal";
 import ScheduleModal from "../components/Modal/ScheduleModal";
 import moment from "moment";
@@ -97,9 +98,14 @@ const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 export default function HomePage({ show, onClose }) {
   const schedules = useSelector((state) => state.schedule.results);
+  const tasks = useSelector((state) => state.task.results.tasks);
+
+  // console.log(tasks);
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllSchedule());
+    dispatch(getAllTask());
   }, [dispatch]);
 
   const today = utils().getToday();
@@ -118,22 +124,30 @@ export default function HomePage({ show, onClose }) {
   const [scheduleModal, setScheduleModal] = useState(false);
   const showTask = () => setTaskModal(true);
   const showSchedule = () => setScheduleModal(true);
-  const closeTask = () => setTaskModal(false);
+  const closeTask = () => {
+    setTaskModal(false);
+    dispatch(getAllTask());
+  };
   const closeSchedule = () => {
     setScheduleModal(false);
     dispatch(getAllSchedule());
   };
 
   const [schedule, setSchedule] = useState({});
+  const [task, setTask] = useState({});
   const handleListSchedule = (schedule) => {
     setSchedule(schedule);
     setScheduleModal(true);
+  };
+  const handleListTask = (task) => {
+    setTask(task);
+    setTaskModal(true);
   };
 
   return (
     <div className="h-screen">
       <CreateButton onClose={onClose} show={show} taskModal={showTask} scheduleModal={showSchedule} />
-      <TaskModal onClose={closeTask} show={taskModal} />
+      <TaskModal onClose={closeTask} show={taskModal} task={task} />
       <ScheduleModal onClose={closeSchedule} show={scheduleModal} schedule={schedule} />
       <div className="h-full -mt-14 flex">
         <div className="w-2/5 py-16 px-4 overflow-y-auto">
@@ -141,7 +155,7 @@ export default function HomePage({ show, onClose }) {
           {(schedules?.length &&
             schedules.map((schedule) => {
               return (
-                <div key={schedule.id} onClick={() => handleListSchedule(schedule)}>
+                <div key={schedule.id}>
                   <ScheduleCard
                     title={schedule.title}
                     startTime={moment(schedule.start_time, "HH:mm:ss").format("LT")}
@@ -149,6 +163,7 @@ export default function HomePage({ show, onClose }) {
                     startDate={moment(schedule.start_date).format("ll")}
                     endDate={moment(schedule.end_date).format("ll")}
                     location={schedule.location}
+                    onClick={() => handleListSchedule(schedule)}
                   />
                 </div>
               );
@@ -157,7 +172,20 @@ export default function HomePage({ show, onClose }) {
         </div>
         <div className="w-2/5 pt-16 px-4 border-l border-black border-opacity-10">
           <p className="font-semibold text-xl">Tasks</p>
-          <Task />
+          {tasks?.length &&
+            tasks.map((task) => {
+              console.log(task);
+              return (
+                <div key={task.task.id}>
+                  <TaskCard
+                    title={task.task.title}
+                    time={moment(task.task.time, "HH:mm:ss").format("LT")}
+                    todo={task?.todo || []}
+                    onClick={() => handleListTask(task)}
+                  />
+                </div>
+              );
+            })}
         </div>
         <div className="ml-6 py-20 px-4 bg-abu">
           <div className="flex">

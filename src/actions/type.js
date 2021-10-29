@@ -12,3 +12,13 @@ export const GET_SCHEDULE_BY_ID = "GET_SCHEDULE_BY_ID";
 export const CREATE_SCHEDULE = "CREATE_SCHEDULE";
 export const DELETE_SCHEDULE_BY_ID = "DELETE_SCHEDULE_BY_ID";
 export const UPDATE_SCHEDULE_BY_ID = "UPDATE_SCHEDULE_BY_ID";
+
+export const GET_ALL_TASK = "GET_ALL_TASK";
+export const GET_TASK_BY_ID = "GET_TASK_BY_ID";
+export const CREATE_TASK = "CREATE_TASK";
+export const DELETE_TASK_BY_ID = "DELETE_TASK_BY_ID";
+export const UPDATE_TASK_BY_ID = "UPDATE_TASK_BY_ID";
+
+export const CREATE_TODO = "CREATE_TODO";
+export const UPDATE_TODO = "UPDATE_TODO";
+export const DELETE_TODO = "DELETE_TODO";

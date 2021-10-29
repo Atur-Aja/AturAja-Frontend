@@ -8,5 +8,22 @@ import IconLocation from "./IconLocation";
 import IconClock from "./IconClock";
 import IconFriend from "./IconFriend";
 import IconGroup from "./IconGroup";
+import IconPlus from "./IconPlus";
+import IconDelete from "./IconDelete";
+import IconEdit from "./IconEdit";
 
-export { IconHome, IconSchedule, IconTask, IconMenu, IconSetting, IconLogout, IconLocation, IconClock, IconFriend, IconGroup };
+export {
+  IconHome,
+  IconSchedule,
+  IconTask,
+  IconMenu,
+  IconSetting,
+  IconLogout,
+  IconLocation,
+  IconClock,
+  IconFriend,
+  IconGroup,
+  IconPlus,
+  IconDelete,
+  IconEdit,
+};

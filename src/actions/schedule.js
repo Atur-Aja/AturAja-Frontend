@@ -52,7 +52,7 @@ export function createSchedule(title, description, location, start_date, end_dat
         repeat,
         notification,
       })
-      .then((response) => {
+      .then(() => {
         dispatch({
           type: CREATE_SCHEDULE,
         });
@@ -71,7 +71,6 @@ export function deleteScheduleById(id) {
         dispatch({
           type: DELETE_SCHEDULE_BY_ID,
         });
-        dispatch(getAllSchedule());
       })
       .catch((error) => {
         console.log(error);
