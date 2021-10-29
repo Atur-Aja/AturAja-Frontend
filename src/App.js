@@ -10,6 +10,7 @@ import Home from "./pages/Home";
 import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
 import Schedule from "./pages/Schedule";
+import SetUser from "./pages/SetUser";
 
 function AuthRoute({ component: Component, ...rest }) {
   const isLoggedIn = localStorage.getItem("user") ? localStorage.getItem("user") : false;
@@ -34,6 +35,7 @@ function App() {
         <Route path="/reset" component={ResetPassword} />
         <Route path="/new-password" component={NewPassword} />
         <Route path="/signup" component={SignUp} />
+        <Route path="/setuser" component={SetUser} />
         <Route exact path="/">
           <Navbar isLanding={true} />
           <LandingPage />
