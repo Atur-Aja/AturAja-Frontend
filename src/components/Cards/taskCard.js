@@ -1,9 +1,8 @@
 import React from "react";
-import { IconEdit } from "../Icons";
 
-export default function TaskCard({ title, time, todo, onClick }) {
+export default function TaskCard({ title, time, todo }) {
   return (
-    <div className="bg-white shadow-lg rounded-md px-4 py-2 mt-4">
+    <div className="bg-white shadow-lg rounded-md px-4 py-2 mt-4 cursor-pointer">
       <div className="flex justify-between">
         <p className="font-semibold w-1/2">{title}</p>
         <div className="w-1/2 flex justify-between">
@@ -11,6 +10,7 @@ export default function TaskCard({ title, time, todo, onClick }) {
           <input
             type="checkbox"
             className="w-8 h-8 cursor-pointer border border-gray-500 rounded-md bg-abuMuda appearance-none checked:bg-biruTua checked:border-transparent"
+            onClick={(e) => e.stopPropagation()}
           />
         </div>
       </div>
@@ -22,14 +22,12 @@ export default function TaskCard({ title, time, todo, onClick }) {
               key={i}
               type="checkbox"
               className="w-6 h-7 mx-2 cursor-pointer border border-gray-500 rounded-md bg-abuMuda appearance-none checked:bg-biruTua checked:border-transparent"
+              onClick={(e) => e.stopPropagation()}
             />
-            <p>{data.name}</p>
+            <p onClick={(e) => e.stopPropagation()}>{data.name}</p>
           </div>
         ))) ||
         null}
-      <div className="flex justify-end">
-        <IconEdit onClick={onClick} />
-      </div>
     </div>
   );
 }

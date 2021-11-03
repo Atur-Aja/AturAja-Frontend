@@ -155,7 +155,7 @@ export default function HomePage({ show, onClose }) {
           {(schedules?.length &&
             schedules.map((schedule) => {
               return (
-                <div key={schedule.id}>
+                <div key={schedule.id} onClick={() => handleListSchedule(schedule)}>
                   <ScheduleCard
                     title={schedule.title}
                     startTime={moment(schedule.start_time, "HH:mm:ss").format("LT")}
@@ -163,7 +163,6 @@ export default function HomePage({ show, onClose }) {
                     startDate={moment(schedule.start_date).format("ll")}
                     endDate={moment(schedule.end_date).format("ll")}
                     location={schedule.location}
-                    onClick={() => handleListSchedule(schedule)}
                   />
                 </div>
               );
@@ -176,13 +175,8 @@ export default function HomePage({ show, onClose }) {
             tasks.map((task) => {
               console.log(task);
               return (
-                <div key={task.task.id}>
-                  <TaskCard
-                    title={task.task.title}
-                    time={moment(task.task.time, "HH:mm:ss").format("LT")}
-                    todo={task?.todo || []}
-                    onClick={() => handleListTask(task)}
-                  />
+                <div key={task.task.id} onClick={() => handleListTask(task)}>
+                  <TaskCard title={task.task.title} time={moment(task.task.time, "HH:mm:ss").format("LT")} todo={task?.todo || []} />
                 </div>
               );
             })}
