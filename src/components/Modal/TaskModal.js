@@ -13,7 +13,9 @@ export default function TaskModal({ onClose, show, task }) {
   const [due_time, setDueTime] = useState("");
   const [todos, setTodos] = useState([]);
   const [newTodos, setNewTodos] = useState([]);
-  const [text, setText] = useState("");
+  const [text, setText] = useState();
+
+  console.log(todos);
 
   const dispatch = useDispatch();
   const handleAddTask = (e) => {
@@ -35,7 +37,8 @@ export default function TaskModal({ onClose, show, task }) {
     return onClose();
   };
   const handleAddTodos = () => {
-    const todoList = [...todos, text];
+    const data = { name: text };
+    const todoList = [...todos, data];
     const newTodoList = [...newTodos, text];
     setTodos(todoList);
     setNewTodos(newTodoList);
