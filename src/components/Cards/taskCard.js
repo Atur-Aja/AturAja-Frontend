@@ -14,7 +14,7 @@ export default function TaskCard({ title, time, todo }) {
           />
         </div>
       </div>
-      <p className="text-xs text-gray-500">Todo :</p>
+      {(todo?.length && <p className="text-xs text-gray-500">Todo :</p>) || null}
       {(todo?.length &&
         todo.map((data, i) => (
           <div className="flex mt-1">

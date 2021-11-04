@@ -38,10 +38,10 @@ export function register(username, email, password, password_validate, phone_num
   };
 }
 
-export function login(email, password) {
+export function login(login, password) {
   return (dispatch) => {
     return axios
-      .post(Url.Login, { email, password })
+      .post(Url.Login, { login, password })
       .then((response) => {
         return dispatch({
           type: LOGIN_SUCCESS,

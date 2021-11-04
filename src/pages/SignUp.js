@@ -24,7 +24,6 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordValidate, setPasswordValidate] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
   const [successful, setSuccessful] = useState(false);
 
   const { message } = useSelector((state) => state.message);
@@ -45,7 +44,7 @@ export default function SignUp() {
     e.preventDefault();
     setSuccessful(false);
 
-    dispatch(register(username, email, password, passwordValidate, phoneNumber))
+    dispatch(register(username, email, password, passwordValidate))
       .then(() => {
         setSuccessful(true);
       })
@@ -109,7 +108,6 @@ export default function SignUp() {
               {isRevealConf ? <EyeOff /> : <Eye />}
             </div>
           </div>
-          <AuthField placeholder={"Phone Number"} value={phoneNumber} onChange={(phone) => setPhoneNumber(phone)} icon={<Call />} type={"number"} />
           {/* <div className="bg-white shadow-xl h-12 px-4 rounded-lg flex border-2 border-transparent text-gray-600 focus-within:border-biru focus-within:text-biru mt-4">
             <input
               className="w-11/12 h-full rounded-lg outline-none placeholder-gray-600 text-gray-600"

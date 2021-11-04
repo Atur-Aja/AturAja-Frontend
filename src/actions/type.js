@@ -20,5 +20,5 @@ export const DELETE_TASK_BY_ID = "DELETE_TASK_BY_ID";
 export const UPDATE_TASK_BY_ID = "UPDATE_TASK_BY_ID";
 
 export const CREATE_TODO = "CREATE_TODO";
-export const UPDATE_TODO = "UPDATE_TODO";
-export const DELETE_TODO = "DELETE_TODO";
+export const UPDATE_TODO_BY_ID = "UPDATE_TODO_BY_ID";
+export const DELETE_TODO_BY_ID = "DELETE_TODO_BY_ID";

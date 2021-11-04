@@ -64,7 +64,6 @@ export default function Task() {
         }
       });
       setGroupedTask(groupedTaskCopy);
-      console.log(groupedTask);
     }
   }, [tasks]);
 

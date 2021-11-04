@@ -100,8 +100,6 @@ export default function HomePage({ show, onClose }) {
   const schedules = useSelector((state) => state.schedule.results);
   const tasks = useSelector((state) => state.task.results.tasks);
 
-  // console.log(tasks);
-
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllSchedule());
@@ -169,11 +167,10 @@ export default function HomePage({ show, onClose }) {
             })) ||
             null}
         </div>
-        <div className="w-2/5 pt-16 px-4 border-l border-black border-opacity-10">
+        <div className="w-2/5 py-16 px-4 border-l border-black border-opacity-10 overflow-y-auto">
           <p className="font-semibold text-xl">Tasks</p>
           {tasks?.length &&
             tasks.map((task) => {
-              console.log(task);
               return (
                 <div key={task.task.id} onClick={() => handleListTask(task)}>
                   <TaskCard title={task.task.title} time={moment(task.task.time, "HH:mm:ss").format("LT")} todo={task?.todo || []} />
