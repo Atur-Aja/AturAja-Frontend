@@ -10,6 +10,7 @@ import Home from "./pages/Home";
 import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
 import Schedule from "./pages/Schedule";
+import Task from "./pages/Task";
 
 function AuthRoute({ component: Component, ...rest }) {
   const isLoggedIn = localStorage.getItem("user") ? localStorage.getItem("user") : false;
@@ -45,6 +46,7 @@ function App() {
             <Switch>
               <AuthRoute path="/home" component={() => <Home show={isShow} onClose={() => setShow(false)} />} />
               <AuthRoute path="/schedule" component={Schedule} />
+              <AuthRoute path="/task" component={Task} />
             </Switch>
           </div>
         </Route>
