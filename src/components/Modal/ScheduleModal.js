@@ -20,16 +20,17 @@ export default function ScheduleModal({ onClose, show, schedule }) {
       label: "choose repetition",
     },
     {
+      label: "Weekly",
+      value: "Weekly",
+    },
+    {
       label: "Daily",
       value: "daily",
     },
+
     {
-      label: "Once",
-      value: "once",
-    },
-    {
-      label: "Mon to Fri",
-      value: "mon to fri",
+      label: "Yearly",
+      value: "Yearly",
     },
   ];
 
@@ -118,13 +119,16 @@ export default function ScheduleModal({ onClose, show, schedule }) {
               <label className="ml-3">To: </label>
               <input type="time" name="start" value={end_time} className="border rounded-lg text-sm px-2 py-1" onChange={onChangeEndTime} />
             </div>
-            <SelectField label={"Repeat"} options={repeatOptions} value={repeat} onChange={(repeat) => setRepeat(repeat)} />
-            <SelectField
-              label={"Notification"}
-              options={notificationOptions}
-              value={notification}
-              onChange={(notification) => setNotification(notification)}
-            />
+            <div className="flex">
+              <SelectField label={"Repeat"} options={repeatOptions} value={repeat} onChange={(repeat) => setRepeat(repeat)} />
+              <div className="mx-1" />
+              <SelectField
+                label={"Notification"}
+                options={notificationOptions}
+                value={notification}
+                onChange={(notification) => setNotification(notification)}
+              />
+            </div>
           </div>
         </div>
         <div className="flex justify-end mt-4">

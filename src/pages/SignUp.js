@@ -4,11 +4,11 @@ import { ReactComponent as Email } from "../assets/email.svg";
 import { ReactComponent as Eye } from "../assets/eye.svg";
 import { ReactComponent as EyeOff } from "../assets/eye-off.svg";
 import { ReactComponent as User } from "../assets/user.svg";
-import { ReactComponent as Call } from "../assets/call.svg";
 import { Link } from "react-router-dom";
 import { register } from "../actions/auth";
 import { clearMessage } from "../actions/message";
 import { AuthField } from "../components/Commons/FormField";
+import { AuthButton } from "../components/Commons/LinkButton";
 
 export default function SignUp() {
   const [isReveal, setIsReveal] = useState(true);
@@ -33,13 +33,6 @@ export default function SignUp() {
     dispatch(clearMessage());
   }, [dispatch]);
 
-  const onChangePassword = (e) => {
-    setPassword(e.target.value);
-  };
-  const onChangePasswordValidate = (e) => {
-    setPasswordValidate(e.target.value);
-  };
-
   const handleRegister = (e) => {
     e.preventDefault();
     setSuccessful(false);
@@ -60,75 +53,26 @@ export default function SignUp() {
           <p className="text-black text-lg font-bold place-self-center">Create your account</p>
           <AuthField placeholder={"Username"} value={username} onChange={(username) => setUsername(username)} icon={<User />} />
           <AuthField placeholder={"Email"} value={email} onChange={(email) => setEmail(email)} icon={<Email />} type={"email"} />
-          {/* <div className="bg-white shadow-xl h-12 px-4 rounded-lg flex border-2 border-transparent text-gray-600 focus-within:border-biru focus-within:text-biru mt-6">
-            <input
-              className="w-11/12 h-full rounded-lg outline-none placeholder-gray-600 text-gray-600"
-              type="text"
-              placeholder="Username"
-              value={username}
-              onChange={onChangeUsername}
-            />
-            <div className="flex flex-wrap content-center">
-              <User />
-            </div>
-          </div> */}
-          {/* <div className="bg-white shadow-xl h-12 px-4 rounded-lg flex border-2 border-transparent text-gray-600 focus-within:border-biru focus-within:text-biru mt-4">
-            <input
-              className="w-11/12 h-full rounded-lg outline-none placeholder-gray-600 text-gray-600"
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={onChangeEmail}
-            />
-            <div className="flex flex-wrap content-center">
-              <Email />
-            </div>
-          </div> */}
-          <div className="bg-white shadow-xl h-12 px-4 rounded-lg flex border-2 border-transparent text-gray-600 focus-within:border-biru focus-within:text-biru mt-4">
-            <input
-              className="w-11/12 h-full rounded-lg outline-none placeholder-gray-600 text-gray-600"
-              type={isReveal ? "password" : "text"}
-              placeholder="Password"
-              value={password}
-              onChange={onChangePassword}
-            />
-            <div className="flex flex-wrap content-center cursor-pointer" onClick={toggle}>
-              {isReveal ? <EyeOff /> : <Eye />}
-            </div>
-          </div>
-          <div className="bg-white shadow-xl h-12 px-4 rounded-lg flex border-2 border-transparent text-gray-600 focus-within:border-biru focus-within:text-biru mt-4">
-            <input
-              className="w-11/12 h-full rounded-lg outline-none placeholder-gray-600 text-gray-600"
-              type={isRevealConf ? "password" : "text"}
-              placeholder="Confirm Password"
-              value={passwordValidate}
-              onChange={onChangePasswordValidate}
-            />
-            <div className="flex flex-wrap content-center cursor-pointer" onClick={toggleConf}>
-              {isRevealConf ? <EyeOff /> : <Eye />}
-            </div>
-          </div>
-          {/* <div className="bg-white shadow-xl h-12 px-4 rounded-lg flex border-2 border-transparent text-gray-600 focus-within:border-biru focus-within:text-biru mt-4">
-            <input
-              className="w-11/12 h-full rounded-lg outline-none placeholder-gray-600 text-gray-600"
-              type="number"
-              placeholder="Phone Number"
-              value={phoneNumber}
-              onChange={onChangePhoneNumber}
-            />
-            <div className="flex flex-wrap content-center">
-              <Call />
-            </div>
-          </div> */}
+          <AuthField
+            placeholder={"Password"}
+            value={password}
+            onChange={(pass) => setPassword(pass)}
+            icon={isReveal ? <EyeOff /> : <Eye />}
+            type={isReveal ? "password" : "text"}
+            onClick={toggle}
+          />
+          <AuthField
+            placeholder={"Confirm Password"}
+            value={passwordValidate}
+            onChange={(pass) => setPasswordValidate(pass)}
+            icon={isRevealConf ? <EyeOff /> : <Eye />}
+            type={isRevealConf ? "password" : "text"}
+            onClick={toggleConf}
+          />
           <div className="grid mt-14">
             <div className="flex justify-center">
               <Link to="/login">
-                <button
-                  className="bg-biru hover:bg-biruTua rounded-lg shadow-xl text-white font-bold px-20 py-2 place-self-center"
-                  onClick={handleRegister}
-                >
-                  Sign up
-                </button>
+                <AuthButton text={"Sign up"} onClick={handleRegister} />
               </Link>
             </div>
             <div className="flex place-self-center mt-2">

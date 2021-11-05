@@ -53,4 +53,21 @@ const DeleteButton = ({ onClick }) => {
   );
 };
 
-export { SaveButton, CancelButton, DeleteButton, UpdateButton };
+const AuthButton = ({ text, onClick }) => {
+  const handleClick = (e) => {
+    onClick && onClick(e);
+  };
+
+  return (
+    <button
+      className={
+        "bg-biru hover:bg-biruTua rounded-lg shadow-xl text-white font-bold px-20 py-2 place-self-center " + (text === "Reset" ? "mt-24" : "")
+      }
+      onClick={handleClick}
+    >
+      {text}
+    </button>
+  );
+};
+
+export { SaveButton, CancelButton, DeleteButton, UpdateButton, AuthButton };
