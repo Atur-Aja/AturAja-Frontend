@@ -3,6 +3,7 @@ import { getAllTask } from "../actions/task";
 import { useDispatch, useSelector } from "react-redux";
 import TaskCard from "../components/Cards/taskCard";
 import moment from "moment";
+import { IconTask } from "../components/Icons";
 
 export default function Task() {
   const tasks = useSelector((state) => state.task.results.tasks);
@@ -68,7 +69,7 @@ export default function Task() {
   }, [tasks]);
 
   return (
-    <div className="px-4 pt-4">
+    <div className="h-screen -mt-14 px-4 pt-4">
       {(groupedTask?.length &&
         groupedTask.map((task) => {
           return (
@@ -91,7 +92,15 @@ export default function Task() {
               </div>
             </div>
           );
-        })) || <p className="text-lg font-semibold">You don't have any task</p>}
+        })) || (
+        <div className="h-full w-full flex flex-wrap content-center justify-center grid">
+          <div className="w-40 h-40 rounded-full bg-gray-400 text-biruTua justify-self-center flex flex-wrap content-center justify-center">
+            <IconTask width={"80"} height={"80"} />
+          </div>
+          <p className="text-xl justify-self-center font-semibold">No Task</p>
+          <p className="justify-self-center">you can add task by clicking “create” button</p>
+        </div>
+      )}
     </div>
   );
 }

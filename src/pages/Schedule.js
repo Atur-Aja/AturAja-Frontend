@@ -3,6 +3,7 @@ import { getAllSchedule } from "../actions/schedule";
 import { useDispatch, useSelector } from "react-redux";
 import ScheduleCard from "../components/Cards/scheduleCard";
 import moment from "moment";
+import { IconSchedule } from "../components/Icons";
 
 export default function Schedule() {
   const schedules = useSelector((state) => state.schedule.results);
@@ -77,7 +78,7 @@ export default function Schedule() {
   }, [schedules]);
 
   return (
-    <div className="px-4 pt-4">
+    <div className="h-screen -mt-14 px-4 pt-4">
       {(groupedSchedule?.length &&
         groupedSchedule.map((schedule) => {
           return (
@@ -105,7 +106,15 @@ export default function Schedule() {
               })}
             </div>
           );
-        })) || <p className="text-lg font-semibold">You don't have any schedule</p>}
+        })) || (
+        <div className="h-full w-full flex flex-wrap content-center justify-center grid">
+          <div className="w-40 h-40 rounded-full bg-gray-400 text-biruTua justify-self-center flex flex-wrap content-center justify-center">
+            <IconSchedule width={"80"} height={"80"} />
+          </div>
+          <p className="text-xl justify-self-center font-semibold">No Schedule</p>
+          <p className="justify-self-center">you can add schedule by clicking “create” button</p>
+        </div>
+      )}
     </div>
   );
 }
