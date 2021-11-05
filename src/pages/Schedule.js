@@ -78,35 +78,34 @@ export default function Schedule() {
 
   return (
     <div className="px-4 pt-4">
-      {groupedSchedule
-        ? groupedSchedule.map((schedule) => {
-            return (
-              <div key={schedule.date} className="mb-16">
-                <p className="text-lg font-semibold">
-                  {moment(schedule.date).calendar(null, {
-                    sameDay: "[Today]",
-                    nextDay: "[Tomorrow]",
-                    nextWeek: "dddd, DD MMMM YYYY",
-                    lastDay: "[Yesterday]",
-                    lastWeek: "[Last] dddd",
-                    sameElse: "dddd, DD MMMM YYYY",
-                  })}
-                </p>
-                <div className="border-t border-black" />
-                {schedule.data.map((list) => {
-                  return (
-                    <ScheduleCard
-                      title={list.title}
-                      startTime={moment(list.start_time, "HH:mm:ss").format("LT")}
-                      endTime={moment(list.end_time, "HH:mm:ss").format("LT")}
-                      location={list.location}
-                    />
-                  );
+      {(groupedSchedule?.length &&
+        groupedSchedule.map((schedule) => {
+          return (
+            <div key={schedule.date} className="mb-16">
+              <p className="text-lg font-semibold">
+                {moment(schedule.date).calendar(null, {
+                  sameDay: "[Today]",
+                  nextDay: "[Tomorrow]",
+                  nextWeek: "dddd, DD MMMM YYYY",
+                  lastDay: "[Yesterday]",
+                  lastWeek: "[Last] dddd",
+                  sameElse: "dddd, DD MMMM YYYY",
                 })}
-              </div>
-            );
-          })
-        : null}
+              </p>
+              <div className="border-t border-black" />
+              {schedule.data.map((list) => {
+                return (
+                  <ScheduleCard
+                    title={list.title}
+                    startTime={moment(list.start_time, "HH:mm:ss").format("LT")}
+                    endTime={moment(list.end_time, "HH:mm:ss").format("LT")}
+                    location={list.location}
+                  />
+                );
+              })}
+            </div>
+          );
+        })) || <p className="text-lg font-semibold">You don't have any schedule</p>}
     </div>
   );
 }

@@ -69,28 +69,29 @@ export default function Task() {
 
   return (
     <div className="px-4 pt-4">
-      {groupedTask
-        ? groupedTask.map((task) => {
-            return (
-              <div key={task.date} className="mb-16">
-                <p className="text-lg font-semibold">
-                  {moment(task.date).calendar(null, {
-                    sameDay: "[Today]",
-                    nextDay: "[Tomorrow]",
-                    nextWeek: "dddd, DD MMMM YYYY",
-                    lastDay: "[Yesterday]",
-                    lastWeek: "[Last] dddd",
-                    sameElse: "dddd, DD MMMM YYYY",
-                  })}
-                </p>
-                <div className="border-t border-black" />
+      {(groupedTask?.length &&
+        groupedTask.map((task) => {
+          return (
+            <div key={task.date} className="mb-16">
+              <p className="text-lg font-semibold">
+                {moment(task.date).calendar(null, {
+                  sameDay: "[Today]",
+                  nextDay: "[Tomorrow]",
+                  nextWeek: "dddd, DD MMMM YYYY",
+                  lastDay: "[Yesterday]",
+                  lastWeek: "[Last] dddd",
+                  sameElse: "dddd, DD MMMM YYYY",
+                })}
+              </p>
+              <div className="border-t border-black" />
+              <div className="grid grid-cols-3 gap-4">
                 {task.data.map((list) => {
                   return <TaskCard title={list.task.title} time={moment(list.task.time, "HH:mm:ss").format("LT")} todo={list?.todo || []} />;
                 })}
               </div>
-            );
-          })
-        : null}
+            </div>
+          );
+        })) || <p className="text-lg font-semibold">You don't have any task</p>}
     </div>
   );
 }

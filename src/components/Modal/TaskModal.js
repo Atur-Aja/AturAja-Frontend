@@ -15,12 +15,12 @@ export default function TaskModal({ onClose, show, task }) {
   const [newTodos, setNewTodos] = useState([]);
   const [text, setText] = useState();
 
-  console.log(todos);
+  console.log(newTodos);
 
   const dispatch = useDispatch();
   const handleAddTask = (e) => {
     e.preventDefault();
-    dispatch(createTask(title, description, due_date, due_time, todos));
+    dispatch(createTask(title, description, due_date, due_time, newTodos));
     return onClose();
   };
   const handleUpdateTask = (e) => {
