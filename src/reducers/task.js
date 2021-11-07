@@ -1,4 +1,4 @@
-import { GET_ALL_TASK, GET_TASK_BY_ID, CREATE_TASK, DELETE_TASK_BY_ID, UPDATE_TASK_BY_ID } from "../actions/type";
+import { GET_ALL_TASK, GET_TASK_BY_ID, GET_TASK_BY_DATE, CREATE_TASK, DELETE_TASK_BY_ID, UPDATE_TASK_BY_ID } from "../actions/type";
 
 const initialState = {
   results: [],
@@ -12,6 +12,11 @@ export default function task(state = initialState, action) {
         results: action.payload,
       };
     case GET_TASK_BY_ID:
+      return {
+        ...state,
+        results: action.payload,
+      };
+    case GET_TASK_BY_DATE:
       return {
         ...state,
         results: action.payload,

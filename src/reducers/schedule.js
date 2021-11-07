@@ -1,4 +1,11 @@
-import { GET_ALL_SCHEDULE, CREATE_SCHEDULE, DELETE_SCHEDULE_BY_ID, GET_SCHEDULE_BY_ID, UPDATE_SCHEDULE_BY_ID } from "../actions/type";
+import {
+  GET_ALL_SCHEDULE,
+  GET_SCHEDULE_BY_DATE,
+  CREATE_SCHEDULE,
+  DELETE_SCHEDULE_BY_ID,
+  GET_SCHEDULE_BY_ID,
+  UPDATE_SCHEDULE_BY_ID,
+} from "../actions/type";
 
 const initialState = {
   selectedSchedule: {},
@@ -16,6 +23,11 @@ export default function schedule(state = initialState, action) {
       return {
         ...state,
         selectedSchedule: action.payload,
+      };
+    case GET_SCHEDULE_BY_DATE:
+      return {
+        ...state,
+        results: action.payload,
       };
     case CREATE_SCHEDULE:
       return {

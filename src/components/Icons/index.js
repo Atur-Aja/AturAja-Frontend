@@ -11,6 +11,7 @@ import IconGroup from "./IconGroup";
 import IconPlus from "./IconPlus";
 import IconDelete from "./IconDelete";
 import IconEdit from "./IconEdit";
+import IconCamera from "./IconCamera";
 
 export {
   IconHome,
@@ -26,4 +27,5 @@ export {
   IconPlus,
   IconDelete,
   IconEdit,
+  IconCamera,
 };

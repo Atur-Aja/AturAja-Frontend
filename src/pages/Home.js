@@ -5,94 +5,14 @@ import "@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css";
 import { Calendar, utils } from "@hassanmojab/react-modern-calendar-datepicker";
 import TaskCard from "../components/Cards/taskCard";
 import ScheduleCard from "../components/Cards/scheduleCard";
-import { getAllSchedule } from "../actions/schedule";
-import { getAllTask } from "../actions/task";
+import { getScheduleByDate } from "../actions/schedule";
+import { getTaskByDate } from "../actions/task";
 import TaskModal from "../components/Modal/TaskModal";
 import ScheduleModal from "../components/Modal/ScheduleModal";
 import moment from "moment";
-
-const myCustomLocale = {
-  // months list by order
-  months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-
-  // week days by order
-  weekDays: [
-    {
-      name: "Monday",
-      short: "Mo",
-    },
-    {
-      name: "Tuesday",
-      short: "Tu",
-    },
-    {
-      name: "Wednesday",
-      short: "We",
-    },
-    {
-      name: "Thursday",
-      short: "Th",
-    },
-    {
-      name: "Friday",
-      short: "Fr",
-    },
-    {
-      name: "Saturday",
-      short: "Sa",
-    },
-    {
-      name: "Sunday", // used for accessibility
-      short: "Su", // displayed at the top of days' rows
-      isWeekend: true, // is it a formal weekend or not?
-    },
-  ],
-
-  // just play around with this number between 0 and 6
-  weekStartingIndex: 0,
-
-  // return a { year: number, month: number, day: number } object
-  getToday(gregorainTodayObject) {
-    return gregorainTodayObject;
-  },
-
-  // return a native JavaScript date here
-  toNativeDate(date) {
-    return new Date(date.year, date.month - 1, date.day);
-  },
-
-  // return a number for date's month length
-  getMonthLength(date) {
-    return new Date(date.year, date.month, 0).getDate();
-  },
-
-  // return a transformed digit to your locale
-  transformDigit(digit) {
-    return digit;
-  },
-
-  // texts in the date picker
-  nextMonth: "Next Month",
-  previousMonth: "Previous Month",
-  openMonthSelector: "Open Month Selector",
-  openYearSelector: "Open Year Selector",
-  closeMonthSelector: "Close Month Selector",
-  closeYearSelector: "Close Year Selector",
-  defaultPlaceholder: "Select...",
-
-  // for input range value
-  from: "from",
-  to: "to",
-
-  // used for input value when multi dates are selected
-  digitSeparator: ",",
-
-  // if your provide -2 for example, year will be 2 digited
-  yearLetterSkip: 0,
-
-  // is your language rtl or ltr?
-  isRtl: false,
-};
+import myCustomLocale from "../helpers/calendarConf";
+import { IconSchedule } from "../components/Icons";
+import { IconTask } from "../components/Icons";
 
 const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
@@ -102,8 +22,8 @@ export default function HomePage({ show, onClose }) {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getAllSchedule());
-    dispatch(getAllTask());
+    dispatch(getScheduleByDate(selectedDate));
+    dispatch(getTaskByDate(selectedDate));
   }, [dispatch]);
 
   const today = utils().getToday();
@@ -112,11 +32,14 @@ export default function HomePage({ show, onClose }) {
   const [nativeDay, setNativeDay] = useState("");
   const day = days[myCustomLocale.toNativeDate(selectedDay).getDay()];
   const date = myCustomLocale.toNativeDate(selectedDay).getDate();
+  const selectedDate = selectedDay.year + "-" + selectedDay.month + "-" + selectedDay.day;
 
   useEffect(() => {
     setNativeDate(date);
     setNativeDay(day);
-  });
+    dispatch(getScheduleByDate(selectedDate));
+    dispatch(getTaskByDate(selectedDate));
+  }, [selectedDay]);
 
   const [taskModal, setTaskModal] = useState(false);
   const [scheduleModal, setScheduleModal] = useState(false);
@@ -124,11 +47,11 @@ export default function HomePage({ show, onClose }) {
   const showSchedule = () => setScheduleModal(true);
   const closeTask = () => {
     setTaskModal(false);
-    dispatch(getAllTask());
+    dispatch(getTaskByDate(selectedDate));
   };
   const closeSchedule = () => {
     setScheduleModal(false);
-    dispatch(getAllSchedule());
+    dispatch(getScheduleByDate(selectedDate));
   };
 
   const [schedule, setSchedule] = useState({});
@@ -164,21 +87,36 @@ export default function HomePage({ show, onClose }) {
                   />
                 </div>
               );
-            })) ||
-            null}
+            })) || (
+            <div className="h-full w-full flex flex-wrap content-center justify-center grid">
+              <div className="w-40 h-40 rounded-full bg-gray-400 text-biruTua justify-self-center flex flex-wrap content-center justify-center">
+                <IconSchedule width={"80"} height={"80"} />
+              </div>
+              <p className="text-xl justify-self-center font-semibold">No Schedule</p>
+              <p className="justify-self-center">you can add schedule by clicking “create” button</p>
+            </div>
+          )}
         </div>
         <div className="w-2/5 py-16 px-4 border-l border-black border-opacity-10 overflow-y-auto">
           <p className="font-semibold text-xl">Tasks</p>
-          {tasks?.length &&
+          {(tasks?.length &&
             tasks.map((task) => {
               return (
                 <div key={task.task.id} onClick={() => handleListTask(task)}>
                   <TaskCard title={task.task.title} time={moment(task.task.time, "HH:mm:ss").format("LT")} todo={task?.todo || []} />
                 </div>
               );
-            })}
+            })) || (
+            <div className="h-full w-full flex flex-wrap content-center justify-center grid">
+              <div className="w-40 h-40 rounded-full bg-gray-400 text-biruTua justify-self-center flex flex-wrap content-center justify-center">
+                <IconTask width={"80"} height={"80"} />
+              </div>
+              <p className="text-xl justify-self-center font-semibold">No Task</p>
+              <p className="justify-self-center">you can add task by clicking “create” button</p>
+            </div>
+          )}
         </div>
-        <div className="ml-6 py-20 px-4 bg-abu">
+        <div className="w-1/5 py-20 px-4 bg-abu">
           <div className="flex">
             <p className="text-5xl mr-2">{nativeDate}</p>
             <p className="text-3xl pb-1 self-end">{nativeDay}</p>

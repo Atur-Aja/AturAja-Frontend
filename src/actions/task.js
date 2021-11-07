@@ -1,7 +1,7 @@
 import axios from "axios";
 import { apiUrl } from "../helpers/config";
 import { Url } from "../helpers/server";
-import { GET_ALL_TASK, GET_TASK_BY_ID, CREATE_TASK, DELETE_TASK_BY_ID, UPDATE_TASK_BY_ID } from "./type";
+import { GET_ALL_TASK, GET_TASK_BY_ID, GET_TASK_BY_DATE, CREATE_TASK, DELETE_TASK_BY_ID, UPDATE_TASK_BY_ID } from "./type";
 
 export function getAllTask() {
   const username = localStorage.getItem("username");
@@ -28,6 +28,22 @@ export function getTaskById(id) {
       .then((response) => {
         dispatch({
           type: GET_TASK_BY_ID,
+          payload: response.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+}
+
+export function getTaskByDate(date) {
+  return (dispatch) => {
+    return axios
+      .post(Url.Dashboard + "/task", { date })
+      .then((response) => {
+        dispatch({
+          type: GET_TASK_BY_DATE,
           payload: response.data,
         });
       })

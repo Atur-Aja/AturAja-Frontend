@@ -1,7 +1,7 @@
 import axios from "axios";
 import { apiUrl } from "../helpers/config";
 import { Url } from "../helpers/server";
-import { GET_ALL_SCHEDULE, CREATE_SCHEDULE, DELETE_SCHEDULE_BY_ID, GET_SCHEDULE_BY_ID, UPDATE_SCHEDULE_BY_ID } from "./type";
+import { GET_ALL_SCHEDULE, GET_SCHEDULE_BY_DATE, CREATE_SCHEDULE, DELETE_SCHEDULE_BY_ID, GET_SCHEDULE_BY_ID, UPDATE_SCHEDULE_BY_ID } from "./type";
 
 export function getAllSchedule() {
   const username = localStorage.getItem("username");
@@ -30,6 +30,22 @@ export function getScheduleById(id) {
         dispatch({
           type: GET_SCHEDULE_BY_ID,
           payload: schedule,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+}
+
+export function getScheduleByDate(date) {
+  return (dispatch) => {
+    return axios
+      .post(Url.Dashboard + "/schedule", { date })
+      .then((response) => {
+        dispatch({
+          type: GET_SCHEDULE_BY_DATE,
+          payload: response.data,
         });
       })
       .catch((error) => {

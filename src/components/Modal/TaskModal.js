@@ -15,8 +15,6 @@ export default function TaskModal({ onClose, show, task }) {
   const [newTodos, setNewTodos] = useState([]);
   const [text, setText] = useState();
 
-  console.log(newTodos);
-
   const dispatch = useDispatch();
   const handleAddTask = (e) => {
     e.preventDefault();
