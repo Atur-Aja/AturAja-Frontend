@@ -8,4 +8,5 @@ export const Url = {
   Task: apiUrl + "/tasks",
   Todo: apiUrl + "/todos",
   Dashboard: apiUrl + "/dashboard",
+  User: apiUrl + "/user",
 };

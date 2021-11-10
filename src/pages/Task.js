@@ -69,7 +69,7 @@ export default function Task() {
   }, [tasks]);
 
   return (
-    <div className="h-screen -mt-14 px-4 pt-4">
+    <div className="h-screen px-4 pt-4">
       {(groupedTask?.length &&
         groupedTask.map((task) => {
           return (

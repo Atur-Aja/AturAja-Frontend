@@ -1,23 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { setProfile } from "../actions/profil";
+import { useDispatch, useSelector } from "react-redux";
 import { AuthField } from "../components/Commons/FormField";
 import { AuthButton } from "../components/Commons/LinkButton";
 import { ReactComponent as User } from "../assets/user.svg";
 import { ReactComponent as Call } from "../assets/call.svg";
 import { Link } from "react-router-dom";
 import { IconCamera } from "../components/Icons";
+import { clearMessage } from "../actions/message";
 
 export default function SetProfile() {
   const [fullName, setFullName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [image, setImage] = useState(null);
 
-  console.log(image);
+  const { message } = useSelector((state) => state.message);
 
   const handleInput = (event) => {
     if (event.target.files.length !== 0) {
-      // setImage(URL.createObjectURL(event.target.files[0]));
       setImage(event.target.files[0]);
     }
+  };
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(clearMessage());
+  }, [dispatch]);
+
+  const handleSave = (e) => {
+    e.preventDefault();
+    dispatch(setProfile(fullName, image, phoneNumber));
   };
 
   return (
@@ -29,8 +41,8 @@ export default function SetProfile() {
             <div className="bg-white relative shadow-xl w-24 h-24 rounded-full justify-self-center flex flex-wrap content-center justify-center">
               {image ? (
                 <img
-                  class="inline object-cover w-24 h-24 items-center justify-center place-self-center rounded-full"
-                  src={image}
+                  className="inline object-cover w-24 h-24 items-center justify-center place-self-center rounded-full"
+                  src={URL.createObjectURL(image)}
                   alt="Profile image"
                 />
               ) : (
@@ -55,9 +67,10 @@ export default function SetProfile() {
           <div className="grid mt-14">
             <div className="flex justify-center">
               <Link to="/home">
-                <AuthButton text={"Done"} />
+                <AuthButton text={"Done"} onClick={handleSave} />
               </Link>
             </div>
+            {message}
           </div>
         </div>
       </div>

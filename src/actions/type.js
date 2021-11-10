@@ -24,3 +24,6 @@ export const UPDATE_TASK_BY_ID = "UPDATE_TASK_BY_ID";
 export const CREATE_TODO = "CREATE_TODO";
 export const UPDATE_TODO_BY_ID = "UPDATE_TODO_BY_ID";
 export const DELETE_TODO_BY_ID = "DELETE_TODO_BY_ID";
+
+export const SET_PROFILE = "SET_PROFILE";
+export const GET_PROFILE = "GET_PROFILE";
