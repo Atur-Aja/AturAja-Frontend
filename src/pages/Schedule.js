@@ -78,7 +78,7 @@ export default function Schedule() {
   }, [schedules]);
 
   return (
-    <div className="h-screen -mt-14 px-4 pt-4">
+    <div className="h-screen -mt-2 px-4 pt-4">
       {(groupedSchedule?.length &&
         groupedSchedule.map((schedule) => {
           return (
@@ -94,6 +94,7 @@ export default function Schedule() {
                 })}
               </p>
               <div className="border-t border-black" />
+              <div className="grid grid-cols-3 gap-4">
               {schedule.data.map((list) => {
                 return (
                   <ScheduleCard
@@ -104,6 +105,7 @@ export default function Schedule() {
                   />
                 );
               })}
+              </div>
             </div>
           );
         })) || (
