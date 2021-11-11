@@ -4,8 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import ScheduleCard from "../components/Cards/scheduleCard";
 import moment from "moment";
 import { IconSchedule } from "../components/Icons";
+import ScheduleModal from "../components/Modal/ScheduleModal";
 
-export default function Schedule() {
+export default function Schedule({ show, onClose }) {
   const schedules = useSelector((state) => state.schedule.results);
   const dispatch = useDispatch();
 
@@ -77,8 +78,18 @@ export default function Schedule() {
     }
   }, [schedules]);
 
+  const [schedule, setSchedule] = useState({});
+  const handleListSchedule = (schedule) => {
+    setSchedule(schedule);
+  };
+  const closeSchedule = (e) => {
+    dispatch(getAllSchedule());
+    onClose && onClose(e);
+  };
+
   return (
     <div className="h-screen px-4 pt-4">
+      <ScheduleModal onClose={closeSchedule} show={show} schedule={schedule} />
       {(groupedSchedule?.length &&
         groupedSchedule.map((schedule) => {
           return (
@@ -96,12 +107,14 @@ export default function Schedule() {
               <div className="border-t border-black" />
               {schedule.data.map((list) => {
                 return (
-                  <ScheduleCard
-                    title={list.title}
-                    startTime={moment(list.start_time, "HH:mm:ss").format("LT")}
-                    endTime={moment(list.end_time, "HH:mm:ss").format("LT")}
-                    location={list.location}
-                  />
+                  <div onClick={() => handleListSchedule(list)}>
+                    <ScheduleCard
+                      title={list.title}
+                      startTime={moment(list.start_time, "HH:mm:ss").format("LT")}
+                      endTime={moment(list.end_time, "HH:mm:ss").format("LT")}
+                      location={list.location}
+                    />
+                  </div>
                 );
               })}
             </div>

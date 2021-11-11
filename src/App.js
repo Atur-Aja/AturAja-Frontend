@@ -47,8 +47,8 @@ function App() {
           <div className={"transition-all ease-in-out duration-200 " + (isNavOpen ? "lg:ml-60" : "lg:ml-14")}>
             <Switch>
               <AuthRoute path="/home" component={() => <Home show={isShow} onClose={() => setShow(false)} />} />
-              <AuthRoute path="/schedule" component={Schedule} />
-              <AuthRoute path="/task" component={Task} />
+              <AuthRoute path="/schedule" component={() => <Schedule show={isShow} onClose={() => setShow(false)} />} />
+              <AuthRoute path="/task" component={() => <Task show={isShow} onClose={() => setShow(false)} />} />
             </Switch>
           </div>
         </Route>

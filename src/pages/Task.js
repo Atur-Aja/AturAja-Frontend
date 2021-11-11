@@ -4,8 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import TaskCard from "../components/Cards/taskCard";
 import moment from "moment";
 import { IconTask } from "../components/Icons";
+import TaskModal from "../components/Modal/TaskModal";
 
-export default function Task() {
+export default function Task({ show, onClose }) {
   const tasks = useSelector((state) => state.task.results.tasks);
   const dispatch = useDispatch();
 
@@ -68,8 +69,18 @@ export default function Task() {
     }
   }, [tasks]);
 
+  const [task, setTask] = useState({});
+  const handleListTask = (task) => {
+    setTask(task);
+  };
+  const closeTask = (e) => {
+    dispatch(getAllTask());
+    onClose && onClose(e);
+  };
+
   return (
     <div className="h-screen px-4 pt-4">
+      <TaskModal onClose={closeTask} show={show} task={task} />
       {(groupedTask?.length &&
         groupedTask.map((task) => {
           return (
@@ -87,7 +98,11 @@ export default function Task() {
               <div className="border-t border-black" />
               <div className="grid grid-cols-3 gap-4">
                 {task.data.map((list) => {
-                  return <TaskCard title={list.task.title} time={moment(list.task.time, "HH:mm:ss").format("LT")} todo={list?.todo || []} />;
+                  return (
+                    <div onClick={() => handleListTask(list)}>
+                      <TaskCard title={list.task.title} time={moment(list.task.time, "HH:mm:ss").format("LT")} todo={list?.todo || []} />;
+                    </div>
+                  );
                 })}
               </div>
             </div>
