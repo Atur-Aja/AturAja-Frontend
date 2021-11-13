@@ -13,6 +13,7 @@ import Schedule from "./pages/Schedule";
 import Task from "./pages/Task";
 import SetProfile from "./pages/SetProfile";
 import FriendModal from "./components/Modal/FriendModal";
+import VerifyEmail from "./pages/VerifyEmail";
 
 function AuthRoute({ component: Component, ...rest }) {
   const isLoggedIn = localStorage.getItem("user") ? localStorage.getItem("user") : false;
@@ -39,6 +40,7 @@ function App() {
         <Route path="/signup" component={SignUp} />
         <Route path="/setup-profile" component={SetProfile} />
         <Route path="/friend" component={FriendModal} />
+        <Route path="/verify" component={VerifyEmail} />
         <Route exact path="/">
           <Navbar isLanding={true} />
           <LandingPage />
