@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { createSchedule, deleteScheduleById, updateScheduleById } from "../../actions/schedule";
 import { InputField, SelectField } from "../Commons/FormField";
-import { SaveButton, CancelButton, DeleteButton, UpdateButton } from "../Commons/LinkButton";
+import { GreenButton, WhiteButton, DeleteButton } from "../Commons/LinkButton";
 
 export default function ScheduleModal({ onClose, show, schedule }) {
   const [title, setTitle] = useState("");
@@ -133,8 +133,10 @@ export default function ScheduleModal({ onClose, show, schedule }) {
         </div>
         <div className="flex justify-end mt-4">
           {schedule?.id && <DeleteButton onClick={handleDeleteSchedule} />}
-          <CancelButton onClick={onClose} />
-          {(schedule?.id && <UpdateButton onClick={handleUpdateSchedule} />) || <SaveButton onClick={handleAddSchedule} />}
+          <WhiteButton onClick={onClose} text={"cancel"} />
+          {(schedule?.id && <GreenButton onClick={handleUpdateSchedule} text={"update"} />) || (
+            <GreenButton onClick={handleAddSchedule} text={"save"} />
+          )}
         </div>
       </div>
     </div>

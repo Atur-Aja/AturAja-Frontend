@@ -1,11 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Logo from "../assets/logo.svg";
 import { IconMenu } from "./Icons";
 
 export default function Navbar({ toggle, toggleCreate, isLanding }) {
+  const location = useLocation().pathname;
   return (
-    <div className="flex justify-between pr-16 pl-4 py-2 bg-biruTua sticky top-0 z-40 shadow-xl">
+    <div className="flex justify-between pr-16 pl-4 py-2 bg-biruTua sticky top-0 z-50 shadow-xl">
       <div className="flex flex-wrap content-center text-white">
         {isLanding ? null : <IconMenu onClick={toggle} />}
         <img src={Logo} className="shadow-2xl ml-6" alt="logo" />
@@ -34,9 +35,17 @@ export default function Navbar({ toggle, toggleCreate, isLanding }) {
           </div>
         </div>
       ) : (
-        <p className="cursor-pointer flex flex-wrap content-center text-white font-mulish" onClick={toggleCreate}>
-          + Create
-        </p>
+        [
+          location === "/friends" ? (
+            <p className="cursor-pointer flex flex-wrap content-center text-white font-mulish" onClick={toggleCreate}>
+              + Add Friend
+            </p>
+          ) : (
+            <p className="cursor-pointer flex flex-wrap content-center text-white font-mulish" onClick={toggleCreate}>
+              + Create
+            </p>
+          ),
+        ]
       )}
     </div>
   );

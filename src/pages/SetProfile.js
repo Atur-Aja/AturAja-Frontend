@@ -43,7 +43,7 @@ export default function SetProfile() {
                 <img
                   className="inline object-cover w-24 h-24 items-center justify-center place-self-center rounded-full"
                   src={URL.createObjectURL(image)}
-                  alt="Profile image"
+                  alt="Profile"
                 />
               ) : (
                 <p className="text-gray-500 text-xs">add photo</p>

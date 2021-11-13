@@ -30,7 +30,7 @@ export default function Sidebar({ isOpen }) {
     <div
       className={
         "bg-biruTua shadow-lg group fixed top-0 left-0 " +
-        (isOpen ? "w-60 z-20 lg:z-30" : "w-14 hover:w-60 hidden lg:block lg:z-30 transition-all ease-in-out duration-300")
+        (isOpen ? "w-60 z-30 lg:z-40" : "w-14 hover:w-60 hidden lg:block lg:z-40 transition-all ease-in-out duration-300")
       }
     >
       <div className="h-screen text-white pt-20 pb-4 grid place-content-between">

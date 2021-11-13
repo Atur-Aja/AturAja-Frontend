@@ -12,6 +12,7 @@ import Navbar from "./components/Navbar";
 import Schedule from "./pages/Schedule";
 import Task from "./pages/Task";
 import SetProfile from "./pages/SetProfile";
+import Friend from "./pages/Friend";
 
 function AuthRoute({ component: Component, ...rest }) {
   const isLoggedIn = localStorage.getItem("user") ? localStorage.getItem("user") : false;
@@ -49,6 +50,7 @@ function App() {
               <AuthRoute path="/home" component={() => <Home show={isShow} onClose={() => setShow(false)} />} />
               <AuthRoute path="/schedule" component={() => <Schedule show={isShow} onClose={() => setShow(false)} />} />
               <AuthRoute path="/task" component={() => <Task show={isShow} onClose={() => setShow(false)} />} />
+              <AuthRoute path="/friends" component={() => <Friend show={isShow} onClose={() => setShow(false)} />} />
             </Switch>
           </div>
         </Route>

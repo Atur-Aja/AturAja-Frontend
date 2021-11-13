@@ -20,12 +20,6 @@ export default function HomePage({ show, onClose }) {
   const schedules = useSelector((state) => state.schedule.results);
   const tasks = useSelector((state) => state.task.results.tasks);
 
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getScheduleByDate(selectedDate));
-    dispatch(getTaskByDate(selectedDate));
-  }, [dispatch]);
-
   const today = utils().getToday();
   const [selectedDay, setSelectedDay] = useState(today);
   const [nativeDate, setNativeDate] = useState("");
@@ -34,12 +28,18 @@ export default function HomePage({ show, onClose }) {
   const date = myCustomLocale.toNativeDate(selectedDay).getDate();
   const selectedDate = selectedDay.year + "-" + selectedDay.month + "-" + selectedDay.day;
 
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getScheduleByDate(selectedDate));
+    dispatch(getTaskByDate(selectedDate));
+  }, [dispatch, selectedDate]);
+
   useEffect(() => {
     setNativeDate(date);
     setNativeDay(day);
     dispatch(getScheduleByDate(selectedDate));
     dispatch(getTaskByDate(selectedDate));
-  }, [selectedDay]);
+  }, [dispatch, date, day, selectedDate, selectedDay]);
 
   const [taskModal, setTaskModal] = useState(false);
   const [scheduleModal, setScheduleModal] = useState(false);

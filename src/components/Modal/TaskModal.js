@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { InputField } from "../Commons/FormField";
 import { createTask, deleteTaskById, updateTaskById } from "../../actions/task";
-import { SaveButton, CancelButton, DeleteButton, UpdateButton } from "../Commons/LinkButton";
+import { GreenButton, WhiteButton, DeleteButton } from "../Commons/LinkButton";
 import { IconPlus, IconDelete } from "../Icons";
 import { createTodo, deleteTodoById, updateTodoById } from "../../actions/todo";
 
@@ -56,7 +56,7 @@ export default function TaskModal({ onClose, show, task }) {
 
   const saveUpdatedTodo = () => {
     todos.map((list) => {
-      dispatch(updateTodoById(list.id, list.name));
+      return dispatch(updateTodoById(list.id, list.name));
     });
   };
 
@@ -137,8 +137,8 @@ export default function TaskModal({ onClose, show, task }) {
         </div>
         <div className="flex justify-end mt-4">
           {task.task?.id && <DeleteButton onClick={handleDeleteTask} />}
-          <CancelButton onClick={onClose} />
-          {(task.task?.id && <UpdateButton onClick={handleUpdateTask} />) || <SaveButton onClick={handleAddTask} />}
+          <WhiteButton onClick={onClose} text={"cancel"} />
+          {(task.task?.id && <GreenButton onClick={handleUpdateTask} text={"update"} />) || <GreenButton onClick={handleAddTask} text={"save"} />}
         </div>
       </div>
     </div>

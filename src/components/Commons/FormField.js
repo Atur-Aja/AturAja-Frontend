@@ -8,7 +8,7 @@ const InputField = ({ label, placeholder, type, onChange, value }) => {
       <p className="font-semibold">{label}</p>
       <input
         className={
-          "appearance-none bg-transparent w-full text-gray-700 px-2 py-1leading-tight focus:outline-none " +
+          "appearance-none bg-transparent w-full text-gray-700 px-2 py-1 leading-tight focus:outline-none " +
           (type === "date" ? "border rounded-lg" : "border-none")
         }
         placeholder={placeholder}

@@ -9,4 +9,5 @@ export const Url = {
   Todo: apiUrl + "/todos",
   Dashboard: apiUrl + "/dashboard",
   User: apiUrl + "/user",
+  Friend: apiUrl + "/friend",
 };
