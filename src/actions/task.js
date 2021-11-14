@@ -4,11 +4,9 @@ import { Url } from "../helpers/server";
 import { GET_ALL_TASK, GET_TASK_BY_ID, GET_TASK_BY_DATE, CREATE_TASK, DELETE_TASK_BY_ID, UPDATE_TASK_BY_ID } from "./type";
 
 export function getAllTask() {
-  const username = localStorage.getItem("username");
-
   return (dispatch) => {
     return axios
-      .get(apiUrl + `/user/${username}/tasks`)
+      .get(apiUrl + `/user/tasks`)
       .then((response) => {
         dispatch({
           type: GET_ALL_TASK,
@@ -53,7 +51,7 @@ export function getTaskByDate(date) {
   };
 }
 
-export function createTask(title, description, date, time, todos) {
+export function createTask(title, description, date, time, todos, friends) {
   return (dispatch) => {
     return axios
       .post(Url.Task, {
@@ -62,6 +60,7 @@ export function createTask(title, description, date, time, todos) {
         date,
         time,
         todos,
+        friends,
       })
       .then(() => {
         dispatch({

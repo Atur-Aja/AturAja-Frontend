@@ -100,7 +100,12 @@ export default function Task({ show, onClose }) {
                 {task.data.map((list) => {
                   return (
                     <div onClick={() => handleListTask(list)}>
-                      <TaskCard title={list.task.title} time={moment(list.task.time, "HH:mm:ss").format("LT")} todo={list?.todo || []} />
+                      <TaskCard
+                        title={list.task.title}
+                        time={moment(list.task.time, "HH:mm:ss").format("LT")}
+                        todo={list?.todo || []}
+                        member={list?.member || []}
+                      />
                     </div>
                   );
                 })}

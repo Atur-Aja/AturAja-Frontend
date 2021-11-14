@@ -1,14 +1,20 @@
 import axios from "axios";
 import { apiUrl } from "../helpers/config";
 import { Url } from "../helpers/server";
-import { GET_ALL_SCHEDULE, GET_SCHEDULE_BY_DATE, CREATE_SCHEDULE, DELETE_SCHEDULE_BY_ID, GET_SCHEDULE_BY_ID, UPDATE_SCHEDULE_BY_ID } from "./type";
+import {
+  GET_ALL_SCHEDULE,
+  GET_SCHEDULE_BY_DATE,
+  CREATE_SCHEDULE,
+  DELETE_SCHEDULE_BY_ID,
+  GET_SCHEDULE_BY_ID,
+  UPDATE_SCHEDULE_BY_ID,
+  MATCH_SCHEDULE,
+} from "./type";
 
 export function getAllSchedule() {
-  const username = localStorage.getItem("username");
-
   return (dispatch) => {
     return axios
-      .get(apiUrl + `/user/${username}/schedules`)
+      .get(apiUrl + `/user/schedules`)
       .then((response) => {
         dispatch({
           type: GET_ALL_SCHEDULE,
@@ -54,7 +60,7 @@ export function getScheduleByDate(date) {
   };
 }
 
-export function createSchedule(title, description, location, start_date, end_date, start_time, end_time, repeat, notification) {
+export function createSchedule(title, description, location, start_date, end_date, start_time, end_time, repeat, notification, friends) {
   return (dispatch) => {
     return axios
       .post(Url.Schedule, {
@@ -67,6 +73,7 @@ export function createSchedule(title, description, location, start_date, end_dat
         end_time,
         repeat,
         notification,
+        friends,
       })
       .then(() => {
         dispatch({
@@ -111,6 +118,21 @@ export function updateScheduleById(id, title, description, location, start_date,
       .then(() => {
         dispatch({
           type: UPDATE_SCHEDULE_BY_ID,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+}
+
+export function matchSchedule(date, start_time, end_time, friends) {
+  return (dispatch) => {
+    return axios
+      .post(Url.Schedule + "/match", { date, start_time, end_time, friends })
+      .then((response) => {
+        dispatch({
+          type: MATCH_SCHEDULE,
         });
       })
       .catch((error) => {

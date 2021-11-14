@@ -5,11 +5,13 @@ import {
   DELETE_SCHEDULE_BY_ID,
   GET_SCHEDULE_BY_ID,
   UPDATE_SCHEDULE_BY_ID,
+  MATCH_SCHEDULE,
 } from "../actions/type";
 
 const initialState = {
   selectedSchedule: {},
   results: [],
+  matched: [],
 };
 
 export default function schedule(state = initialState, action) {
@@ -40,6 +42,11 @@ export default function schedule(state = initialState, action) {
     case UPDATE_SCHEDULE_BY_ID:
       return {
         ...state,
+      };
+    case MATCH_SCHEDULE:
+      return {
+        ...state,
+        matched: action.payload,
       };
     default:
       return state;

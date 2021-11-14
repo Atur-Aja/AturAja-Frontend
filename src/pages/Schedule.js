@@ -7,7 +7,7 @@ import { IconSchedule } from "../components/Icons";
 import ScheduleModal from "../components/Modal/ScheduleModal";
 
 export default function Schedule({ show, onClose }) {
-  const schedules = useSelector((state) => state.schedule.results);
+  const schedules = useSelector((state) => state.schedule.results.schedules);
   const dispatch = useDispatch();
 
   const handleDateMap = (schedules) => {
@@ -16,12 +16,12 @@ export default function Schedule({ show, onClose }) {
     today.setHours(0, 0, 0, 0);
 
     schedules.forEach((data) => {
-      if (!dateMap.includes(data.start_date)) {
-        dateMap.push(data.start_date);
+      if (!dateMap.includes(data.schedule.start_date)) {
+        dateMap.push(data.schedule.start_date);
       }
 
-      if (!dateMap.includes(data.end_date)) {
-        dateMap.push(data.end_date);
+      if (!dateMap.includes(data.schedule.end_date)) {
+        dateMap.push(data.schedule.end_date);
       }
     });
 
@@ -53,8 +53,8 @@ export default function Schedule({ show, onClose }) {
       dateMapFormatted.sort((a, b) => a - b);
       dateMapFormatted.forEach((selDate) => {
         const filteredData = schedules.filter((data) => {
-          const sDate = new Date(data.start_date);
-          const eDate = new Date(data.end_date);
+          const sDate = new Date(data.schedule.start_date);
+          const eDate = new Date(data.schedule.end_date);
 
           return selDate >= sDate && selDate <= eDate;
         });
@@ -91,11 +91,11 @@ export default function Schedule({ show, onClose }) {
     <div className="h-screen px-4 pt-4">
       <ScheduleModal onClose={closeSchedule} show={show} schedule={schedule} />
       {(groupedSchedule?.length &&
-        groupedSchedule.map((schedule) => {
+        groupedSchedule.map((list) => {
           return (
-            <div key={schedule.date} className="mb-16">
+            <div key={list.date} className="mb-16">
               <p className="text-lg font-semibold">
-                {moment(schedule.date).calendar(null, {
+                {moment(list.date).calendar(null, {
                   sameDay: "[Today]",
                   nextDay: "[Tomorrow]",
                   nextWeek: "dddd, DD MMMM YYYY",
@@ -105,14 +105,15 @@ export default function Schedule({ show, onClose }) {
                 })}
               </p>
               <div className="border-t border-black" />
-              {schedule.data.map((list) => {
+              {list.data.map((list) => {
                 return (
                   <div onClick={() => handleListSchedule(list)}>
                     <ScheduleCard
-                      title={list.title}
-                      startTime={moment(list.start_time, "HH:mm:ss").format("LT")}
-                      endTime={moment(list.end_time, "HH:mm:ss").format("LT")}
-                      location={list.location}
+                      title={list.schedule.title}
+                      startTime={moment(list.schedule.start_time, "HH:mm:ss").format("LT")}
+                      endTime={moment(list.schedule.end_time, "HH:mm:ss").format("LT")}
+                      location={list.schedule.location}
+                      member={list?.member || []}
                     />
                   </div>
                 );

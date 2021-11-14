@@ -2,6 +2,7 @@ import axios from "axios";
 import { Url } from "../helpers/server";
 import {
   SEARCH_USER,
+  SEARCH_FRIEND,
   GET_ALL_FRIEND,
   GET_ALL_FRIEND_REQ,
   GET_ALL_FRIEND_REQ_SENT,
@@ -18,6 +19,22 @@ export function searchUser(name) {
       .then((response) => {
         dispatch({
           type: SEARCH_USER,
+          payload: response.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+}
+
+export function searchFriend(username) {
+  return (dispatch) => {
+    return axios
+      .post(Url.User + "/friends", { username })
+      .then((response) => {
+        dispatch({
+          type: SEARCH_FRIEND,
           payload: response.data,
         });
       })

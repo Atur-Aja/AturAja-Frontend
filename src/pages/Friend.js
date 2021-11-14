@@ -7,8 +7,6 @@ import FriendModal from "../components/Modal/FriendModal";
 export default function Friend({ show, onClose }) {
   const friends = useSelector((state) => state.friend.friends);
 
-  console.log(friends);
-
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllFriend());
@@ -25,7 +23,14 @@ export default function Friend({ show, onClose }) {
       <div className="grid grid-cols-3 gap-4">
         {(friends?.length &&
           friends.map((user) => (
-            <FriendCard key={user.id} username={user.username} email={user.email} phoneNumber={user.phone_number} id={user.id} />
+            <FriendCard
+              key={user.id}
+              username={user.username}
+              email={user.email}
+              phoneNumber={user.phone_number}
+              id={user.id}
+              photo={`http://127.0.0.1:8000/api/user/image/${user.photo}`}
+            />
           ))) ||
           null}
       </div>

@@ -2,11 +2,11 @@ import axios from "axios";
 import { Url } from "../helpers/server";
 import { CREATE_TODO, UPDATE_TODO_BY_ID, DELETE_TODO_BY_ID } from "./type";
 
-export function createTodo(taskId, todos) {
+export function createTodo(task_id, todos) {
   return (dispatch) => {
     return axios
       .post(Url.Todo, {
-        taskId,
+        task_id,
         todos,
       })
       .then(() => {

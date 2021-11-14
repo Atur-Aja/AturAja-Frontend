@@ -74,16 +74,17 @@ export default function HomePage({ show, onClose }) {
         <div className="w-2/5 py-16 px-4 overflow-y-auto">
           <p className="font-semibold text-xl">Schedule</p>
           {(schedules?.length &&
-            schedules.map((schedule) => {
+            schedules.map((list) => {
               return (
-                <div key={schedule.id} onClick={() => handleListSchedule(schedule)}>
+                <div key={list.schedule.id} onClick={() => handleListSchedule(list)}>
                   <ScheduleCard
                     title={schedule.title}
-                    startTime={moment(schedule.start_time, "HH:mm:ss").format("LT")}
-                    endTime={moment(schedule.end_time, "HH:mm:ss").format("LT")}
-                    startDate={moment(schedule.start_date).format("ll")}
-                    endDate={moment(schedule.end_date).format("ll")}
-                    location={schedule.location}
+                    startTime={moment(list.schedule.start_time, "HH:mm:ss").format("LT")}
+                    endTime={moment(list.schedule.end_time, "HH:mm:ss").format("LT")}
+                    startDate={moment(list.schedule.start_date).format("ll")}
+                    endDate={moment(list.schedule.end_date).format("ll")}
+                    location={list.schedule.location}
+                    member={list?.member || []}
                   />
                 </div>
               );
@@ -103,7 +104,12 @@ export default function HomePage({ show, onClose }) {
             tasks.map((task) => {
               return (
                 <div key={task.task.id} onClick={() => handleListTask(task)}>
-                  <TaskCard title={task.task.title} time={moment(task.task.time, "HH:mm:ss").format("LT")} todo={task?.todo || []} />
+                  <TaskCard
+                    title={task.task.title}
+                    time={moment(task.task.time, "HH:mm:ss").format("LT")}
+                    todo={task?.todo || []}
+                    member={task?.member || []}
+                  />
                 </div>
               );
             })) || (

@@ -1,5 +1,6 @@
 import {
   SEARCH_USER,
+  SEARCH_FRIEND,
   GET_ALL_FRIEND,
   GET_ALL_FRIEND_REQ,
   GET_ALL_FRIEND_REQ_SENT,
@@ -19,6 +20,11 @@ const initialState = {
 export default function friend(state = initialState, action) {
   switch (action.type) {
     case SEARCH_USER:
+      return {
+        ...state,
+        results: action.payload,
+      };
+    case SEARCH_FRIEND:
       return {
         ...state,
         results: action.payload,
