@@ -25,7 +25,7 @@ export default function Friend({ show, onClose }) {
           friends.map((user) => (
             <FriendCard
               key={user.id}
-              username={user.username}
+              username={user.fullname}
               email={user.email}
               phoneNumber={user.phone_number}
               id={user.id}

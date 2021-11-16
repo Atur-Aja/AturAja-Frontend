@@ -17,6 +17,7 @@ export default function ScheduleCard({ title, startTime, endTime, startDate, end
   useEffect(() => {
     setFriend(newData);
   }, []);
+  console.log(friend);
 
   return (
     <div className="bg-white shadow-lg rounded-md px-4 py-2 mt-4 cursor-pointer">

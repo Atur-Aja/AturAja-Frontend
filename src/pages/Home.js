@@ -75,6 +75,7 @@ export default function HomePage({ show, onClose }) {
           <p className="font-semibold text-xl">Schedule</p>
           {(schedules?.length &&
             schedules.map((list) => {
+              console.log(list);
               return (
                 <div key={list.schedule.id} onClick={() => handleListSchedule(list)}>
                   <ScheduleCard
