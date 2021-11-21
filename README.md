@@ -40,6 +40,11 @@ How To Install This Project
 ```
 8. Clone this project 
 
-9. npm install
-
-10. npm start 
+9. Install this Project Dependencies
+```bash
+> npm install
+```
+10. Run this project
+```bash
+> npm start
+```
