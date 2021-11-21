@@ -48,3 +48,22 @@ How To Install This Project
 ```bash
 > npm start
 ```
+
+Hasil Sprint-2 dan Rencana Sprint-3
+---
+Target untuk Sprint 2 : 
+- Sistem pertemanan (Add friend, Accept atau Ignore friend, Remove friend)
+- Penjadwalan otomatis pada schedule 
+- Kolaborasi task dengan teman 
+
+Hasilnya untuk Sprint 2 :
+- Sistem pertemanan sudah jadi untuk tiga fungsi nya 
+- Penjadwalan otomatis sudah jadi berupa pilihan rekomendasi, tapi belum bisa ditampilkan di web dan disimpan, jadi masih dilihat melalui inspect -> network 
+- Kolaborasi dengan teman sudah jadi 
+
+Target untuk Sprint 3 :
+- Memperbaiki Sistem pertemanan (search friend menggunakan jquery) 
+- Pada penjadwalan otomatis (Menampilkan dan menyimpan pilihan jadwal otomatis yang direkomendasikan) 
+- Pada Task (Menambahkan tag pada Task untuk kolaborasi dengan teman, agar mengetahui siapa yang mengerjakan task tersebut)
+- Memperbaiki tampilan dan responsivitas web (Merupakan komentar dari Sprint Review-2) 
+
