@@ -1,4 +1,4 @@
-# AturAja-frontend
+# AturAja-Frontend
 AturAja adalah aplikasi scheduling sederhana dengan fitur kolaborasi jadwal
 
 Use PHP Composer + Artisan
