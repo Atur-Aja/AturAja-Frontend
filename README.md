@@ -38,6 +38,7 @@ How To Install This Project
 ```bash
 > php artisan serve
 
+
 8. Clone this project 
 
 9. npm install
