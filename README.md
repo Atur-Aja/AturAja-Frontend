@@ -37,8 +37,7 @@ How To Install This Project
 7. Run this project
 ```bash
 > php artisan serve
-
-
+```
 8. Clone this project 
 
 9. npm install
