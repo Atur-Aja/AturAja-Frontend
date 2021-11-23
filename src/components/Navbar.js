@@ -1,12 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
+import { getProfile } from "../actions/profil";
 import Logo from "../assets/logo.svg";
 import { IconMenu } from "./Icons";
 
 export default function Navbar({ toggle, toggleCreate, isLanding }) {
   const location = useLocation().pathname;
+  const profile = useSelector((state) => state.profile.results);
+
+  console.log(profile);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getProfile());
+  }, [dispatch]);
+
   return (
-    <div className="flex justify-between pr-16 pl-4 py-2 bg-biruTua sticky top-0 z-50 shadow-xl">
+    <div className="flex justify-between px-4 py-2 bg-biruTua sticky top-0 z-50 shadow-xl">
       <div className="flex flex-wrap content-center text-white">
         {isLanding ? null : <IconMenu onClick={toggle} />}
         <img src={Logo} className="shadow-2xl ml-6" alt="logo" />
@@ -35,8 +46,8 @@ export default function Navbar({ toggle, toggleCreate, isLanding }) {
           </div>
         </div>
       ) : (
-        [
-          location === "/friends" ? (
+        <div className="flex self-center">
+          {location === "/friends" ? (
             <p className="cursor-pointer flex flex-wrap content-center text-white font-mulish" onClick={toggleCreate}>
               + Add Friend
             </p>
@@ -44,8 +55,15 @@ export default function Navbar({ toggle, toggleCreate, isLanding }) {
             <p className="cursor-pointer flex flex-wrap content-center text-white font-mulish" onClick={toggleCreate}>
               + Create
             </p>
-          ),
-        ]
+          )}
+          <div className="w-10 h-10 rounded-full bg-abuTua ml-4">
+            <img
+              className="inline object-cover w-full h-full items-center justify-center place-self-center rounded-full"
+              src={`http://127.0.0.1:8000/api/user/image/${profile.photo}`}
+              alt="Profile"
+            />
+          </div>
+        </div>
       )}
     </div>
   );

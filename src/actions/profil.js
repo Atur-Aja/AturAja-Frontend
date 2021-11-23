@@ -33,3 +33,21 @@ export function setProfile(fullname, image, phone_number) {
       });
   };
 }
+
+export function getProfile() {
+  return (dispatch) => {
+    const username = localStorage.getItem("username");
+
+    return axios
+      .get(Url.User + `/${username}` + "/profile")
+      .then((response) => {
+        dispatch({
+          type: GET_PROFILE,
+          payload: response.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+}

@@ -4,6 +4,7 @@ import message from "./message";
 import schedule from "./schedule";
 import task from "./task";
 import friend from "./friend";
+import profile from "./profile";
 
 export default combineReducers({
   auth: auth,
@@ -11,4 +12,5 @@ export default combineReducers({
   schedule: schedule,
   task: task,
   friend: friend,
+  profile: profile,
 });
