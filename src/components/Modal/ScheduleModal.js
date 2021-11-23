@@ -15,8 +15,8 @@ const repeatOptions = [
     value: "Weekly",
   },
   {
-    label: "Daily",
-    value: "daily",
+    label: "Monthly",
+    value: "monthly",
   },
   {
     label: "Yearly",
@@ -40,14 +40,14 @@ const notificationOptions = [
     value: "30 minutes",
   },
 ];
-const recommendationOptions = [];
+var recommendationOptions = [];
 
 export default function ScheduleModal({ onClose, show, schedule }) {
   const users = useSelector((state) => state.friend.results);
   const recommendation = useSelector((state) => state.schedule.matched);
 
-  console.log(recommendation);
-
+  console.log(recommendationOptions);
+  
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
@@ -60,11 +60,12 @@ export default function ScheduleModal({ onClose, show, schedule }) {
   const [friend, setFriend] = useState([]);
   const [name, setName] = useState("");
   const [people, setPeople] = useState([]);
+  // const [recom, setRecom] = useState("");
 
   const dispatch = useDispatch();
   const handleAddSchedule = (e) => {
     e.preventDefault();
-    dispatch(createSchedule(title, description, location, start_date, end_date, start_time, end_time, repeat, notification));
+    dispatch(createSchedule(title, description, location, start_date, end_date, start_time, end_time, repeat, notification, friend));
     return onClose();
   };
   const handleUpdateSchedule = (e) => {
@@ -86,16 +87,16 @@ export default function ScheduleModal({ onClose, show, schedule }) {
   };
 
   useEffect(() => {
-    if (schedule?.id) {
-      setTitle(schedule.title);
-      setDescription(schedule.description);
-      setLocation(schedule.location);
-      setStartDate(schedule.start_date);
-      setEndDate(schedule.end_date);
-      setStartTime(schedule.start_time);
-      setEndTime(schedule.end_time);
-      setRepeat(schedule.repeat);
-      setNotification(schedule.notification);
+    if (schedule.schedule?.id) {
+      setTitle(schedule.schedule.title);
+      setDescription(schedule.schedule.description);
+      setLocation(schedule.schedule.location);
+      setStartDate(schedule.schedule.start_date);
+      setEndDate(schedule.schedule.end_date);
+      setStartTime(schedule.schedule.start_time);
+      setEndTime(schedule.schedule.end_time);
+      setRepeat(schedule.schedule.repeat);
+      setNotification(schedule.schedule.notification);
     } else {
       setTitle("");
     }
@@ -121,14 +122,21 @@ export default function ScheduleModal({ onClose, show, schedule }) {
 
   useEffect(() => {
     dispatch(matchSchedule(start_date, start_time, end_time, friend));
+    recommendation.rekomendasi?.length && recommendation.rekomendasi.map((list, i) => {
+      const converted = JSON.stringify(list);
+      const data = JSON.parse(converted);
+      const label = "start: " + data.start_time + " end: " + data.end_time;
+      const value = label;
+      recommendationOptions = [...recommendationOptions, {label, value}];
+    })
   }, [start_date, start_time, end_time, friend]);
-
+  
   if (!show) return null;
 
   return (
     <div className="fixed z-50 top-0 bottom-0 left-0 right-0 bg-filter flex items-center justify-center" onClick={onClose}>
       <div className="w-2/5 py-3 px-6 shadow-xl rounded-md justify-self-end bg-white" onClick={(e) => e.stopPropagation()}>
-        <p className="font-bold text-2xl text-center">{(schedule?.id && "Detail") || "New Schedule"}</p>
+        <p className="font-bold text-2xl text-center">{(schedule.schedule?.id && "Detail") || "New Schedule"}</p>
         <div className="flex mt-3">
           <div className="w-1/2 ml-2 mr-8">
             <InputField label={"Title"} placeholder={"Enter title here"} onChange={(title) => setTitle(title)} value={title} />
@@ -186,7 +194,7 @@ export default function ScheduleModal({ onClose, show, schedule }) {
               null}
           </div>
           <div className="w-1/2 mr-2 ml-8">
-            <InputField label={"Date"} onChange={(date) => setStartDate(date)} value={start_date} type={"date"} />
+            <InputField label={"Date"} onChange={(date) => {setStartDate(date); setEndDate(date)}} value={start_date} type={"date"} />
             {/* <InputField label={"End Date"} onChange={(date) => setEndDate(date)} value={end_date} type={"date"} /> */}
             <div className="mt-2">
               <p className="font-semibold">Time</p>
@@ -197,6 +205,7 @@ export default function ScheduleModal({ onClose, show, schedule }) {
             </div>
             <div className="flex">
               <label className="self-center mr-2">Recommendation: </label>
+              {/* <SelectField options={recommendationOptions} value={recom} onChange={(recom) => setRecom(recom)} /> */}
               <SelectField options={repeatOptions} value={repeat} onChange={(repeat) => setRepeat(repeat)} />
             </div>
             <div className="flex">
@@ -212,9 +221,9 @@ export default function ScheduleModal({ onClose, show, schedule }) {
           </div>
         </div>
         <div className="flex justify-end mt-4">
-          {schedule?.id && <DeleteButton onClick={handleDeleteSchedule} />}
+          {schedule.schedule?.id && <DeleteButton onClick={handleDeleteSchedule} />}
           <WhiteButton onClick={onClose} text={"cancel"} />
-          {(schedule?.id && <GreenButton onClick={handleUpdateSchedule} text={"update"} />) || (
+          {(schedule.schedule?.id && <GreenButton onClick={handleUpdateSchedule} text={"update"} />) || (
             <GreenButton onClick={handleAddSchedule} text={"save"} />
           )}
         </div>

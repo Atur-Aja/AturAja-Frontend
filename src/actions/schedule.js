@@ -133,6 +133,7 @@ export function matchSchedule(date, start_time, end_time, friends) {
       .then((response) => {
         dispatch({
           type: MATCH_SCHEDULE,
+          payload: response.data,
         });
       })
       .catch((error) => {

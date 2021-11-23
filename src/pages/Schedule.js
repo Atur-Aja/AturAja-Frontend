@@ -105,6 +105,7 @@ export default function Schedule({ show, onClose }) {
                 })}
               </p>
               <div className="border-t border-black" />
+              <div className="grid grid-cols-3 gap-4">
               {list.data.map((list) => {
                 return (
                   <div onClick={() => handleListSchedule(list)}>
@@ -118,6 +119,7 @@ export default function Schedule({ show, onClose }) {
                   </div>
                 );
               })}
+            </div>
             </div>
           );
         })) || (
