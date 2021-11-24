@@ -47,7 +47,7 @@ export default function ScheduleModal({ onClose, show, schedule }) {
   const recommendation = useSelector((state) => state.schedule.matched);
 
   console.log(recommendationOptions);
-  
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
@@ -102,11 +102,9 @@ export default function ScheduleModal({ onClose, show, schedule }) {
     }
   }, [schedule]);
 
-  const handleSearchUser = () => {
-    dispatch(searchFriend(name));
-  };
-  const handleChangeName = (e) => {
+  const handleSearchUser = (e) => {
     setName(e.target.value);
+    dispatch(searchFriend(e.target.value));
   };
 
   const handleAddPeople = (username, id) => {
@@ -122,15 +120,16 @@ export default function ScheduleModal({ onClose, show, schedule }) {
 
   useEffect(() => {
     dispatch(matchSchedule(start_date, start_time, end_time, friend));
-    recommendation.rekomendasi?.length && recommendation.rekomendasi.map((list, i) => {
-      const converted = JSON.stringify(list);
-      const data = JSON.parse(converted);
-      const label = "start: " + data.start_time + " end: " + data.end_time;
-      const value = label;
-      recommendationOptions = [...recommendationOptions, {label, value}];
-    })
+    recommendation.rekomendasi?.length &&
+      recommendation.rekomendasi.map((list, i) => {
+        const converted = JSON.stringify(list);
+        const data = JSON.parse(converted);
+        const label = "start: " + data.start_time + " end: " + data.end_time;
+        const value = label;
+        recommendationOptions = [...recommendationOptions, { label, value }];
+      });
   }, [start_date, start_time, end_time, friend]);
-  
+
   if (!show) return null;
 
   return (
@@ -152,11 +151,11 @@ export default function ScheduleModal({ onClose, show, schedule }) {
               <input
                 className="appearance-none bg-transparent px-2 py-1 w-3/4 text-gray-700 leading-tight focus:outline-none border-none"
                 placeholder="Search username"
-                onChange={(e) => handleChangeName(e)}
+                onChange={(e) => handleSearchUser(e)}
                 value={name}
               />
               <div className="self-center">
-                <IconSearch width={"1rem"} height={"1rem"} onClick={handleSearchUser} />
+                <IconSearch width={"1rem"} height={"1rem"} />
               </div>
             </div>
             <div className="flex mt-2">
@@ -194,7 +193,15 @@ export default function ScheduleModal({ onClose, show, schedule }) {
               null}
           </div>
           <div className="w-1/2 mr-2 ml-8">
-            <InputField label={"Date"} onChange={(date) => {setStartDate(date); setEndDate(date)}} value={start_date} type={"date"} />
+            <InputField
+              label={"Date"}
+              onChange={(date) => {
+                setStartDate(date);
+                setEndDate(date);
+              }}
+              value={start_date}
+              type={"date"}
+            />
             {/* <InputField label={"End Date"} onChange={(date) => setEndDate(date)} value={end_date} type={"date"} /> */}
             <div className="mt-2">
               <p className="font-semibold">Time</p>

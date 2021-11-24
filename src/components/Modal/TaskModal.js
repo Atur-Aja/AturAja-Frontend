@@ -109,11 +109,9 @@ export default function TaskModal({ onClose, show, task }) {
     }
   }, [task]);
 
-  const handleSearchUser = () => {
-    dispatch(searchFriend(name));
-  };
-  const handleChangeName = (e) => {
+  const handleSearchUser = (e) => {
     setName(e.target.value);
+    dispatch(searchFriend(e.target.value));
   };
 
   const handleAddPeople = (username, id) => {
@@ -147,11 +145,11 @@ export default function TaskModal({ onClose, show, task }) {
               <input
                 className="appearance-none bg-transparent px-2 py-1 w-3/4 text-gray-700 leading-tight focus:outline-none border-none"
                 placeholder="Search username"
-                onChange={(e) => handleChangeName(e)}
+                onChange={(e) => handleSearchUser(e)}
                 value={name}
               />
               <div className="self-center">
-                <IconSearch width={"1rem"} height={"1rem"} onClick={handleSearchUser} />
+                <IconSearch width={"1rem"} height={"1rem"} />
               </div>
             </div>
             <div className="flex mt-2">

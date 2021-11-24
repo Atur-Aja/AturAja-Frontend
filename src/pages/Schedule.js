@@ -5,6 +5,7 @@ import ScheduleCard from "../components/Cards/scheduleCard";
 import moment from "moment";
 import { IconSchedule } from "../components/Icons";
 import ScheduleModal from "../components/Modal/ScheduleModal";
+import { clearSearch } from "../actions/friend";
 
 export default function Schedule({ show, onClose }) {
   const schedules = useSelector((state) => state.schedule.results.schedules);
@@ -83,6 +84,7 @@ export default function Schedule({ show, onClose }) {
     setSchedule(schedule);
   };
   const closeSchedule = (e) => {
+    dispatch(clearSearch());
     dispatch(getAllSchedule());
     onClose && onClose(e);
   };
@@ -106,20 +108,20 @@ export default function Schedule({ show, onClose }) {
               </p>
               <div className="border-t border-black" />
               <div className="grid grid-cols-3 gap-4">
-              {list.data.map((list) => {
-                return (
-                  <div onClick={() => handleListSchedule(list)}>
-                    <ScheduleCard
-                      title={list.schedule.title}
-                      startTime={moment(list.schedule.start_time, "HH:mm:ss").format("LT")}
-                      endTime={moment(list.schedule.end_time, "HH:mm:ss").format("LT")}
-                      location={list.schedule.location}
-                      member={list?.member || []}
-                    />
-                  </div>
-                );
-              })}
-            </div>
+                {list.data.map((list) => {
+                  return (
+                    <div onClick={() => handleListSchedule(list)}>
+                      <ScheduleCard
+                        title={list.schedule.title}
+                        startTime={moment(list.schedule.start_time, "HH:mm:ss").format("LT")}
+                        endTime={moment(list.schedule.end_time, "HH:mm:ss").format("LT")}
+                        location={list.schedule.location}
+                        member={list?.member || []}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           );
         })) || (

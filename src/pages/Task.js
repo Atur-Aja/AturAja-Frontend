@@ -5,6 +5,7 @@ import TaskCard from "../components/Cards/taskCard";
 import moment from "moment";
 import { IconTask } from "../components/Icons";
 import TaskModal from "../components/Modal/TaskModal";
+import { clearSearch } from "../actions/friend";
 
 export default function Task({ show, onClose }) {
   const tasks = useSelector((state) => state.task.results.tasks);
@@ -74,6 +75,7 @@ export default function Task({ show, onClose }) {
     setTask(task);
   };
   const closeTask = (e) => {
+    dispatch(clearSearch());
     dispatch(getAllTask());
     onClose && onClose(e);
   };

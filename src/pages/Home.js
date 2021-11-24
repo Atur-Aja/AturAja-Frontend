@@ -13,6 +13,7 @@ import moment from "moment";
 import myCustomLocale from "../helpers/calendarConf";
 import { IconSchedule } from "../components/Icons";
 import { IconTask } from "../components/Icons";
+import { clearSearch } from "../actions/friend";
 
 const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
@@ -49,10 +50,12 @@ export default function HomePage({ show, onClose, isToday }) {
   const showTask = () => setTaskModal(true);
   const showSchedule = () => setScheduleModal(true);
   const closeTask = () => {
+    dispatch(clearSearch());
     setTaskModal(false);
     dispatch(getTaskByDate(selectedDate));
   };
   const closeSchedule = () => {
+    dispatch(clearSearch());
     setScheduleModal(false);
     dispatch(getScheduleByDate(selectedDate));
   };
