@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../actions/auth";
 import { IconHome, IconLogout, IconSchedule, IconSetting, IconTask, IconFriend } from "./Icons";
+import { getAllFriendReq } from "../actions/friend";
 
 const menuLinks = [
   { target: "/home", text: "Home", icon: <IconHome /> },
   { target: "/schedule", text: "Schedule", icon: <IconSchedule /> },
   { target: "/task", text: "Task", icon: <IconTask /> },
-  { target: "/friends", text: "Friends", icon: <IconFriend /> },
 ];
 
 const MenuLink = ({ target, text, icon, open, ...props }) => {
@@ -21,7 +21,13 @@ const MenuLink = ({ target, text, icon, open, ...props }) => {
 };
 
 export default function Sidebar({ isOpen }) {
+  const request = useSelector((state) => state.friend.request);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllFriendReq());
+  }, [dispatch]);
+
   const logOut = () => {
     dispatch(logout());
   };
@@ -38,6 +44,17 @@ export default function Sidebar({ isOpen }) {
           {menuLinks.map(({ target, text, icon }, idx) => (
             <MenuLink key={idx} target={target} icon={icon} text={text} open={isOpen} />
           ))}
+          <MenuLink
+            target="/friends"
+            icon={
+              <div className="relative">
+                <IconFriend />
+                {(request?.length && <div className="absolute z-50 top-0 right-0 w-2 h-2 rounded-full bg-red-600" />) || null}
+              </div>
+            }
+            text={"Friends"}
+            open={isOpen}
+          />
         </div>
         <div>
           <MenuLink target="/setting" icon={<IconSetting />} text={"Settings"} open={isOpen} />

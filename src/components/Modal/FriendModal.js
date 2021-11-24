@@ -59,12 +59,13 @@ export default function FriendModal({ onClose, show }) {
               </div>
               <div
                 className={
-                  "w-1/2 py-1 text-biruTua text-center text-xl font-bold border-b border-biruTua rounded-tl-md " +
+                  "flex justify-center w-1/2 py-1 text-biruTua text-xl font-bold border-b border-biruTua rounded-tl-md " +
                   (isInvite ? "" : "text-white bg-biruTua")
                 }
                 onClick={toggleWaiting}
               >
-                Waiting List
+                <p>Waiting List</p>
+                {(request?.length && <div className=" w-2 h-2 rounded-full bg-red-600" />) || null}
               </div>
             </div>
             {(isInvite && (
