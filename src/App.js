@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Switch, Route, BrowserRouter, Redirect } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import Login from "./pages/Login";
@@ -23,12 +23,13 @@ function AuthRoute({ component: Component, ...rest }) {
 function App() {
   const [isNavOpen, setNavOpen] = useState(false);
   const [isShow, setShow] = useState(false);
-  const toggleNav = () => {
-    setNavOpen(!isNavOpen);
-  };
-  const toggleCreate = () => {
-    setShow(!isShow);
-  };
+  const [today, setToday] = useState(false);
+
+  useEffect(() => {
+    if (today) {
+      setToday(false);
+    }
+  }, [today]);
 
   return (
     <BrowserRouter>
@@ -43,11 +44,11 @@ function App() {
           <LandingPage />
         </Route>
         <Route>
-          <Navbar toggle={toggleNav} toggleCreate={toggleCreate} isLanding={false} />
+          <Navbar toggle={() => setNavOpen(!isNavOpen)} toggleCreate={() => setShow(!isShow)} toggleToday={() => setToday(true)} isLanding={false} />
           <Sidebar isOpen={isNavOpen} />
           <div className={"transition-all ease-in-out duration-200 " + (isNavOpen ? "lg:ml-60" : "lg:ml-14")}>
             <Switch>
-              <AuthRoute path="/home" component={() => <Home show={isShow} onClose={() => setShow(false)} />} />
+              <AuthRoute path="/home" component={() => <Home show={isShow} onClose={() => setShow(false)} isToday={today} />} />
               <AuthRoute path="/schedule" component={() => <Schedule show={isShow} onClose={() => setShow(false)} />} />
               <AuthRoute path="/task" component={() => <Task show={isShow} onClose={() => setShow(false)} />} />
               <AuthRoute path="/friends" component={() => <Friend show={isShow} onClose={() => setShow(false)} />} />

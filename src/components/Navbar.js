@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { getProfile } from "../actions/profil";
 import Logo from "../assets/logo.svg";
-import { IconMenu } from "./Icons";
+import { IconMenu, IconToday } from "./Icons";
 
-export default function Navbar({ toggle, toggleCreate, isLanding }) {
+export default function Navbar({ toggle, toggleCreate, toggleToday, isLanding }) {
   const location = useLocation().pathname;
   const profile = useSelector((state) => state.profile.results);
 
@@ -52,9 +52,17 @@ export default function Navbar({ toggle, toggleCreate, isLanding }) {
               + Add Friend
             </p>
           ) : (
-            <p className="cursor-pointer flex flex-wrap content-center text-white font-mulish" onClick={toggleCreate}>
-              + Create
-            </p>
+            <div className="flex">
+              <p className="cursor-pointer flex flex-wrap content-center text-white font-mulish" onClick={toggleCreate}>
+                + Create
+              </p>
+              {location === "/home" ? (
+                <div className="flex flex-wrap content-center ml-6 cursor-pointer" onClick={toggleToday}>
+                  <IconToday width="1.25rem" height="1.25rem" />
+                  <p className="flex flex-wrap content-center text-white font-mulish ml-1">Today</p>
+                </div>
+              ) : null}
+            </div>
           )}
           <div className="w-10 h-10 rounded-full bg-abuTua ml-4">
             <img

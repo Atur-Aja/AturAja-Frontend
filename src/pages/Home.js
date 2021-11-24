@@ -16,7 +16,7 @@ import { IconTask } from "../components/Icons";
 
 const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
-export default function HomePage({ show, onClose }) {
+export default function HomePage({ show, onClose, isToday }) {
   const schedules = useSelector((state) => state.schedule.results);
   const tasks = useSelector((state) => state.task.results.tasks);
 
@@ -35,11 +35,14 @@ export default function HomePage({ show, onClose }) {
   }, [dispatch, selectedDate]);
 
   useEffect(() => {
+    if (isToday) {
+      setSelectedDay(today);
+    }
     setNativeDate(date);
     setNativeDay(day);
     dispatch(getScheduleByDate(selectedDate));
     dispatch(getTaskByDate(selectedDate));
-  }, [dispatch, date, day, selectedDate, selectedDay]);
+  }, [dispatch, date, day, selectedDate, selectedDay, isToday]);
 
   const [taskModal, setTaskModal] = useState(false);
   const [scheduleModal, setScheduleModal] = useState(false);

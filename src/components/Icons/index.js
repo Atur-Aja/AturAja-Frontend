@@ -13,6 +13,7 @@ import IconDelete from "./IconDelete";
 import IconEdit from "./IconEdit";
 import IconCamera from "./IconCamera";
 import IconSearch from "./IconSearch";
+import IconToday from "./IconToday";
 
 export {
   IconHome,
@@ -30,4 +31,5 @@ export {
   IconEdit,
   IconCamera,
   IconSearch,
+  IconToday,
 };
