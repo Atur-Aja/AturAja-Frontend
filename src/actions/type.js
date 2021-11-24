@@ -30,6 +30,7 @@ export const SET_PROFILE = "SET_PROFILE";
 export const GET_PROFILE = "GET_PROFILE";
 
 export const SEARCH_USER = "SEARCH_USER";
+export const CLEAR_SEARCH_USER = "CLEAR_SEARCH_USER";
 export const SEARCH_FRIEND = "SEARCH_FRIEND";
 export const GET_ALL_FRIEND = "GET_ALL_FRIEND";
 export const GET_ALL_FRIEND_REQ = "GET_ALL_FRIEND_REQ";

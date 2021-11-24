@@ -2,6 +2,7 @@ import axios from "axios";
 import { Url } from "../helpers/server";
 import {
   SEARCH_USER,
+  CLEAR_SEARCH_USER,
   SEARCH_FRIEND,
   GET_ALL_FRIEND,
   GET_ALL_FRIEND_REQ,
@@ -151,3 +152,7 @@ export function declineRequest(user_id) {
       });
   };
 }
+
+export const clearSearch = () => ({
+  type: CLEAR_SEARCH_USER,
+});

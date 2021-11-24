@@ -1,5 +1,6 @@
 import {
   SEARCH_USER,
+  CLEAR_SEARCH_USER,
   SEARCH_FRIEND,
   GET_ALL_FRIEND,
   GET_ALL_FRIEND_REQ,
@@ -59,6 +60,11 @@ export default function friend(state = initialState, action) {
     case DECLINE_FRIEND_REQUEST:
       return {
         ...state,
+      };
+    case CLEAR_SEARCH_USER:
+      return {
+        ...state,
+        results: [],
       };
     default:
       return state;

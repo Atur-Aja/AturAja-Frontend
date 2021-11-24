@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { acceptRequest, declineRequest, getAllFriendReq, getAllFriendReqSent, inviteFriend, searchUser } from "../../actions/friend";
 import { IconSearch } from "../Icons";
-import girl from "../../assets/girl.jpg";
 import { GreenButton, WhiteButton } from "../Commons/LinkButton";
 
 export default function FriendModal({ onClose, show }) {
@@ -11,13 +10,11 @@ export default function FriendModal({ onClose, show }) {
   const reqSent = useSelector((state) => state.friend.reqSent);
 
   const [name, setName] = useState("");
-  const handleChangeName = (e) => {
-    setName(e.target.value);
-  };
 
   const dispatch = useDispatch();
-  const handleSearchUser = () => {
-    dispatch(searchUser(name));
+  const handleSearchUser = (e) => {
+    setName(e.target.value);
+    dispatch(searchUser(e.target.value));
   };
 
   const [isInvite, setIsInvite] = useState(true);
@@ -75,10 +72,10 @@ export default function FriendModal({ onClose, show }) {
                 <input
                   className="appearance-none bg-transparent w-1/2 text-gray-700 leading-tight focus:outline-none border-none"
                   placeholder="search username"
-                  onChange={(e) => handleChangeName(e)}
+                  onChange={(e) => handleSearchUser(e)}
                   value={name}
                 />
-                <IconSearch width={"1rem"} height={"1rem"} onClick={handleSearchUser} />
+                <IconSearch width={"1rem"} height={"1rem"} />
               </div>
             )) ||
               null}
