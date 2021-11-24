@@ -41,6 +41,12 @@ export default function Login() {
       });
   };
 
+  const handleKeyPress = (e) => {
+    if (e.keyCode === 13) {
+      handleLogin();
+    }
+  };
+
   const { user } = useSelector((state) => state.auth);
   useEffect(() => {
     if (user) {
@@ -61,34 +67,37 @@ export default function Login() {
             </p>
           </div>
         </div>
-        <div className="mt-8 mx-4">
-          <AuthField placeholder={"Email"} value={email} onChange={(email) => setEmail(email)} icon={<Email />} />
-          <AuthField
-            placeholder={"Password"}
-            value={password}
-            onChange={(pass) => setPassword(pass)}
-            icon={isReveal ? <EyeOff /> : <Eye />}
-            type={isReveal ? "password" : "text"}
-            onClick={toggle}
-          />
-          <div className="mt-2 flex justify-end text-gray-600 text-sm hover:text-biru">
-            <Link to="/reset">
-              <p>Forgot Password?</p>
-            </Link>
+        <form>
+          <div className="mt-8 mx-4">
+            <AuthField placeholder={"Email"} value={email} onChange={(email) => setEmail(email)} icon={<Email />} />
+            <AuthField
+              placeholder={"Password"}
+              value={password}
+              onChange={(pass) => setPassword(pass)}
+              icon={isReveal ? <EyeOff /> : <Eye />}
+              type={isReveal ? "password" : "text"}
+              onClick={toggle}
+              onKeyPress={handleKeyPress}
+            />
+            <div className="mt-2 flex justify-end text-gray-600 text-sm hover:text-biru">
+              <Link to="/reset">
+                <p>Forgot Password?</p>
+              </Link>
+            </div>
           </div>
-        </div>
-        <div className="grid mt-24">
-          <div className="flex justify-center">
-            <AuthButton text={"Sign in"} onClick={handleLogin} />
+          <div className="grid mt-24">
+            <div className="flex justify-center">
+              <AuthButton text={"Sign in"} onClick={handleLogin} />
+            </div>
+            <div className="flex place-self-center mt-2">
+              <p className="text-black text-xs">Don't have an account?</p>
+              <Link to="/signup">
+                <p className="text-biru text-xs hover:text-biruTua">Sign Up</p>
+              </Link>
+            </div>
+            {message}
           </div>
-          <div className="flex place-self-center mt-2">
-            <p className="text-black text-xs">Don't have an account?</p>
-            <Link to="/signup">
-              <p className="text-biru text-xs hover:text-biruTua">Sign Up</p>
-            </Link>
-          </div>
-          {message}
-        </div>
+        </form>
       </div>
     </div>
   );

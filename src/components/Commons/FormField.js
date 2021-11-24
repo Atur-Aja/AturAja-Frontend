@@ -37,12 +37,15 @@ const SelectField = ({ label, options, value, onChange }) => {
   );
 };
 
-const AuthField = ({ type, placeholder, value, onChange, icon, onClick }) => {
+const AuthField = ({ type, placeholder, value, onChange, icon, onClick, onKeyPress }) => {
   const handleChange = (e) => {
     onChange && onChange(e.target.value);
   };
   const handleClick = () => {
     onClick && onClick();
+  };
+  const handleKeyPress = (e) => {
+    onKeyPress && onKeyPress(e);
   };
 
   return (
@@ -53,6 +56,7 @@ const AuthField = ({ type, placeholder, value, onChange, icon, onClick }) => {
         placeholder={placeholder}
         value={value}
         onChange={handleChange}
+        onKeyPress={handleKeyPress}
       />
       <div className="flex flex-wrap content-center cursor-pointer" onClick={handleClick}>
         {icon}

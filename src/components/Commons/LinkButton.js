@@ -52,6 +52,7 @@ const AuthButton = ({ text, onClick }) => {
         "bg-biru hover:bg-biruTua rounded-lg shadow-xl text-white font-bold px-20 py-2 place-self-center " + (text === "Reset" ? "mt-24" : "")
       }
       onClick={handleClick}
+      type="submit"
     >
       {text}
     </button>

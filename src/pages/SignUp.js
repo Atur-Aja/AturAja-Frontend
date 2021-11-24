@@ -46,44 +46,53 @@ export default function SignUp() {
       });
   };
 
+  const handleKeyPress = (e) => {
+    if (e.keyCode === 13) {
+      handleRegister();
+    }
+  };
+
   return (
     <div className="h-screen flex justify-center bg-biruTua pt-24">
       <div className="w-112 h-144 rounded-xl px-8 py-14 bg-abuMuda">
-        <div className="mx-4 grid">
-          <p className="text-black text-lg font-bold place-self-center">Create your account</p>
-          <AuthField placeholder={"Username"} value={username} onChange={(username) => setUsername(username)} icon={<User />} />
-          <AuthField placeholder={"Email"} value={email} onChange={(email) => setEmail(email)} icon={<Email />} type={"email"} />
-          <AuthField
-            placeholder={"Password"}
-            value={password}
-            onChange={(pass) => setPassword(pass)}
-            icon={isReveal ? <EyeOff /> : <Eye />}
-            type={isReveal ? "password" : "text"}
-            onClick={toggle}
-          />
-          <AuthField
-            placeholder={"Confirm Password"}
-            value={passwordValidate}
-            onChange={(pass) => setPasswordValidate(pass)}
-            icon={isRevealConf ? <EyeOff /> : <Eye />}
-            type={isRevealConf ? "password" : "text"}
-            onClick={toggleConf}
-          />
-          <div className="grid mt-14">
-            <div className="flex justify-center">
-              <Link to="/login">
-                <AuthButton text={"Sign up"} onClick={handleRegister} />
-              </Link>
+        <form>
+          <div className="mx-4 grid">
+            <p className="text-black text-lg font-bold place-self-center">Create your account</p>
+            <AuthField placeholder={"Username"} value={username} onChange={(username) => setUsername(username)} icon={<User />} />
+            <AuthField placeholder={"Email"} value={email} onChange={(email) => setEmail(email)} icon={<Email />} type={"email"} />
+            <AuthField
+              placeholder={"Password"}
+              value={password}
+              onChange={(pass) => setPassword(pass)}
+              icon={isReveal ? <EyeOff /> : <Eye />}
+              type={isReveal ? "password" : "text"}
+              onClick={toggle}
+            />
+            <AuthField
+              placeholder={"Confirm Password"}
+              value={passwordValidate}
+              onChange={(pass) => setPasswordValidate(pass)}
+              icon={isRevealConf ? <EyeOff /> : <Eye />}
+              type={isRevealConf ? "password" : "text"}
+              onClick={toggleConf}
+              onKeyPress={handleKeyPress}
+            />
+            <div className="grid mt-14">
+              <div className="flex justify-center">
+                <Link to="/login">
+                  <AuthButton text={"Sign up"} onClick={handleRegister} />
+                </Link>
+              </div>
+              <div className="flex place-self-center mt-2">
+                <p className="text-black text-xs">Already have an account?</p>
+                <Link to="/login">
+                  <p className="text-biru text-xs hover:text-biruTua">Sign in</p>
+                </Link>
+              </div>
+              {message}
             </div>
-            <div className="flex place-self-center mt-2">
-              <p className="text-black text-xs">Already have an account?</p>
-              <Link to="/login">
-                <p className="text-biru text-xs hover:text-biruTua">Sign in</p>
-              </Link>
-            </div>
-            {message}
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );
