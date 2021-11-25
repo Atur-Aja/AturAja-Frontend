@@ -9,6 +9,7 @@ import { login } from "../actions/auth";
 import { clearMessage } from "../actions/message";
 import { AuthField } from "../components/Commons/FormField";
 import { AuthButton } from "../components/Commons/LinkButton";
+import Swal from "sweetalert2";
 
 export default function Login() {
   const [isReveal, setIsReveal] = useState(true);
@@ -16,11 +17,22 @@ export default function Login() {
     setIsReveal(!isReveal);
   };
 
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const { message } = useSelector((state) => state.message);
   let history = useHistory();
 
   const dispatch = useDispatch();
@@ -34,9 +46,17 @@ export default function Login() {
 
     dispatch(login(email, password))
       .then(() => {
+        Toast.fire({
+          icon: "success",
+          title: "Signed in successfully",
+        });
         history.push("/home");
       })
       .catch(() => {
+        Toast.fire({
+          icon: "warning",
+          title: "The given data was invalid",
+        });
         setLoading(false);
       });
   };
@@ -95,7 +115,6 @@ export default function Login() {
                 <p className="text-biru text-xs hover:text-biruTua">Sign Up</p>
               </Link>
             </div>
-            {message}
           </div>
         </form>
       </div>

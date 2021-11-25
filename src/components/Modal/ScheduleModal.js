@@ -5,6 +5,7 @@ import { createSchedule, deleteScheduleById, matchSchedule, updateScheduleById }
 import { InputField, SelectField } from "../Commons/FormField";
 import { GreenButton, WhiteButton, DeleteButton } from "../Commons/LinkButton";
 import { IconSearch } from "../Icons";
+import Swal from "sweetalert2";
 
 const repeatOptions = [
   {
@@ -46,7 +47,7 @@ export default function ScheduleModal({ onClose, show, schedule }) {
   const users = useSelector((state) => state.friend.results);
   const recommendation = useSelector((state) => state.schedule.matched);
 
-  console.log(recommendationOptions);
+  // console.log(recommendationOptions);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -65,18 +66,67 @@ export default function ScheduleModal({ onClose, show, schedule }) {
   const dispatch = useDispatch();
   const handleAddSchedule = (e) => {
     e.preventDefault();
-    dispatch(createSchedule(title, description, location, start_date, end_date, start_time, end_time, repeat, notification, friend));
-    return onClose();
+    dispatch(createSchedule(title, description, location, start_date, end_date, start_time, end_time, repeat, notification, friend)).then(() => {
+      Swal.fire({
+        text: "Your schedule has been created successfully.",
+        icon: "success",
+        timer: 3000,
+        timerProgressBar: true,
+      });
+      onClose();
+    });
   };
   const handleUpdateSchedule = (e) => {
     e.preventDefault();
-    dispatch(updateScheduleById(schedule.id, title, description, location, start_date, end_date, start_time, end_time, repeat, notification));
-    return onClose();
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Are you sure want to update this schedule?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#c1c1c1",
+      confirmButtonText: "update",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(
+          updateScheduleById(schedule.schedule.id, title, description, location, start_date, end_date, start_time, end_time, repeat, notification)
+        ).then(() => {
+          Swal.fire({
+            title: "Updated!",
+            text: "Your schedule has been updated successfully.",
+            icon: "success",
+            timer: 3000,
+            timerProgressBar: true,
+          });
+          onClose();
+        });
+      }
+    });
   };
   const handleDeleteSchedule = (e) => {
     e.preventDefault();
-    dispatch(deleteScheduleById(schedule.id));
-    return onClose();
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to delete this schedule? This process cannot be undone.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#c1c1c1",
+      confirmButtonText: "delete",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(deleteScheduleById(schedule.schedule.id)).then(() => {
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your schedule has been deleted successfully.",
+            icon: "success",
+            timer: 3000,
+            timerProgressBar: true,
+          });
+          onClose();
+        });
+      }
+    });
   };
 
   const onChangeStartTime = (e) => {

@@ -25,6 +25,7 @@ export default function Friend({ show, onClose }) {
         {(friends?.length &&
           friends.map((user) => (
             <FriendCard
+              reload={() => dispatch(getAllFriend())}
               key={user.id}
               username={user.fullname}
               email={user.email}

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { IconSchedule, IconLocation, IconClock, IconGroup } from "../Icons";
-import girl from "../../assets/girl.jpg";
 
 export default function ScheduleCard({ title, startTime, endTime, startDate, endDate, location, member }) {
   const image = member.map((e) => e.photo);
@@ -17,7 +16,6 @@ export default function ScheduleCard({ title, startTime, endTime, startDate, end
   useEffect(() => {
     setFriend(newData);
   }, []);
-  console.log(friend);
 
   return (
     <div className="bg-white shadow-lg rounded-md px-4 py-2 mt-4 cursor-pointer">

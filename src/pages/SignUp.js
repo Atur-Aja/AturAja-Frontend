@@ -9,6 +9,7 @@ import { register } from "../actions/auth";
 import { clearMessage } from "../actions/message";
 import { AuthField } from "../components/Commons/FormField";
 import { AuthButton } from "../components/Commons/LinkButton";
+import Swal from "sweetalert2";
 
 export default function SignUp() {
   const [isReveal, setIsReveal] = useState(true);
@@ -20,13 +21,22 @@ export default function SignUp() {
     setIsRevealConf(!isRevealConf);
   };
 
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
+
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordValidate, setPasswordValidate] = useState("");
-  const [successful, setSuccessful] = useState(false);
-
-  const { message } = useSelector((state) => state.message);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -35,14 +45,18 @@ export default function SignUp() {
 
   const handleRegister = (e) => {
     e.preventDefault();
-    setSuccessful(false);
-
     dispatch(register(username, email, password, passwordValidate))
       .then(() => {
-        setSuccessful(true);
+        Toast.fire({
+          icon: "success",
+          title: "Registered successfully",
+        });
       })
       .catch(() => {
-        setSuccessful(false);
+        Toast.fire({
+          icon: "warning",
+          title: "The given data was invalid",
+        });
       });
   };
 
@@ -89,7 +103,6 @@ export default function SignUp() {
                   <p className="text-biru text-xs hover:text-biruTua">Sign in</p>
                 </Link>
               </div>
-              {message}
             </div>
           </div>
         </form>

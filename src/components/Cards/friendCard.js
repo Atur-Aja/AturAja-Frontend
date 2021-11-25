@@ -1,11 +1,27 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { deleteFriend } from "../../actions/friend";
+import Swal from "sweetalert2";
 
-export default function FriendCard({ username, photo, email, phoneNumber, id }) {
+export default function FriendCard({ reload, username, photo, email, phoneNumber, id }) {
   const dispatch = useDispatch();
   const handleDelete = () => {
-    dispatch(deleteFriend(id));
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to remove this friend? This process cannot be undone.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#c1c1c1",
+      confirmButtonText: "delete",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(deleteFriend(id)).then(() => {
+          Swal.fire("Deleted!", "Your friend has been removed successfully.", "success");
+          reload();
+        });
+      }
+    });
   };
 
   return (

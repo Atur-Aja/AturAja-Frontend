@@ -6,6 +6,7 @@ import { GreenButton, WhiteButton, DeleteButton } from "../Commons/LinkButton";
 import { IconPlus, IconDelete, IconSearch } from "../Icons";
 import { createTodo, deleteTodoById, updateTodoById } from "../../actions/todo";
 import { searchFriend } from "../../actions/friend";
+import Swal from "sweetalert2";
 
 const priorityOptions = [
   {
@@ -44,21 +45,56 @@ export default function TaskModal({ onClose, show, task }) {
   const dispatch = useDispatch();
   const handleAddTask = (e) => {
     e.preventDefault();
-    dispatch(createTask(title, description, due_date, due_time, newTodos, friend));
-    return onClose();
+    dispatch(createTask(title, description, due_date, due_time, newTodos, friend)).then(() => {
+      Swal.fire({
+        text: "Your task has been created successfully.",
+        icon: "success",
+        timer: 3000,
+        timerProgressBar: true,
+      });
+      onClose();
+    });
   };
   const handleUpdateTask = (e) => {
     e.preventDefault();
-    dispatch(updateTaskById(task.task.id, title, description, due_date, due_time));
-    dispatch(createTodo(task.task.id, newTodos));
-    saveUpdatedTodo();
-    setNewTodos([]);
-    return onClose();
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Are you sure want to update this taks?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#c1c1c1",
+      confirmButtonText: "update",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(createTodo(task.task.id, newTodos));
+        saveUpdatedTodo();
+        dispatch(updateTaskById(task.task.id, title, description, due_date, due_time)).then(() => {
+          Swal.fire({ title: "Updated!", text: "Your task has been updated successfully.", icon: "success", timer: 3000, timerProgressBar: true });
+          onClose();
+        });
+        setNewTodos([]);
+      }
+    });
   };
   const handleDeleteTask = (e) => {
     e.preventDefault();
-    dispatch(deleteTaskById(task.task.id));
-    return onClose();
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to delete this taks? This process cannot be undone.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#c1c1c1",
+      confirmButtonText: "delete",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(deleteTaskById(task.task.id)).then(() => {
+          Swal.fire({ title: "Deleted!", text: "Your task has been deleted successfully.", icon: "success", timer: 3000, timerProgressBar: true });
+          onClose();
+        });
+      }
+    });
   };
   const handleAddTodos = () => {
     const data = { name: text };

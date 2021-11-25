@@ -9,8 +9,6 @@ export default function Navbar({ toggle, toggleCreate, toggleToday, isLanding })
   const location = useLocation().pathname;
   const profile = useSelector((state) => state.profile.results);
 
-  console.log(profile);
-
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getProfile());
