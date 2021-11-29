@@ -11,19 +11,20 @@ import Swal from "sweetalert2";
 const priorityOptions = [
   {
     label: "none",
+    value: "1",
   },
   {
     label: "low",
-    value: "low",
+    value: "2",
   },
   {
     label: "medium",
-    value: "medium",
+    value: "3",
   },
 
   {
     label: "high",
-    value: "high",
+    value: "4",
   },
 ];
 
@@ -45,7 +46,7 @@ export default function TaskModal({ onClose, show, task }) {
   const dispatch = useDispatch();
   const handleAddTask = (e) => {
     e.preventDefault();
-    dispatch(createTask(title, description, due_date, due_time, newTodos, friend)).then(() => {
+    dispatch(createTask(title, description, due_date, due_time, newTodos, friend, priority)).then(() => {
       Swal.fire({
         text: "Your task has been created successfully.",
         icon: "success",
@@ -69,7 +70,7 @@ export default function TaskModal({ onClose, show, task }) {
       if (result.isConfirmed) {
         dispatch(createTodo(task.task.id, newTodos));
         saveUpdatedTodo();
-        dispatch(updateTaskById(task.task.id, title, description, due_date, due_time)).then(() => {
+        dispatch(updateTaskById(task.task.id, title, description, due_date, due_time, friend, priority)).then(() => {
           Swal.fire({ title: "Updated!", text: "Your task has been updated successfully.", icon: "success", timer: 3000, timerProgressBar: true });
           onClose();
         });
@@ -129,22 +130,6 @@ export default function TaskModal({ onClose, show, task }) {
     setText(e.target.value);
   };
 
-  useEffect(() => {
-    if (task.task?.id) {
-      setTitle(task.task.title);
-      setDescription(task.task.description);
-      setDueDate(task.task.date);
-      setDueTime(task.task.time);
-    } else {
-      setTitle("");
-    }
-
-    if (task.todo?.length) {
-      let todo = task.todo.map((list) => list);
-      setTodos(todo);
-    }
-  }, [task]);
-
   const handleSearchUser = (e) => {
     setName(e.target.value);
     dispatch(searchFriend(e.target.value));
@@ -160,6 +145,26 @@ export default function TaskModal({ onClose, show, task }) {
     setPeople(people.filter((e) => e.id !== id));
     setFriend(friend.filter((e) => e !== id));
   };
+
+  useEffect(() => {
+    if (task.task?.id) {
+      setTitle(task.task.title);
+      setDescription(task.task.description);
+      setDueDate(task.task.date);
+      setDueTime(task.task.time);
+      setPriority(task.task.priority);
+
+      const people = task.member.map((mem) => ({ username: mem.username, id: mem.id }));
+      setPeople([...people]);
+      const peopleIds = people.map((person) => person.id);
+      setFriend([...peopleIds]);
+    }
+
+    if (task.todo?.length) {
+      let todo = task.todo.map((list) => list);
+      setTodos(todo);
+    }
+  }, [task]);
 
   if (!show) return null;
 

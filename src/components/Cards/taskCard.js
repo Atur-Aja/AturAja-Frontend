@@ -16,9 +16,9 @@ export default function TaskCard({ priority, title, time, todo, member }) {
   useEffect(() => {
     setFriend(newData);
 
-    if (priority == 1) setMark("!");
-    else if (priority == 2) setMark("!!");
-    else if (priority == 3) setMark("!!!");
+    if (priority == 2) setMark("!");
+    else if (priority == 3) setMark("!!");
+    else if (priority == 4) setMark("!!!");
   }, []);
 
   return (
@@ -52,7 +52,7 @@ export default function TaskCard({ priority, title, time, todo, member }) {
         ))) ||
         null}
       <div className="flex mt-2">
-        {(friend?.length &&
+        {(friend.length > 1 &&
           friend.map((list) => {
             return (
               <div className="flex">

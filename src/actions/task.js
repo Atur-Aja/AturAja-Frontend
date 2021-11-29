@@ -51,7 +51,7 @@ export function getTaskByDate(date) {
   };
 }
 
-export function createTask(title, description, date, time, todos, friends) {
+export function createTask(title, description, date, time, todos, friends, priority) {
   return (dispatch) => {
     return axios
       .post(Url.Task, {
@@ -61,6 +61,7 @@ export function createTask(title, description, date, time, todos, friends) {
         time,
         todos,
         friends,
+        priority,
       })
       .then(() => {
         dispatch({
@@ -88,7 +89,7 @@ export function deleteTaskById(id) {
   };
 }
 
-export function updateTaskById(id, title, description, date, time) {
+export function updateTaskById(id, title, description, date, time, friends, priority) {
   return (dispatch) => {
     return axios
       .put(Url.Task + `/${id}`, {
@@ -96,6 +97,8 @@ export function updateTaskById(id, title, description, date, time) {
         description,
         date,
         time,
+        friends,
+        priority,
       })
       .then(() => {
         dispatch({
