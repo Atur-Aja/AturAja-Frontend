@@ -103,6 +103,7 @@ export default function Task({ show, onClose }) {
                   return (
                     <div onClick={() => handleListTask(list)}>
                       <TaskCard
+                        priority={list.task.priority}
                         title={list.task.title}
                         time={moment(list.task.time, "HH:mm:ss").format("LT")}
                         todo={list?.todo || []}

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 
-export default function TaskCard({ title, time, todo, member }) {
+export default function TaskCard({ priority, title, time, todo, member }) {
   const image = member.map((e) => e.photo);
   const [friend, setFriend] = useState(image);
+  const [mark, setMark] = useState("");
   const index = [30, 20, 10];
   const friendSliced = friend.slice(0, 3);
   const newData = friendSliced.map((value) => {
@@ -14,12 +15,19 @@ export default function TaskCard({ title, time, todo, member }) {
 
   useEffect(() => {
     setFriend(newData);
+
+    if (priority == 1) setMark("!");
+    else if (priority == 2) setMark("!!");
+    else if (priority == 3) setMark("!!!");
   }, []);
 
   return (
     <div className="bg-white shadow-lg rounded-md px-4 py-2 mt-4 h-48 cursor-pointer">
       <div className="flex justify-between">
-        <p className="font-semibold w-1/2">{title}</p>
+        <div className="flex w-1/2">
+          <p className="font-semibold">{mark}</p>
+          <p className="font-semibold ml-3">{title}</p>
+        </div>
         <div className="w-1/2 flex justify-between">
           <p className="font-bold text-biruTua">{time}</p>
           <input
