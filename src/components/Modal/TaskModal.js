@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { InputField, SelectField } from "../Commons/FormField";
-import { createTask, deleteTaskById, updateTaskById } from "../../actions/task";
+import { createTask, deleteTaskById, updateTaskById } from "../../redux/actions/task";
 import { GreenButton, WhiteButton, DeleteButton } from "../Commons/LinkButton";
 import { IconPlus, IconDelete, IconSearch } from "../Icons";
-import { createTodo, deleteTodoById, updateTodoById } from "../../actions/todo";
-import { searchFriend } from "../../actions/friend";
+import { createTodo, deleteTodoById, updateTodoById } from "../../redux/actions/todo";
+import { searchFriend } from "../../redux/actions/friend";
 import Swal from "sweetalert2";
 
 const priorityOptions = [

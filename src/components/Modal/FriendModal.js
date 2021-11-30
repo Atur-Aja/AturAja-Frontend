@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { acceptRequest, declineRequest, getAllFriendReq, getAllFriendReqSent, inviteFriend, searchUser } from "../../actions/friend";
+import { acceptRequest, declineRequest, getAllFriendReq, getAllFriendReqSent, inviteFriend, searchUser } from "../../redux/actions/friend";
 import { IconSearch } from "../Icons";
 import { GreenButton, WhiteButton } from "../Commons/LinkButton";
 

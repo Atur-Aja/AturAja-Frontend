@@ -5,15 +5,15 @@ import "@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css";
 import { Calendar, utils } from "@hassanmojab/react-modern-calendar-datepicker";
 import TaskCard from "../components/Cards/taskCard";
 import ScheduleCard from "../components/Cards/scheduleCard";
-import { getScheduleByDate } from "../actions/schedule";
-import { getTaskByDate } from "../actions/task";
+import { getScheduleByDate } from "../redux/actions/schedule";
+import { getTaskByDate } from "../redux/actions/task";
 import TaskModal from "../components/Modal/TaskModal";
 import ScheduleModal from "../components/Modal/ScheduleModal";
 import moment from "moment";
 import myCustomLocale from "../helpers/calendarConf";
 import { IconSchedule } from "../components/Icons";
 import { IconTask } from "../components/Icons";
-import { clearSearch } from "../actions/friend";
+import { clearSearch } from "../redux/actions/friend";
 
 const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 

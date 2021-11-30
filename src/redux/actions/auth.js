@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Url } from "../helpers/server";
+import { Url } from "../../helpers/server";
 import { REGISTER_SUCCESS, REGISTER_FAILED, LOGIN_SUCCESS, LOGIN_FAILED, LOGOUT, SET_MESSAGE } from "./type";
 
 export function register(username, email, password, password_validate, phone_number) {

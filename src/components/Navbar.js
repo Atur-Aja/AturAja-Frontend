@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import { getProfile } from "../actions/profil";
+import { getProfile } from "../redux/actions/profil";
 import Logo from "../assets/logo.svg";
 import { IconMenu, IconToday } from "./Icons";
 

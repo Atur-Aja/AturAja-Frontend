@@ -1,6 +1,6 @@
 import axios from "axios";
-import { apiUrl } from "../helpers/config";
-import { Url } from "../helpers/server";
+import { apiUrl } from "../../helpers/config";
+import { Url } from "../../helpers/server";
 import { GET_ALL_TASK, GET_TASK_BY_ID, GET_TASK_BY_DATE, CREATE_TASK, DELETE_TASK_BY_ID, UPDATE_TASK_BY_ID } from "./type";
 
 export function getAllTask() {

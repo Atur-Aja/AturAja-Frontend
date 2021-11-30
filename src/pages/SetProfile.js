@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { setProfile } from "../actions/profil";
+import { setProfile } from "../redux/actions/profil";
 import { useDispatch, useSelector } from "react-redux";
 import { AuthField } from "../components/Commons/FormField";
 import { AuthButton } from "../components/Commons/LinkButton";
@@ -7,7 +7,7 @@ import { ReactComponent as User } from "../assets/user.svg";
 import { ReactComponent as Call } from "../assets/call.svg";
 import { Link } from "react-router-dom";
 import { IconCamera } from "../components/Icons";
-import { clearMessage } from "../actions/message";
+import { clearMessage } from "../redux/actions/message";
 
 export default function SetProfile() {
   const [fullName, setFullName] = useState("");

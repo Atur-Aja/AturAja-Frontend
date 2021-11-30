@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Url } from "../helpers/server";
+import { Url } from "../../helpers/server";
 import { GET_PROFILE, SET_PROFILE, SET_MESSAGE } from "./type";
 
 export function setProfile(fullname, image, phone_number) {

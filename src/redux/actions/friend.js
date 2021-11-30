@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Url } from "../helpers/server";
+import { Url } from "../../helpers/server";
 import {
   SEARCH_USER,
   CLEAR_SEARCH_USER,

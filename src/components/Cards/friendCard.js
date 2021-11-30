@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { deleteFriend } from "../../actions/friend";
+import { deleteFriend } from "../../redux/actions/friend";
 import Swal from "sweetalert2";
 
 export default function FriendCard({ reload, username, photo, email, phoneNumber, id }) {

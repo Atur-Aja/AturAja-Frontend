@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../actions/auth";
+import { logout } from "../redux/actions/auth";
 import { IconHome, IconLogout, IconSchedule, IconSetting, IconTask, IconFriend } from "./Icons";
-import { getAllFriendReq } from "../actions/friend";
+import { getAllFriendReq } from "../redux/actions/friend";
 
 const menuLinks = [
   { target: "/home", text: "Home", icon: <IconHome /> },

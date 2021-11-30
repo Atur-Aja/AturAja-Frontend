@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { searchFriend } from "../../actions/friend";
-import { createSchedule, deleteScheduleById, matchSchedule, updateScheduleById } from "../../actions/schedule";
+import { searchFriend } from "../../redux/actions/friend";
+import { createSchedule, deleteScheduleById, matchSchedule, updateScheduleById } from "../../redux/actions/schedule";
 import { InputField, SelectField } from "../Commons/FormField";
 import { GreenButton, WhiteButton, DeleteButton } from "../Commons/LinkButton";
 import { IconSearch } from "../Icons";

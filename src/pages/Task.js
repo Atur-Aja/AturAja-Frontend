@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { getAllTask } from "../actions/task";
+import { getAllTask } from "../redux/actions/task";
 import { useDispatch, useSelector } from "react-redux";
 import TaskCard from "../components/Cards/taskCard";
 import moment from "moment";
 import { IconTask } from "../components/Icons";
 import TaskModal from "../components/Modal/TaskModal";
-import { clearSearch } from "../actions/friend";
+import { clearSearch } from "../redux/actions/friend";
 
 export default function Task({ show, onClose }) {
   const tasks = useSelector((state) => state.task.results.tasks);

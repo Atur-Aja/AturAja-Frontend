@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { getAllSchedule } from "../actions/schedule";
+import { getAllSchedule } from "../redux/actions/schedule";
 import { useDispatch, useSelector } from "react-redux";
 import ScheduleCard from "../components/Cards/scheduleCard";
 import moment from "moment";
 import { IconSchedule } from "../components/Icons";
 import ScheduleModal from "../components/Modal/ScheduleModal";
-import { clearSearch } from "../actions/friend";
+import { clearSearch } from "../redux/actions/friend";
 
 export default function Schedule({ show, onClose }) {
   const schedules = useSelector((state) => state.schedule.results.schedules);

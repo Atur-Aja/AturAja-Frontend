@@ -1,6 +1,6 @@
 import axios from "axios";
-import { apiUrl } from "../helpers/config";
-import { Url } from "../helpers/server";
+import { apiUrl } from "../../helpers/config";
+import { Url } from "../../helpers/server";
 import {
   GET_ALL_SCHEDULE,
   GET_SCHEDULE_BY_DATE,
