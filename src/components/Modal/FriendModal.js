@@ -8,13 +8,18 @@ export default function FriendModal({ onClose, show }) {
   const users = useSelector((state) => state.friend.results);
   const request = useSelector((state) => state.friend.request);
   const reqSent = useSelector((state) => state.friend.reqSent);
+  const [searchLoad, setSearchLoad] = useState(false);
+  const [invLoad, setInvLoad] = useState(false);
+  const [accLoad, setAccLoad] = useState(false);
+  const [decLoad, setDecLoad] = useState(false);
 
   const [name, setName] = useState("");
 
   const dispatch = useDispatch();
   const handleSearchUser = (e) => {
     setName(e.target.value);
-    dispatch(searchUser(e.target.value));
+    setSearchLoad(true);
+    dispatch(searchUser(e.target.value)).then(() => setSearchLoad(false));
   };
 
   const [isInvite, setIsInvite] = useState(true);
@@ -28,14 +33,17 @@ export default function FriendModal({ onClose, show }) {
   };
 
   const handleInviteUser = (user_id) => {
-    dispatch(inviteFriend(user_id));
+    setInvLoad(true);
+    dispatch(inviteFriend(user_id)).then(() => setInvLoad(false));
   };
   const handleAcceptRequest = (user_id) => {
-    dispatch(acceptRequest(user_id));
+    setAccLoad(true);
+    dispatch(acceptRequest(user_id)).then(() => setAccLoad(false));
     dispatch(getAllFriendReq());
   };
   const handleDeclineRequest = (user_id) => {
-    dispatch(declineRequest(user_id));
+    setDecLoad(true);
+    dispatch(declineRequest(user_id)).then(() => setDecLoad(false));
     dispatch(getAllFriendReq());
   };
 
@@ -76,7 +84,10 @@ export default function FriendModal({ onClose, show }) {
                   onChange={(e) => handleSearchUser(e)}
                   value={name}
                 />
-                <IconSearch width={"1rem"} height={"1rem"} />
+                <div className="flex self-center">
+                  {searchLoad ? <div class="mr-3 loader ease-linear rounded-full border-2 border-t-2 border-gray-600 h-4 w-4" /> : null}
+                  <IconSearch width={"1rem"} height={"1rem"} />
+                </div>
               </div>
             )) ||
               null}
@@ -97,7 +108,7 @@ export default function FriendModal({ onClose, show }) {
                       <p className="text-lg ml-3 font-semibold self-center">{list.username}</p>
                     </div>
                     <div className="flex self-center">
-                      <GreenButton text={"invite"} onClick={() => handleInviteUser(list.id)} />
+                      <GreenButton text={"invite"} onClick={() => handleInviteUser(list.id)} loading={invLoad} />
                     </div>
                   </div>
                 ))) ||
@@ -118,8 +129,8 @@ export default function FriendModal({ onClose, show }) {
                         <p className="text-lg ml-3 font-semibold self-center">{list.username}</p>
                       </div>
                       <div className="flex self-center">
-                        <WhiteButton text={"ignore"} onClick={() => handleDeclineRequest(list.id)} />
-                        <GreenButton text={"accept"} onClick={() => handleAcceptRequest(list.id)} />
+                        <WhiteButton text={"ignore"} onClick={() => handleDeclineRequest(list.id)} loading={decLoad} />
+                        <GreenButton text={"accept"} onClick={() => handleAcceptRequest(list.id)} loading={accLoad} />
                       </div>
                     </div>
                   ))) ||

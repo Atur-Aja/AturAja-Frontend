@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { ReactComponent as Email } from "../assets/email.svg";
 import { ReactComponent as Eye } from "../assets/eye.svg";
 import { ReactComponent as EyeOff } from "../assets/eye-off.svg";
 import { ReactComponent as User } from "../assets/user.svg";
 import { Link } from "react-router-dom";
 import { register } from "../redux/actions/auth";
-import { clearMessage } from "../redux/actions/message";
 import { AuthField } from "../components/Commons/FormField";
 import { AuthButton } from "../components/Commons/LinkButton";
 import Swal from "sweetalert2";
 
 export default function SignUp() {
+  const [loading, setLoading] = useState(false);
   const [isReveal, setIsReveal] = useState(true);
   const [isRevealConf, setIsRevealConf] = useState(true);
   const toggle = () => {
@@ -39,24 +39,28 @@ export default function SignUp() {
   const [passwordValidate, setPasswordValidate] = useState("");
 
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(clearMessage());
-  }, [dispatch]);
 
   const handleRegister = (e) => {
     e.preventDefault();
+    setLoading(true);
     dispatch(register(username, email, password, passwordValidate))
       .then(() => {
         Toast.fire({
           icon: "success",
           title: "Registered successfully",
         });
+        setUsername("");
+        setEmail("");
+        setPassword("");
+        setPasswordValidate("");
+        setLoading(false);
       })
       .catch(() => {
         Toast.fire({
           icon: "warning",
           title: "The given data was invalid",
         });
+        setLoading(false);
       });
   };
 
@@ -92,10 +96,8 @@ export default function SignUp() {
               onKeyPress={handleKeyPress}
             />
             <div className="grid mt-14">
-              <div className="flex justify-center">
-                <Link to="/login">
-                  <AuthButton text={"Sign up"} onClick={handleRegister} />
-                </Link>
+              <div className="flex justify-center w-full">
+                <AuthButton text={"Sign up"} loading={loading} onClick={handleRegister} />
               </div>
               <div className="flex place-self-center mt-2">
                 <p className="text-black text-xs">Already have an account?</p>

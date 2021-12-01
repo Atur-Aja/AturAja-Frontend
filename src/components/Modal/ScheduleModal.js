@@ -42,6 +42,9 @@ export default function ScheduleModal({ onClose, show, schedule }) {
   const recommendation = useSelector((state) => state.schedule.matched);
 
   // console.log(recommendationOptions);
+  const [addLoad, setAddLoad] = useState(false);
+  const [delLoad, setDelLoad] = useState(false);
+  const [searchLoad, setSearchLoad] = useState(false);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -60,6 +63,7 @@ export default function ScheduleModal({ onClose, show, schedule }) {
   const dispatch = useDispatch();
   const handleAddSchedule = (e) => {
     e.preventDefault();
+    setAddLoad(true);
     dispatch(createSchedule(title, description, location, start_date, end_date, start_time, end_time, repeat, notification, friend)).then(() => {
       Swal.fire({
         text: "Your schedule has been created successfully.",
@@ -67,6 +71,7 @@ export default function ScheduleModal({ onClose, show, schedule }) {
         timer: 3000,
         timerProgressBar: true,
       });
+      setAddLoad(false);
       onClose();
     });
   };
@@ -82,6 +87,7 @@ export default function ScheduleModal({ onClose, show, schedule }) {
       confirmButtonText: "update",
     }).then((result) => {
       if (result.isConfirmed) {
+        setAddLoad(true);
         dispatch(
           updateScheduleById(schedule.schedule.id, title, description, location, start_date, end_date, start_time, end_time, repeat, notification)
         ).then(() => {
@@ -92,6 +98,7 @@ export default function ScheduleModal({ onClose, show, schedule }) {
             timer: 3000,
             timerProgressBar: true,
           });
+          setAddLoad(false);
           onClose();
         });
       }
@@ -109,6 +116,7 @@ export default function ScheduleModal({ onClose, show, schedule }) {
       confirmButtonText: "delete",
     }).then((result) => {
       if (result.isConfirmed) {
+        setDelLoad(true);
         dispatch(deleteScheduleById(schedule.schedule.id)).then(() => {
           Swal.fire({
             title: "Deleted!",
@@ -117,6 +125,7 @@ export default function ScheduleModal({ onClose, show, schedule }) {
             timer: 3000,
             timerProgressBar: true,
           });
+          setDelLoad(false);
           onClose();
         });
       }
@@ -148,7 +157,8 @@ export default function ScheduleModal({ onClose, show, schedule }) {
 
   const handleSearchUser = (e) => {
     setName(e.target.value);
-    dispatch(searchFriend(e.target.value));
+    setSearchLoad(true);
+    dispatch(searchFriend(e.target.value)).then(() => setSearchLoad(false));
   };
 
   const handleAddPeople = (username, id) => {
@@ -198,7 +208,8 @@ export default function ScheduleModal({ onClose, show, schedule }) {
                 onChange={(e) => handleSearchUser(e)}
                 value={name}
               />
-              <div className="self-center">
+              <div className="flex self-center">
+                {searchLoad ? <div class="mr-3 loader ease-linear rounded-full border-2 border-t-2 border-gray-600 h-4 w-4" /> : null}
                 <IconSearch width={"1rem"} height={"1rem"} />
               </div>
             </div>
@@ -279,10 +290,10 @@ export default function ScheduleModal({ onClose, show, schedule }) {
           </div>
         </div>
         <div className="flex justify-end mt-4">
-          {schedule.schedule?.id && <DeleteButton onClick={handleDeleteSchedule} />}
+          {schedule.schedule?.id && <DeleteButton onClick={handleDeleteSchedule} loading={delLoad} />}
           <WhiteButton onClick={onClose} text={"cancel"} />
-          {(schedule.schedule?.id && <GreenButton onClick={handleUpdateSchedule} text={"update"} />) || (
-            <GreenButton onClick={handleAddSchedule} text={"save"} />
+          {(schedule.schedule?.id && <GreenButton onClick={handleUpdateSchedule} text={"update"} loading={addLoad} />) || (
+            <GreenButton onClick={handleAddSchedule} text={"save"} loading={addLoad} />
           )}
         </div>
       </div>

@@ -30,6 +30,9 @@ const priorityOptions = [
 
 export default function TaskModal({ onClose, show, task }) {
   const users = useSelector((state) => state.friend.results);
+  const [addLoad, setAddLoad] = useState(false);
+  const [delLoad, setDelLoad] = useState(false);
+  const [searchLoad, setSearchLoad] = useState(false);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -46,6 +49,7 @@ export default function TaskModal({ onClose, show, task }) {
   const dispatch = useDispatch();
   const handleAddTask = (e) => {
     e.preventDefault();
+    setAddLoad(true);
     dispatch(createTask(title, description, due_date, due_time, newTodos, friend, priority)).then(() => {
       Swal.fire({
         text: "Your task has been created successfully.",
@@ -53,6 +57,7 @@ export default function TaskModal({ onClose, show, task }) {
         timer: 3000,
         timerProgressBar: true,
       });
+      setAddLoad(false);
       onClose();
     });
   };
@@ -68,10 +73,12 @@ export default function TaskModal({ onClose, show, task }) {
       confirmButtonText: "update",
     }).then((result) => {
       if (result.isConfirmed) {
+        setAddLoad(true);
         dispatch(createTodo(task.task.id, newTodos));
         saveUpdatedTodo();
         dispatch(updateTaskById(task.task.id, title, description, due_date, due_time, friend, priority)).then(() => {
           Swal.fire({ title: "Updated!", text: "Your task has been updated successfully.", icon: "success", timer: 3000, timerProgressBar: true });
+          setAddLoad(false);
           onClose();
         });
         setNewTodos([]);
@@ -90,8 +97,10 @@ export default function TaskModal({ onClose, show, task }) {
       confirmButtonText: "delete",
     }).then((result) => {
       if (result.isConfirmed) {
+        setDelLoad(true);
         dispatch(deleteTaskById(task.task.id)).then(() => {
           Swal.fire({ title: "Deleted!", text: "Your task has been deleted successfully.", icon: "success", timer: 3000, timerProgressBar: true });
+          setDelLoad(false);
           onClose();
         });
       }
@@ -132,7 +141,8 @@ export default function TaskModal({ onClose, show, task }) {
 
   const handleSearchUser = (e) => {
     setName(e.target.value);
-    dispatch(searchFriend(e.target.value));
+    setSearchLoad(true);
+    dispatch(searchFriend(e.target.value)).then(() => setSearchLoad(false));
   };
 
   const handleAddPeople = (username, id) => {
@@ -189,7 +199,8 @@ export default function TaskModal({ onClose, show, task }) {
                 onChange={(e) => handleSearchUser(e)}
                 value={name}
               />
-              <div className="self-center">
+              <div className="flex self-center">
+                {searchLoad ? <div class="mr-3 loader ease-linear rounded-full border-2 border-t-2 border-gray-600 h-4 w-4" /> : null}
                 <IconSearch width={"1rem"} height={"1rem"} />
               </div>
             </div>
@@ -269,9 +280,11 @@ export default function TaskModal({ onClose, show, task }) {
           </div>
         </div>
         <div className="flex justify-end mt-4">
-          {task.task?.id && <DeleteButton onClick={handleDeleteTask} />}
+          {task.task?.id && <DeleteButton onClick={handleDeleteTask} loading={delLoad} />}
           <WhiteButton onClick={onClose} text={"cancel"} />
-          {(task.task?.id && <GreenButton onClick={handleUpdateTask} text={"update"} />) || <GreenButton onClick={handleAddTask} text={"save"} />}
+          {(task.task?.id && <GreenButton onClick={handleUpdateTask} loading={addLoad} text={"update"} />) || (
+            <GreenButton onClick={handleAddTask} loading={addLoad} text={"save"} />
+          )}
         </div>
       </div>
     </div>

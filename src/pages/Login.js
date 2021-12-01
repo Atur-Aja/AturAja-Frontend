@@ -106,8 +106,8 @@ export default function Login() {
             </div>
           </div>
           <div className="grid mt-24">
-            <div className="flex justify-center">
-              <AuthButton text={"Sign in"} onClick={handleLogin} />
+            <div className="flex justify-center w-full">
+              <AuthButton text={"Sign in"} loading={loading} onClick={handleLogin} />
             </div>
             <div className="flex place-self-center mt-2">
               <p className="text-black text-xs">Don't have an account?</p>
