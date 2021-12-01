@@ -9,9 +9,6 @@ import Swal from "sweetalert2";
 
 const repeatOptions = [
   {
-    label: "choose repetition",
-  },
-  {
     label: "Weekly",
     value: "Weekly",
   },
@@ -25,9 +22,6 @@ const repeatOptions = [
   },
 ];
 const notificationOptions = [
-  {
-    label: "choose notification",
-  },
   {
     label: "10 minutes",
     value: "10 minutes",
@@ -263,12 +257,19 @@ export default function ScheduleModal({ onClose, show, schedule }) {
             <div className="flex">
               <label className="self-center mr-2">Recommendation: </label>
               {/* <SelectField options={recommendationOptions} value={recom} onChange={(recom) => setRecom(recom)} /> */}
-              <SelectField options={repeatOptions} value={repeat} onChange={(repeat) => setRepeat(repeat)} />
+              <SelectField placeholder={"choose repetition"} options={repeatOptions} value={repeat} onChange={(repeat) => setRepeat(repeat)} />
             </div>
             <div className="flex">
-              <SelectField label={"Repeat"} options={repeatOptions} value={repeat} onChange={(repeat) => setRepeat(repeat)} />
+              <SelectField
+                placeholder={"choose repetition"}
+                label={"Repeat"}
+                options={repeatOptions}
+                value={repeat}
+                onChange={(repeat) => setRepeat(repeat)}
+              />
               <div className="mx-1" />
               <SelectField
+                placeholder={"choose notification"}
                 label={"Notification"}
                 options={notificationOptions}
                 value={notification}

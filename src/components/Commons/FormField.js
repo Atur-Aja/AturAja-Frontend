@@ -20,7 +20,7 @@ const InputField = ({ label, placeholder, type, onChange, value }) => {
   );
 };
 
-const SelectField = ({ label, options, value, onChange }) => {
+const SelectField = ({ placeholder, label, options, value, onChange }) => {
   const handleChange = (e) => {
     onChange && onChange(e.target.value);
   };
@@ -29,6 +29,9 @@ const SelectField = ({ label, options, value, onChange }) => {
     <div className="mt-2">
       <p className="font-semibold">{label}</p>
       <select className="border rounded-lg text-sm px-2 py-1 w-full" value={value} onChange={handleChange}>
+        <option value="" disabled selected>
+          {placeholder}
+        </option>
         {options.map((option) => (
           <option value={option.value}>{option.label}</option>
         ))}

@@ -230,7 +230,13 @@ export default function TaskModal({ onClose, show, task }) {
           <div className="w-1/2 mr-2 ml-8">
             <InputField label={"Due Date"} onChange={(date) => setDueDate(date)} value={due_date} type={"date"} />
             <input type="time" name="time" value={due_time} className="w-full border rounded-lg text-sm px-2 py-1" onChange={onChangeDueTime} />
-            <SelectField label={"Priority"} options={priorityOptions} value={priority} onChange={(priority) => setPriority(priority)} />
+            <SelectField
+              placeholder={"choose priority"}
+              label={"Priority"}
+              options={priorityOptions}
+              value={priority}
+              onChange={(priority) => setPriority(priority)}
+            />
             <p className="font-semibold mt-4">To do :</p>
             <div className="flex">
               <input
