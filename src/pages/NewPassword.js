@@ -17,11 +17,11 @@ export default function NewPassword() {
     setIsRevealConf(!isRevealConf);
   };
   return (
-    <div className="h-screen flex justify-center bg-biruTua pt-24">
-      <div className="w-112 h-144 rounded-xl px-8 py-14 bg-abuMuda">
+    <div className="min-h-screen flex items-center justify-center bg-biruTua px-4 py-12">
+      <div className="w-80 h-112 md:w-96 md:h-128 rounded-xl px-2 md:px-4 py-14 bg-abuMuda">
         <div className="flex flex-wrap content-center justify-center">
-          <img src={Logo} className="w-24" alt="logo" />
-          <div className="ml-4 font-comforta text-2xl font-semibold grid place-content-center">
+          <img src={Logo} className="w-16 md:w-20" alt="logo" />
+          <div className="ml-4 font-comforta text-2xl md:text-3xl font-semibold grid place-content-center">
             <p className="bg-clip-text text-transparent bg-gradient-to-tr from-ijo to-biru">
               atur
               <br />
@@ -30,7 +30,7 @@ export default function NewPassword() {
           </div>
         </div>
         <div className="mt-8 mx-4 grid">
-          <p className="text-black text-lg font-bold place-self-center">Create New Password</p>
+          <p className="text-black text-base md:text-lg font-bold place-self-center text-center">Create New Password</p>
           <AuthField
             placeholder={"Password"}
             value={password}

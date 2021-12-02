@@ -9,7 +9,7 @@ export default function LandingPage () {
         <div className='flex flex-wrap content-center text-abuTua'>
           <div>
             <p className='font-bold text-5xl'>Welcome</p>
-            <p>Bingung mencari jadwal bersama ? AturAja!</p>
+            <p>Bingung cari jadwal ? AturAja!</p>
           </div>
         </div>
       </div>

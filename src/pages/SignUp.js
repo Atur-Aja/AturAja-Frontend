@@ -67,11 +67,11 @@ export default function SignUp() {
   };
 
   return (
-    <div className="h-screen flex justify-center bg-biruTua pt-24">
-      <div className="w-112 h-144 rounded-xl px-8 py-14 bg-abuMuda">
+    <div className="min-h-screen flex items-center justify-center bg-biruTua px-4 py-12">
+      <div className="w-80 h-112 md:w-96 md:h-128 rounded-xl px-2 md:px-4 py-14 bg-abuMuda">
         <form>
           <div className="mx-4 grid">
-            <p className="text-black text-lg font-bold place-self-center">Create your account</p>
+            <p className="text-black text-base md:text-lg font-bold place-self-center">Create your account</p>
             <AuthField placeholder={"Username"} value={username} onChange={(username) => setUsername(username)} icon={<User />} />
             <AuthField placeholder={"Email"} value={email} onChange={(email) => setEmail(email)} icon={<Email />} type={"email"} />
             <AuthField

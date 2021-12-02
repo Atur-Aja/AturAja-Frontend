@@ -21,7 +21,7 @@ export default function Friend({ show, onClose }) {
     <div className="h-screen px-4 pt-4">
       <FriendModal onClose={closeFriend} show={show} />
       <p className="font-semibold text-xl">Friends</p>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {(friends?.length &&
           friends.map((user) => (
             <FriendCard
