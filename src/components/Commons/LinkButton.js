@@ -53,11 +53,7 @@ const AuthButton = ({ text, loading, onClick }) => {
   return (
     <button
       className={
-<<<<<<< HEAD
-        "w-3/5 bg-biru hover:bg-biruTua rounded-lg shadow-xl text-white font-bold py-2 flex justify-center " + (text === "Reset" ? "mt-24" : "")
-=======
         "bg-biru hover:bg-biruTua rounded-lg shadow-xl text-white font-bold px-16 md:px-20 py-2 place-self-center " + (text === "Reset" ? "mt-24" : "")
->>>>>>> responsive
       }
       onClick={handleClick}
       type="submit"
