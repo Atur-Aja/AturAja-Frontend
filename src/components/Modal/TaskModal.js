@@ -76,9 +76,22 @@ export default function TaskModal({ onClose, show, task }) {
         setAddLoad(true);
         dispatch(createTodo(task.task.id, newTodos));
         saveUpdatedTodo();
+<<<<<<< HEAD
         dispatch(updateTaskById(task.task.id, title, description, due_date, due_time, friend, priority)).then(() => {
           Swal.fire({ title: "Updated!", text: "Your task has been updated successfully.", icon: "success", timer: 3000, timerProgressBar: true });
           setAddLoad(false);
+=======
+        dispatch(
+          updateTaskById(task.task.id, title, description, due_date, due_time)
+        ).then(() => {
+          Swal.fire({ 
+            title: "Updated!", 
+            text: "Your task has been updated successfully.", 
+            icon: "success", 
+            timer: 3000, 
+            timerProgressBar: true 
+          });
+>>>>>>> responsive
           onClose();
         });
         setNewTodos([]);

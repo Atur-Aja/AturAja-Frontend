@@ -15,7 +15,7 @@ export default function Navbar({ toggle, toggleCreate, toggleToday, isLanding })
   }, [dispatch]);
 
   return (
-    <div className="flex justify-between px-4 py-2 bg-biruTua sticky top-0 z-50 shadow-xl">
+    <div className="relative flex justify-between px-4 py-2 bg-biruTua sticky top-0 z-50 shadow-xl sm:px-6 sm:py-4 md:space-x-10 md:h-full">
       <div className="flex flex-wrap content-center text-white">
         {isLanding ? null : <IconMenu onClick={toggle} />}
         <img src={Logo} className="shadow-2xl ml-6" alt="logo" />
@@ -23,7 +23,7 @@ export default function Navbar({ toggle, toggleCreate, toggleToday, isLanding })
       </div>
       {isLanding ? (
         <div className="flex flex-wrap content-center text-white font-mulish">
-          <div className="flex flex-wrap content-center">
+          <div className="flex flex-wrap content-center hidden md:flex">
             <Link to="/">
               <p className="font-semibold text-lg mx-4 hover:text-gray-400">Fitur</p>
             </Link>
@@ -34,12 +34,12 @@ export default function Navbar({ toggle, toggleCreate, toggleToday, isLanding })
               <p className="font-semibold text-lg mx-4 hover:text-gray-400">Bantuan</p>
             </Link>
           </div>
-          <div className="flex flex-wrap content-center">
+          <div className="flex flex-wrap content-center md:flex">
             <Link to="/login">
               <button className="bg-biru hover:bg-biruTua px-8 py-2 rounded-full ml-4 mr-2 shadow-2xl">Login</button>
             </Link>
             <Link to="/signup">
-              <button className="bg-white hover:bg-gray-400 px-8 py-2 rounded-full text-gray-600 ml-2 shadow-2xl">Sign up</button>
+              <button className="bg-white hover:bg-biruTua hover:text-white px-8 py-2 rounded-full text-gray-600 ml-2 shadow-2xl">Register</button>
             </Link>
           </div>
         </div>

@@ -75,11 +75,11 @@ export default function Login() {
   });
 
   return (
-    <div className="h-screen flex justify-center bg-biruTua pt-24">
-      <div className="w-112 h-144 rounded-xl px-8 py-14 bg-abuMuda">
+    <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-biruTua">
+      <div className="w-80 h-112 md:w-96 md:h-128 rounded-xl px-2 md:px-4 py-14 bg-abuMuda">
         <div className="flex flex-wrap content-center justify-center">
-          <img src={Logo} className="w-24" alt="logo" />
-          <div className="ml-4 font-comforta text-2xl font-semibold grid place-content-center">
+          <img src={Logo} className="w-16 md:w-20" alt="logo" />
+          <div className="ml-4 font-comforta text-2xl md:text-3xl font-semibold grid place-content-center">
             <p className="bg-clip-text text-transparent bg-gradient-to-tr from-ijo to-biru">
               atur
               <br />
@@ -88,7 +88,7 @@ export default function Login() {
           </div>
         </div>
         <form>
-          <div className="mt-8 mx-4">
+          <div className="mt-10 mx-4">
             <AuthField placeholder={"Email"} value={email} onChange={(email) => setEmail(email)} icon={<Email />} />
             <AuthField
               placeholder={"Password"}
@@ -105,8 +105,8 @@ export default function Login() {
               </Link>
             </div>
           </div>
-          <div className="grid mt-24">
-            <div className="flex justify-center w-full">
+          <div className="grid mt-12 md:mt-20">
+            <div className="flex justify-center">
               <AuthButton text={"Sign in"} loading={loading} onClick={handleLogin} />
             </div>
             <div className="flex place-self-center mt-2">
