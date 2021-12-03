@@ -60,15 +60,14 @@ export function getScheduleByDate(date) {
   };
 }
 
-export function createSchedule(title, description, location, start_date, end_date, start_time, end_time, repeat, notification, friends) {
+export function createSchedule(title, description, location, date, start_time, end_time, repeat, notification, friends) {
   return (dispatch) => {
     return axios
       .post(Url.Schedule, {
         title,
         description,
         location,
-        start_date,
-        end_date,
+        date,
         start_time,
         end_time,
         repeat,
@@ -101,15 +100,14 @@ export function deleteScheduleById(id) {
   };
 }
 
-export function updateScheduleById(id, title, description, location, start_date, end_date, start_time, end_time, repeat, notification) {
+export function updateScheduleById(id, title, description, location, date, start_time, end_time, repeat, notification) {
   return (dispatch) => {
     return axios
       .put(Url.Schedule + `/${id}`, {
         title,
         description,
         location,
-        start_date,
-        end_date,
+        date,
         start_time,
         end_time,
         repeat,

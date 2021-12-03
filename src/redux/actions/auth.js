@@ -31,7 +31,6 @@ export function register(username, email, password, password_validate, phone_num
             type: SET_MESSAGE,
             payload: error.response.data.message,
           });
-          console.log("error bosq = ", error.response.data.message);
           return Promise.reject();
         }
       );
