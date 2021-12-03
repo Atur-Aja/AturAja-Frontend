@@ -29,20 +29,27 @@ export default function HomePage({ show, onClose, isToday }) {
   const date = myCustomLocale.toNativeDate(selectedDay).getDate();
   const selectedDate = selectedDay.year + "-" + selectedDay.month + "-" + selectedDay.day;
 
+  const [loadSchedule, setLoadSchedule] = useState(false);
+  const [loadTask, setLoadTask] = useState(false);
+
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getScheduleByDate(selectedDate));
-    dispatch(getTaskByDate(selectedDate));
+    setLoadSchedule(true);
+    setLoadTask(true);
+    dispatch(getScheduleByDate(selectedDate)).then(() => setLoadSchedule(false));
+    dispatch(getTaskByDate(selectedDate)).then(() => setLoadTask(false));
   }, [dispatch, selectedDate]);
 
   useEffect(() => {
+    setLoadSchedule(true);
+    setLoadTask(true);
     if (isToday) {
       setSelectedDay(today);
     }
     setNativeDate(date);
     setNativeDay(day);
-    dispatch(getScheduleByDate(selectedDate));
-    dispatch(getTaskByDate(selectedDate));
+    dispatch(getScheduleByDate(selectedDate)).then(() => setLoadSchedule(false));
+    dispatch(getTaskByDate(selectedDate)).then(() => setLoadTask(false));
   }, [dispatch, date, day, selectedDate, selectedDay, isToday]);
 
   const [taskModal, setTaskModal] = useState(false);
@@ -52,12 +59,14 @@ export default function HomePage({ show, onClose, isToday }) {
   const closeTask = () => {
     dispatch(clearSearch());
     setTaskModal(false);
-    dispatch(getTaskByDate(selectedDate));
+    setLoadTask(true);
+    dispatch(getTaskByDate(selectedDate)).then(() => setLoadTask(false));
   };
   const closeSchedule = () => {
     dispatch(clearSearch());
     setScheduleModal(false);
-    dispatch(getScheduleByDate(selectedDate));
+    setLoadSchedule(true);
+    dispatch(getScheduleByDate(selectedDate)).then(() => setLoadSchedule(false));
   };
 
   const [schedule, setSchedule] = useState({});
@@ -79,54 +88,72 @@ export default function HomePage({ show, onClose, isToday }) {
       <div className="h-full -mt-14 flex">
         <div className="w-2/5 py-16 px-4 overflow-y-auto">
           <p className="font-semibold text-xl">Schedule</p>
-          {(schedules?.length &&
-            schedules.map((list) => {
-              return (
-                <div key={list.schedule.id} onClick={() => handleListSchedule(list)}>
-                  <ScheduleCard
-                    title={schedule.title}
-                    startTime={moment(list.schedule.start_time, "HH:mm:ss").format("LT")}
-                    endTime={moment(list.schedule.end_time, "HH:mm:ss").format("LT")}
-                    startDate={moment(list.schedule.start_date).format("ll")}
-                    endDate={moment(list.schedule.end_date).format("ll")}
-                    location={list.schedule.location}
-                    member={list?.member || []}
-                  />
-                </div>
-              );
-            })) || (
-            <div className="h-full w-full flex flex-wrap content-center justify-center grid">
-              <div className="w-40 h-40 rounded-full bg-gray-400 text-biruTua justify-self-center flex flex-wrap content-center justify-center">
-                <IconSchedule width={"80"} height={"80"} />
-              </div>
-              <p className="text-xl justify-self-center font-semibold">No Schedule</p>
-              <p className="justify-self-center">you can add schedule by clicking “create” button</p>
+          {loadSchedule ? (
+            <div className="h-full w-full flex flex-wrap content-center justify-center">
+              <div className="h-3 w-3 bg-gray-500 rounded-full mr-1 animate-bounce"></div>
+              <div className="h-3 w-3 bg-gray-500 rounded-full mr-1 animate-bounce50"></div>
+              <div className="h-3 w-3 bg-gray-500 rounded-full mr-1 animate-bounce100"></div>
+              <div className="h-3 w-3 bg-gray-500 rounded-full animate-bounce150"></div>
             </div>
+          ) : (
+            (schedules?.length &&
+              schedules.map((list) => {
+                return (
+                  <div key={list.schedule.id} onClick={() => handleListSchedule(list)}>
+                    <ScheduleCard
+                      title={schedule.title}
+                      startTime={moment(list.schedule.start_time, "HH:mm:ss").format("LT")}
+                      endTime={moment(list.schedule.end_time, "HH:mm:ss").format("LT")}
+                      startDate={moment(list.schedule.start_date).format("ll")}
+                      endDate={moment(list.schedule.end_date).format("ll")}
+                      location={list.schedule.location}
+                      member={list?.member || []}
+                    />
+                  </div>
+                );
+              })) || (
+              <div className="h-full w-full flex flex-wrap content-center justify-center grid">
+                <div className="w-40 h-40 rounded-full bg-gray-400 text-biruTua justify-self-center flex flex-wrap content-center justify-center">
+                  <IconSchedule width={"80"} height={"80"} />
+                </div>
+                <p className="text-xl justify-self-center font-semibold">No Schedule</p>
+                <p className="justify-self-center">you can add schedule by clicking “create” button</p>
+              </div>
+            )
           )}
         </div>
         <div className="w-2/5 py-16 px-4 border-l border-black border-opacity-10 overflow-y-auto">
           <p className="font-semibold text-xl">Tasks</p>
-          {(tasks?.length &&
-            tasks.map((task) => {
-              return (
-                <div key={task.task.id} onClick={() => handleListTask(task)}>
-                  <TaskCard
-                    priority={task.task.priority}
-                    title={task.task.title}
-                    time={moment(task.task.time, "HH:mm:ss").format("LT")}
-                    todo={task?.todo || []}
-                    member={task?.member || []}
-                  />
-                </div>
-              );
-            })) || (
-            <div className="h-full w-full flex flex-wrap content-center justify-center grid">
-              <div className="w-40 h-40 rounded-full bg-gray-400 text-biruTua justify-self-center flex flex-wrap content-center justify-center">
-                <IconTask width={"80"} height={"80"} />
-              </div>
-              <p className="text-xl justify-self-center font-semibold">No Task</p>
-              <p className="justify-self-center">you can add task by clicking “create” button</p>
+          {loadTask ? (
+            <div className="h-full w-full flex flex-wrap content-center justify-center">
+              <div className="h-3 w-3 bg-gray-500 rounded-full mr-1 animate-bounce"></div>
+              <div className="h-3 w-3 bg-gray-500 rounded-full mr-1 animate-bounce50"></div>
+              <div className="h-3 w-3 bg-gray-500 rounded-full mr-1 animate-bounce100"></div>
+              <div className="h-3 w-3 bg-gray-500 rounded-full animate-bounce150"></div>
             </div>
+          ) : (
+            (tasks?.length &&
+              tasks.map((task) => {
+                return (
+                  <div key={task.task.id} onClick={() => handleListTask(task)}>
+                    <TaskCard
+                      priority={task.task.priority}
+                      title={task.task.title}
+                      time={moment(task.task.time, "HH:mm:ss").format("LT")}
+                      todo={task?.todo || []}
+                      member={task?.member || []}
+                    />
+                  </div>
+                );
+              })) || (
+              <div className="h-full w-full flex flex-wrap content-center justify-center grid">
+                <div className="w-40 h-40 rounded-full bg-gray-400 text-biruTua justify-self-center flex flex-wrap content-center justify-center">
+                  <IconTask width={"80"} height={"80"} />
+                </div>
+                <p className="text-xl justify-self-center font-semibold">No Task</p>
+                <p className="justify-self-center">you can add task by clicking “create” button</p>
+              </div>
+            )
           )}
         </div>
         <div className="w-1/5 py-20 px-4 bg-abu">
