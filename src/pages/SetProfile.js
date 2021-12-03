@@ -39,22 +39,35 @@ export default function SetProfile() {
   const handleSave = (e) => {
     e.preventDefault();
     setLoading(true);
-
-    dispatch(setProfile(fullName, image, phoneNumber))
-      .then(() => {
-        Toast.fire({
-          icon: "success",
-          title: "Profil updated successfully",
+    if (fullName !== "" && image !== null && phoneNumber !== "") {
+      dispatch(setProfile(fullName, image, phoneNumber))
+        .then(() => {
+          Toast.fire({
+            icon: "success",
+            title: "Profil updated successfully",
+          });
+          history.push("/home");
+        })
+        .catch(() => {
+          Toast.fire({
+            icon: "warning",
+            title: "The given data was invalid",
+          });
+          setLoading(false);
         });
-        history.push("/home");
-      })
-      .catch(() => {
-        Toast.fire({
-          icon: "warning",
-          title: "The given data was invalid",
-        });
-        setLoading(false);
+    } else {
+      Toast.fire({
+        icon: "warning",
+        title: "The given data was invalid",
       });
+      setLoading(false);
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSave(e);
+    }
   };
 
   return (
@@ -87,6 +100,7 @@ export default function SetProfile() {
               onChange={(phoneNumber) => setPhoneNumber(phoneNumber)}
               icon={<Call />}
               type={"number"}
+              onKeyPress={handleKeyPress}
             />
           </div>
           <div className="grid mt-14">
