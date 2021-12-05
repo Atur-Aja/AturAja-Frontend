@@ -90,7 +90,7 @@ export default function Schedule({ show, onClose }) {
   };
 
   return (
-    <div className="h-screen px-4 pt-4">
+    <div className="min-h-screen px-4 md:px-12 pt-4">
       <ScheduleModal onClose={closeSchedule} show={show} schedule={schedule} />
       {(groupedSchedule?.length &&
         groupedSchedule.map((list) => {
@@ -107,7 +107,7 @@ export default function Schedule({ show, onClose }) {
                 })}
               </p>
               <div className="border-t border-black" />
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                 {list.data.map((list) => {
                   return (
                     <div onClick={() => handleListSchedule(list)}>
@@ -125,12 +125,12 @@ export default function Schedule({ show, onClose }) {
             </div>
           );
         })) || (
-        <div className="h-full w-full flex flex-wrap content-center justify-center grid">
-          <div className="w-40 h-40 rounded-full bg-gray-400 text-biruTua justify-self-center flex flex-wrap content-center justify-center">
-            <IconSchedule width={"80"} height={"80"} />
+        <div className="min-h-screen items-center flex flex-wrap content-center justify-center grid">
+          <div className="w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 rounded-full bg-gray-400 text-biruTua justify-self-center flex flex-wrap content-center justify-center">
+            <IconSchedule width={"60"} height={"60"} />
           </div>
-          <p className="text-xl justify-self-center font-semibold">No Schedule</p>
-          <p className="justify-self-center">you can add schedule by clicking “create” button</p>
+          <p className="text-base md:text-lg lg:text-xl justify-self-center font-semibold">No Schedule</p>
+          <p className="text-xs md:text-sm lg:text-base text-center justify-self-center">you can add schedule by clicking “create” button</p>
         </div>
       )}
     </div>

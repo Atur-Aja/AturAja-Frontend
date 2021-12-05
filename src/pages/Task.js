@@ -81,7 +81,7 @@ export default function Task({ show, onClose }) {
   };
 
   return (
-    <div className="h-screen px-4 pt-4">
+    <div className="min-h-screen px-4 md:px-12 pt-4">
       <TaskModal onClose={closeTask} show={show} task={task} />
       {(groupedTask?.length &&
         groupedTask.map((task) => {
@@ -98,7 +98,7 @@ export default function Task({ show, onClose }) {
                 })}
               </p>
               <div className="border-t border-black" />
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                 {task.data.map((list) => {
                   return (
                     <div onClick={() => handleListTask(list)}>

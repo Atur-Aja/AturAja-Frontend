@@ -35,18 +35,18 @@ export default function SetProfile() {
   return (
     <div>
       <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-biruTua">
-        <div className="w-80 h-112 md:w-96 md:h-128 rounded-xl px-2 md:px-4 py-14 bg-abuMuda">
+        <div className="w-80 h-112 md:w-96 md:h-128 lg:w-112 lg:h-144 rounded-xl px-2 md:px-4 lg:px-8 py-14 bg-abuMuda">
           <div className="mx-4 grid justify-center">
-            <p className="text-black text-base md:text-lg font-bold place-self-center mb-4">Set your profile</p>
-            <div className="bg-white relative shadow-xl w-20 h-20 md:w-24 md:h-24 rounded-full justify-self-center flex flex-wrap content-center justify-center">
+            <p className="text-black text-base md:text-lg lg:text-xl font-bold place-self-center mb-4">Set your profile</p>
+            <div className="bg-white relative shadow-xl w-20 h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 rounded-full justify-self-center flex flex-wrap content-center justify-center">
               {image ? (
                 <img
-                  className="inline object-cover w-20 h-20 md:w-24 md:h-24 items-center justify-center place-self-center rounded-full"
+                  className="inline object-cover w-20 h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 items-center justify-center place-self-center rounded-full"
                   src={URL.createObjectURL(image)}
                   alt="Profile"
                 />
               ) : (
-                <p className="text-gray-500 text-xs md:text-sm">add photo</p>
+                <p className="text-gray-500 text-xs md:text-sm lg:text-base">add photo</p>
               )}
               <label className="absolute z-50 bottom-0 right-0 bg-biru text-white rounded-full p-1 cursor-pointer">
                 <input type="file" className="hidden" onChange={handleInput} />

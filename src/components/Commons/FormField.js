@@ -52,7 +52,7 @@ const AuthField = ({ type, placeholder, value, onChange, icon, onClick, onKeyPre
   };
 
   return (
-    <div className="bg-white shadow-xl h-10 md:h-12 px-4 rounded-lg flex border-2 border-transparent text-gray-600 focus-within:border-biru focus-within:text-biru mt-4">
+    <div className="bg-white shadow-xl h-10 md:h-12 px-4 rounded-lg flex border-2 border-transparent text-gray-600 focus-within:border-biru focus-within:text-biru mt-4 md:mt-6">
       <input
         className="w-11/12 h-full rounded-lg outline-none placeholder-gray-600 text-gray-600"
         type={type}
