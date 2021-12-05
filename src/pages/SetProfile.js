@@ -1,20 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { setProfile } from "../redux/actions/profil";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { AuthField } from "../components/Commons/FormField";
 import { AuthButton } from "../components/Commons/LinkButton";
 import { ReactComponent as User } from "../assets/user.svg";
 import { ReactComponent as Call } from "../assets/call.svg";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { IconCamera } from "../components/Icons";
-import { clearMessage } from "../redux/actions/message";
+import Swal from "sweetalert2";
 
 export default function SetProfile() {
   const [fullName, setFullName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [image, setImage] = useState(null);
-
-  const { message } = useSelector((state) => state.message);
+  const [loading, setLoading] = useState(false);
 
   const handleInput = (event) => {
     if (event.target.files.length !== 0) {
@@ -22,14 +21,53 @@ export default function SetProfile() {
     }
   };
 
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
+
+  let history = useHistory();
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(clearMessage());
-  }, [dispatch]);
 
   const handleSave = (e) => {
     e.preventDefault();
-    dispatch(setProfile(fullName, image, phoneNumber));
+    setLoading(true);
+    if (fullName !== "" && image !== null && phoneNumber !== "") {
+      dispatch(setProfile(fullName, image, phoneNumber))
+        .then(() => {
+          Toast.fire({
+            icon: "success",
+            title: "Profil updated successfully",
+          });
+          history.push("/home");
+        })
+        .catch(() => {
+          Toast.fire({
+            icon: "warning",
+            title: "The given data was invalid",
+          });
+          setLoading(false);
+        });
+    } else {
+      Toast.fire({
+        icon: "warning",
+        title: "The given data was invalid",
+      });
+      setLoading(false);
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSave(e);
+    }
   };
 
   return (
@@ -62,15 +100,15 @@ export default function SetProfile() {
               onChange={(phoneNumber) => setPhoneNumber(phoneNumber)}
               icon={<Call />}
               type={"number"}
+              onKeyPress={handleKeyPress}
             />
           </div>
           <div className="grid mt-14">
             <div className="flex justify-center">
               <Link to="/home">
-                <AuthButton text={"Done"} onClick={handleSave} />
+                <AuthButton text={"Done"} loading={loading} onClick={handleSave} />
               </Link>
             </div>
-            {message}
           </div>
         </div>
       </div>

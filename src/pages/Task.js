@@ -9,6 +9,7 @@ import { clearSearch } from "../redux/actions/friend";
 
 export default function Task({ show, onClose }) {
   const tasks = useSelector((state) => state.task.results.tasks);
+  const [loadTasks, setLoadTasks] = useState(false);
   const dispatch = useDispatch();
 
   const handleDateMap = (tasks) => {
@@ -32,7 +33,8 @@ export default function Task({ show, onClose }) {
   const [groupedTask, setGroupedTask] = useState([]);
 
   useEffect(() => {
-    dispatch(getAllTask());
+    setLoadTasks(true);
+    dispatch(getAllTask()).then(() => setLoadTasks(false));
   }, [dispatch]);
 
   useEffect(() => {
@@ -83,46 +85,55 @@ export default function Task({ show, onClose }) {
   return (
     <div className="min-h-screen px-4 md:px-12 pt-4">
       <TaskModal onClose={closeTask} show={show} task={task} />
-      {(groupedTask?.length &&
-        groupedTask.map((task) => {
-          return (
-            <div key={task.date} className="mb-16">
-              <p className="text-lg font-semibold">
-                {moment(task.date).calendar(null, {
-                  sameDay: "[Today]",
-                  nextDay: "[Tomorrow]",
-                  nextWeek: "dddd, DD MMMM YYYY",
-                  lastDay: "[Yesterday]",
-                  lastWeek: "[Last] dddd",
-                  sameElse: "dddd, DD MMMM YYYY",
-                })}
-              </p>
-              <div className="border-t border-black" />
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                {task.data.map((list) => {
-                  return (
-                    <div onClick={() => handleListTask(list)}>
-                      <TaskCard
-                        priority={list.task.priority}
-                        title={list.task.title}
-                        time={moment(list.task.time, "HH:mm:ss").format("LT")}
-                        todo={list?.todo || []}
-                        member={list?.member || []}
-                      />
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          );
-        })) || (
-        <div className="h-full w-full flex flex-wrap content-center justify-center grid">
-          <div className="w-40 h-40 rounded-full bg-gray-400 text-biruTua justify-self-center flex flex-wrap content-center justify-center">
-            <IconTask width={"80"} height={"80"} />
-          </div>
-          <p className="text-xl justify-self-center font-semibold">No Task</p>
-          <p className="justify-self-center">you can add task by clicking “create” button</p>
+      {loadTasks ? (
+        <div className="h-full w-full flex flex-wrap content-center justify-center">
+          <div className="h-3 w-3 bg-gray-500 rounded-full mr-1 animate-bounce"></div>
+          <div className="h-3 w-3 bg-gray-500 rounded-full mr-1 animate-bounce50"></div>
+          <div className="h-3 w-3 bg-gray-500 rounded-full mr-1 animate-bounce100"></div>
+          <div className="h-3 w-3 bg-gray-500 rounded-full animate-bounce150"></div>
         </div>
+      ) : (
+        (groupedTask?.length &&
+          groupedTask.map((task) => {
+            return (
+              <div key={task.date} className="mb-16">
+                <p className="text-lg font-semibold">
+                  {moment(task.date).calendar(null, {
+                    sameDay: "[Today]",
+                    nextDay: "[Tomorrow]",
+                    nextWeek: "dddd, DD MMMM YYYY",
+                    lastDay: "[Yesterday]",
+                    lastWeek: "[Last] dddd",
+                    sameElse: "dddd, DD MMMM YYYY",
+                  })}
+                </p>
+                <div className="border-t border-black" />
+                <div className="grid grid-cols-3 gap-4">
+                  {task.data.map((list) => {
+                    return (
+                      <div onClick={() => handleListTask(list)}>
+                        <TaskCard
+                          priority={list.task.priority}
+                          title={list.task.title}
+                          time={moment(list.task.time, "HH:mm:ss").format("LT")}
+                          todo={list?.todo || []}
+                          member={list?.member || []}
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })) || (
+          <div className="h-full w-full flex flex-wrap content-center justify-center grid">
+            <div className="w-40 h-40 rounded-full bg-gray-400 text-biruTua justify-self-center flex flex-wrap content-center justify-center">
+              <IconTask width={"80"} height={"80"} />
+            </div>
+            <p className="text-xl justify-self-center font-semibold">No Task</p>
+            <p className="justify-self-center">you can add task by clicking “create” button</p>
+          </div>
+        )
       )}
     </div>
   );

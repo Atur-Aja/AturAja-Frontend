@@ -9,6 +9,7 @@ import { clearSearch } from "../redux/actions/friend";
 
 export default function Schedule({ show, onClose }) {
   const schedules = useSelector((state) => state.schedule.results.schedules);
+  const [loadSchedules, setLoadSchedules] = useState(false);
   const dispatch = useDispatch();
 
   const handleDateMap = (schedules) => {
@@ -36,7 +37,8 @@ export default function Schedule({ show, onClose }) {
   const [groupedSchedule, setGroupedSchedule] = useState([]);
 
   useEffect(() => {
-    dispatch(getAllSchedule());
+    setLoadSchedules(true);
+    dispatch(getAllSchedule()).then(() => setLoadSchedules(false));
   }, [dispatch]);
 
   useEffect(() => {
@@ -92,37 +94,52 @@ export default function Schedule({ show, onClose }) {
   return (
     <div className="min-h-screen px-4 md:px-12 pt-4">
       <ScheduleModal onClose={closeSchedule} show={show} schedule={schedule} />
-      {(groupedSchedule?.length &&
-        groupedSchedule.map((list) => {
-          return (
-            <div key={list.date} className="mb-16">
-              <p className="text-lg font-semibold">
-                {moment(list.date).calendar(null, {
-                  sameDay: "[Today]",
-                  nextDay: "[Tomorrow]",
-                  nextWeek: "dddd, DD MMMM YYYY",
-                  lastDay: "[Yesterday]",
-                  lastWeek: "[Last] dddd",
-                  sameElse: "dddd, DD MMMM YYYY",
-                })}
-              </p>
-              <div className="border-t border-black" />
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                {list.data.map((list) => {
-                  return (
-                    <div onClick={() => handleListSchedule(list)}>
-                      <ScheduleCard
-                        title={list.schedule.title}
-                        startTime={moment(list.schedule.start_time, "HH:mm:ss").format("LT")}
-                        endTime={moment(list.schedule.end_time, "HH:mm:ss").format("LT")}
-                        location={list.schedule.location}
-                        member={list?.member || []}
-                      />
-                    </div>
-                  );
-                })}
+      {loadSchedules ? (
+        <div className="h-full w-full flex flex-wrap content-center justify-center">
+          <div className="h-3 w-3 bg-gray-500 rounded-full mr-1 animate-bounce"></div>
+          <div className="h-3 w-3 bg-gray-500 rounded-full mr-1 animate-bounce50"></div>
+          <div className="h-3 w-3 bg-gray-500 rounded-full mr-1 animate-bounce100"></div>
+          <div className="h-3 w-3 bg-gray-500 rounded-full animate-bounce150"></div>
+        </div>
+      ) : (
+        (groupedSchedule?.length &&
+          groupedSchedule.map((list) => {
+            return (
+              <div key={list.date} className="mb-16">
+                <p className="text-lg font-semibold">
+                  {moment(list.date).calendar(null, {
+                    sameDay: "[Today]",
+                    nextDay: "[Tomorrow]",
+                    nextWeek: "dddd, DD MMMM YYYY",
+                    lastDay: "[Yesterday]",
+                    lastWeek: "[Last] dddd",
+                    sameElse: "dddd, DD MMMM YYYY",
+                  })}
+                </p>
+                <div className="border-t border-black" />
+                <div className="grid grid-cols-3 gap-4">
+                  {list.data.map((list) => {
+                    return (
+                      <div onClick={() => handleListSchedule(list)}>
+                        <ScheduleCard
+                          title={list.schedule.title}
+                          startTime={moment(list.schedule.start_time, "HH:mm:ss").format("LT")}
+                          endTime={moment(list.schedule.end_time, "HH:mm:ss").format("LT")}
+                          location={list.schedule.location}
+                          member={list?.member || []}
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
+            );
+          })) || (
+          <div className="h-full w-full flex flex-wrap content-center justify-center grid">
+            <div className="w-40 h-40 rounded-full bg-gray-400 text-biruTua justify-self-center flex flex-wrap content-center justify-center">
+              <IconSchedule width={"80"} height={"80"} />
             </div>
+<<<<<<< HEAD
           );
         })) || (
         <div className="min-h-screen items-center flex flex-wrap content-center justify-center grid">
@@ -132,6 +149,12 @@ export default function Schedule({ show, onClose }) {
           <p className="text-base md:text-lg lg:text-xl justify-self-center font-semibold">No Schedule</p>
           <p className="text-xs md:text-sm lg:text-base text-center justify-self-center">you can add schedule by clicking “create” button</p>
         </div>
+=======
+            <p className="text-xl justify-self-center font-semibold">No Schedule</p>
+            <p className="justify-self-center">you can add schedule by clicking “create” button</p>
+          </div>
+        )
+>>>>>>> 5ba573697ad2c4de82a4adc96407511d807d9b46
       )}
     </div>
   );

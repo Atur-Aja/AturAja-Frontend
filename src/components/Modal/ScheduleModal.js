@@ -9,16 +9,16 @@ import Swal from "sweetalert2";
 
 const repeatOptions = [
   {
-    label: "Weekly",
-    value: "Weekly",
+    label: "weekly",
+    value: "weekly",
   },
   {
-    label: "Monthly",
+    label: "monthly",
     value: "monthly",
   },
   {
-    label: "Yearly",
-    value: "Yearly",
+    label: "yearly",
+    value: "yearly",
   },
 ];
 const notificationOptions = [
@@ -49,8 +49,7 @@ export default function ScheduleModal({ onClose, show, schedule }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
-  const [start_date, setStartDate] = useState("");
-  const [end_date, setEndDate] = useState("");
+  const [date, setDate] = useState("");
   const [start_time, setStartTime] = useState("");
   const [end_time, setEndTime] = useState("");
   const [repeat, setRepeat] = useState("");
@@ -64,7 +63,7 @@ export default function ScheduleModal({ onClose, show, schedule }) {
   const handleAddSchedule = (e) => {
     e.preventDefault();
     setAddLoad(true);
-    dispatch(createSchedule(title, description, location, start_date, end_date, start_time, end_time, repeat, notification, friend)).then(() => {
+    dispatch(createSchedule(title, description, location, date, start_time, end_time, repeat, notification, friend)).then(() => {
       Swal.fire({
         text: "Your schedule has been created successfully.",
         icon: "success",
@@ -88,19 +87,19 @@ export default function ScheduleModal({ onClose, show, schedule }) {
     }).then((result) => {
       if (result.isConfirmed) {
         setAddLoad(true);
-        dispatch(
-          updateScheduleById(schedule.schedule.id, title, description, location, start_date, end_date, start_time, end_time, repeat, notification)
-        ).then(() => {
-          Swal.fire({
-            title: "Updated!",
-            text: "Your schedule has been updated successfully.",
-            icon: "success",
-            timer: 3000,
-            timerProgressBar: true,
-          });
-          setAddLoad(false);
-          onClose();
-        });
+        dispatch(updateScheduleById(schedule.schedule.id, title, description, location, date, start_time, end_time, repeat, notification)).then(
+          () => {
+            Swal.fire({
+              title: "Updated!",
+              text: "Your schedule has been updated successfully.",
+              icon: "success",
+              timer: 3000,
+              timerProgressBar: true,
+            });
+            setAddLoad(false);
+            onClose();
+          }
+        );
       }
     });
   };
@@ -144,8 +143,7 @@ export default function ScheduleModal({ onClose, show, schedule }) {
       setTitle(schedule.schedule.title);
       setDescription(schedule.schedule.description);
       setLocation(schedule.schedule.location);
-      setStartDate(schedule.schedule.start_date);
-      setEndDate(schedule.schedule.end_date);
+      setDate(schedule.schedule.date);
       setStartTime(schedule.schedule.start_time);
       setEndTime(schedule.schedule.end_time);
       setRepeat(schedule.schedule.repeat);
@@ -173,7 +171,7 @@ export default function ScheduleModal({ onClose, show, schedule }) {
   };
 
   useEffect(() => {
-    dispatch(matchSchedule(start_date, start_time, end_time, friend));
+    dispatch(matchSchedule(date, start_time, end_time, friend));
     recommendation.rekomendasi?.length &&
       recommendation.rekomendasi.map((list, i) => {
         const converted = JSON.stringify(list);
@@ -182,7 +180,7 @@ export default function ScheduleModal({ onClose, show, schedule }) {
         const value = label;
         recommendationOptions = [...recommendationOptions, { label, value }];
       });
-  }, [start_date, start_time, end_time, friend]);
+  }, [date, start_time, end_time, friend]);
 
   if (!show) return null;
 
@@ -251,13 +249,11 @@ export default function ScheduleModal({ onClose, show, schedule }) {
             <InputField
               label={"Date"}
               onChange={(date) => {
-                setStartDate(date);
-                setEndDate(date);
+                setDate(date);
               }}
-              value={start_date}
+              value={date}
               type={"date"}
             />
-            {/* <InputField label={"End Date"} onChange={(date) => setEndDate(date)} value={end_date} type={"date"} /> */}
             <div className="mt-2">
               <p className="font-semibold">Time</p>
               <label>From: </label>
