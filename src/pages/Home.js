@@ -104,8 +104,7 @@ export default function HomePage({ show, onClose, isToday }) {
                       title={schedule.title}
                       startTime={moment(list.schedule.start_time, "HH:mm:ss").format("LT")}
                       endTime={moment(list.schedule.end_time, "HH:mm:ss").format("LT")}
-                      startDate={moment(list.schedule.start_date).format("ll")}
-                      endDate={moment(list.schedule.end_date).format("ll")}
+                      date={moment(list.schedule.date).format("ll")}
                       location={list.schedule.location}
                       member={list?.member || []}
                     />

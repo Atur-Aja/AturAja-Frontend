@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { IconSchedule, IconLocation, IconClock, IconGroup } from "../Icons";
 
-export default function ScheduleCard({ title, startTime, endTime, startDate, endDate, location, member }) {
+export default function ScheduleCard({ title, startTime, endTime, date, location, member }) {
   const image = member.map((e) => e.photo);
   const [friend, setFriend] = useState(image);
   const index = [30, 20, 10];
@@ -20,12 +20,10 @@ export default function ScheduleCard({ title, startTime, endTime, startDate, end
   return (
     <div className="bg-white shadow-lg rounded-md px-4 py-2 mt-4 cursor-pointer">
       <p className="font-semibold">{title}</p>
-      {startDate ? (
+      {date ? (
         <div className="flex text-biruTua mt-3">
           <IconSchedule />
-          <p className="text-black ml-3">
-            {startDate} - {endDate}
-          </p>
+          <p className="text-black ml-3">{date}</p>
         </div>
       ) : null}
       <div className="flex text-biruTua mt-3">
