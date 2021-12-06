@@ -9,6 +9,10 @@ import Swal from "sweetalert2";
 
 const repeatOptions = [
   {
+    label: "daily",
+    value: "daily",
+  },
+  {
     label: "weekly",
     value: "weekly",
   },
@@ -17,8 +21,8 @@ const repeatOptions = [
     value: "monthly",
   },
   {
-    label: "yearly",
-    value: "yearly",
+    label: "never",
+    value: "never",
   },
 ];
 const notificationOptions = [
