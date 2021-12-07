@@ -39,13 +39,11 @@ const notificationOptions = [
     value: "30 minutes",
   },
 ];
-var recommendationOptions = [];
 
 export default function ScheduleModal({ onClose, show, schedule }) {
   const users = useSelector((state) => state.friend.results);
   const recommendation = useSelector((state) => state.schedule.matched);
 
-  // console.log(recommendationOptions);
   const [addLoad, setAddLoad] = useState(false);
   const [delLoad, setDelLoad] = useState(false);
   const [searchLoad, setSearchLoad] = useState(false);
@@ -61,7 +59,8 @@ export default function ScheduleModal({ onClose, show, schedule }) {
   const [friend, setFriend] = useState([]);
   const [name, setName] = useState("");
   const [people, setPeople] = useState([]);
-  // const [recom, setRecom] = useState("");
+  const [recom, setRecom] = useState([]);
+  const [selRecom, setSelRecom] = useState("");
 
   const dispatch = useDispatch();
   const handleAddSchedule = (e) => {
@@ -91,19 +90,19 @@ export default function ScheduleModal({ onClose, show, schedule }) {
     }).then((result) => {
       if (result.isConfirmed) {
         setAddLoad(true);
-        dispatch(updateScheduleById(schedule.schedule.id, title, description, location, date, start_time, end_time, repeat, notification)).then(
-          () => {
-            Swal.fire({
-              title: "Updated!",
-              text: "Your schedule has been updated successfully.",
-              icon: "success",
-              timer: 3000,
-              timerProgressBar: true,
-            });
-            setAddLoad(false);
-            onClose();
-          }
-        );
+        dispatch(
+          updateScheduleById(schedule.schedule.id, title, description, location, date, start_time, end_time, repeat, notification, friend)
+        ).then(() => {
+          Swal.fire({
+            title: "Updated!",
+            text: "Your schedule has been updated successfully.",
+            icon: "success",
+            timer: 3000,
+            timerProgressBar: true,
+          });
+          setAddLoad(false);
+          onClose();
+        });
       }
     });
   };
@@ -152,10 +151,30 @@ export default function ScheduleModal({ onClose, show, schedule }) {
       setEndTime(schedule.schedule.end_time);
       setRepeat(schedule.schedule.repeat);
       setNotification(schedule.schedule.notification);
+
+      if (schedule.member?.length) {
+        const people = schedule.member.map((mem) => ({ username: mem.username, id: mem.id }));
+        setPeople([...people]);
+        const peopleIds = people.map((person) => person.id);
+        setFriend([...peopleIds]);
+      }
     } else {
       setTitle("");
+      setDescription("");
+      setLocation("");
+      setDate("");
+      setStartTime("");
+      setEndTime("");
+      setRepeat("");
+      setNotification("");
     }
   }, [schedule]);
+
+  useEffect(() => {
+    const date = selRecom.toString().split(" ");
+    setStartTime(date[1]);
+    setEndTime(date[3]);
+  }, [selRecom]);
 
   const handleSearchUser = (e) => {
     setName(e.target.value);
@@ -176,14 +195,15 @@ export default function ScheduleModal({ onClose, show, schedule }) {
 
   useEffect(() => {
     dispatch(matchSchedule(date, start_time, end_time, friend));
-    recommendation.rekomendasi?.length &&
-      recommendation.rekomendasi.map((list, i) => {
-        const converted = JSON.stringify(list);
-        const data = JSON.parse(converted);
-        const label = "start: " + data.start_time + " end: " + data.end_time;
-        const value = label;
-        recommendationOptions = [...recommendationOptions, { label, value }];
-      });
+    if (recommendation.rekomendasi?.length) {
+      const dataRecom = recommendation.rekomendasi.map((list) => ({
+        label: "start: " + list.start_time + " end: " + list.end_time,
+        value: "start: " + list.start_time + " end: " + list.end_time,
+      }));
+      setRecom([...dataRecom]);
+    } else {
+      setRecom([]);
+    }
   }, [date, start_time, end_time, friend]);
 
   if (!show) return null;
@@ -265,11 +285,13 @@ export default function ScheduleModal({ onClose, show, schedule }) {
               <label className="ml-3">To: </label>
               <input type="time" name="start" value={end_time} className="border rounded-lg text-sm px-2 py-1" onChange={onChangeEndTime} />
             </div>
-            <div className="flex">
-              <label className="self-center mr-2">Recommendation: </label>
-              {/* <SelectField options={recommendationOptions} value={recom} onChange={(recom) => setRecom(recom)} /> */}
-              <SelectField placeholder={"choose repetition"} options={repeatOptions} value={repeat} onChange={(repeat) => setRepeat(repeat)} />
-            </div>
+            {(recom?.length && (
+              <div className="flex">
+                <label className="self-center mr-2">Recommendation: </label>
+                <SelectField placeholder={"choose recommendation"} options={recom} value={selRecom} onChange={(recom) => setSelRecom(recom)} />
+              </div>
+            )) ||
+              null}
             <div className="flex">
               <SelectField
                 placeholder={"choose repetition"}

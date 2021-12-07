@@ -100,10 +100,10 @@ export function deleteScheduleById(id) {
   };
 }
 
-export function updateScheduleById(id, title, description, location, date, start_time, end_time, repeat, notification) {
+export function updateScheduleById(id, title, description, location, date, start_time, end_time, repeat, notification, friends) {
   return (dispatch) => {
     return axios
-      .put(Url.Schedule + `/${id}`, {
+      .post(Url.Schedule + `/update/${id}`, {
         title,
         description,
         location,
@@ -112,6 +112,7 @@ export function updateScheduleById(id, title, description, location, date, start
         end_time,
         repeat,
         notification,
+        friends,
       })
       .then(() => {
         dispatch({

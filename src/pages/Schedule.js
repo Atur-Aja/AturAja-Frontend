@@ -12,8 +12,6 @@ export default function Schedule({ show, onClose }) {
   const [loadSchedules, setLoadSchedules] = useState(false);
   const dispatch = useDispatch();
 
-  // console.log(schedules);
-
   const handleDateMap = (schedules) => {
     const dateMap = [];
     const today = new Date();
@@ -33,8 +31,6 @@ export default function Schedule({ show, onClose }) {
 
   const dateMapFormatted = [];
   const [groupedSchedule, setGroupedSchedule] = useState([]);
-
-  console.log(groupedSchedule);
 
   useEffect(() => {
     setLoadSchedules(true);

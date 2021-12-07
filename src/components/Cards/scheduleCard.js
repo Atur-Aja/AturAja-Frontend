@@ -39,7 +39,7 @@ export default function ScheduleCard({ title, startTime, endTime, date, location
       <div className="flex text-biruTua mt-3">
         <IconGroup />
         <div className="flex ml-2">
-          {(friend?.length &&
+          {(friend.length > 1 &&
             friend.map((list) => {
               return (
                 <div className="flex">
@@ -59,8 +59,7 @@ export default function ScheduleCard({ title, startTime, endTime, date, location
             <div className="w-8 h-8 z-0 rounded-full border-2 border-white bg-gray-300 flex flex-wrap content-center justify-center">
               <p className="text-xs font-bold">+{image.length - 3}</p>
             </div>
-          )) ||
-            null}
+          )) || <p className="ml-1">-</p>}
         </div>
       </div>
     </div>
