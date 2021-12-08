@@ -236,9 +236,12 @@ export default function ScheduleModal({ onClose, show, schedule }) {
               </div>
             </div>
             <div className="flex mt-2">
-              {(people?.length &&
-                people.map((list) => (
-                  <div className="text-sm px-1 shadow-lg rounded-md bg-ijo ml-1 cursor-pointer" onClick={() => handleDeletePeople(list.id)}>
+              {(people.length > 1 &&
+                people.slice(1).map((list) => (
+                  <div className="relative text-sm px-2 py-1 shadow-lg rounded-md bg-ijo ml-1">
+                    <label className="absolute z-50 -top-3 -right-1 cursor-pointer" onClick={() => handleDeletePeople(list.id)}>
+                      x
+                    </label>
                     {list.username}
                   </div>
                 ))) ||
