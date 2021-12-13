@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { IconCheck } from "../Icons";
 
 export default function TaskCard({ priority, title, time, todo, member }) {
   const image = member.map((e) => e.photo);
   const [friend, setFriend] = useState(image);
   const [mark, setMark] = useState("");
+  const [allStatus, setAllStatus] = useState(false);
   const index = [30, 20, 10];
   const friendSliced = friend.slice(0, 3);
   const newData = friendSliced.map((value) => {
@@ -21,25 +23,34 @@ export default function TaskCard({ priority, title, time, todo, member }) {
     else if (priority == 4) setMark("!!!");
   }, []);
 
+  const handleMarkAllStatus = (e) => {
+    e.stopPropagation();
+    setAllStatus(!allStatus);
+  };
+
   return (
     <div className="bg-white shadow-lg rounded-md px-4 py-2 mt-4 h-48 cursor-pointer">
       <div className="flex justify-between">
         <div className="flex w-1/2">
-          <p className="font-semibold">{mark}</p>
-          <p className="font-semibold ml-3">{title}</p>
+          {mark != "" ? <p className="font-semibold mr-3">{mark}</p> : null}
+          <p className="font-semibold">{title}</p>
         </div>
         <div className="w-1/2 flex justify-between">
           <p className="font-bold text-biruTua">{time}</p>
-          <input
-            type="checkbox"
-            className="w-8 h-8 cursor-pointer border border-gray-500 rounded-md bg-abuMuda appearance-none checked:bg-biruTua checked:border-transparent"
-            onClick={(e) => e.stopPropagation()}
-          />
+          <div
+            className={
+              `w-8 h-8 cursor-pointer border border-gray-500 rounded-md appearance-none flex justify-center text-abuMuda ` +
+              (allStatus ? "bg-biruTua border-transparent" : "bg-abuMuda")
+            }
+            onClick={handleMarkAllStatus}
+          >
+            <IconCheck />
+          </div>
         </div>
       </div>
       {(todo?.length && <p className="text-xs text-gray-500">Todo :</p>) || null}
-      {(todo?.length &&
-        todo.map((data, i) => (
+      {(todo.length > 3 &&
+        todo.slice(0, 3).map((data, i) => (
           <div className="flex mt-1">
             <input
               key={i}
@@ -51,29 +62,32 @@ export default function TaskCard({ priority, title, time, todo, member }) {
           </div>
         ))) ||
         null}
-      <div className="flex mt-2">
-        {(friend.length > 1 &&
-          friend.map((list) => {
-            return (
-              <div className="flex">
-                <div className={`w-8 h-8 rounded-full absolute border-2 border-white bg-gray-400 z-${list.index}`}>
-                  <img
-                    className="inline object-cover w-full h-full items-center justify-center place-self-center rounded-full"
-                    src={`http://127.0.0.1:8000/api/user/image/${list.image}`}
-                    alt="Profile"
-                  />
+      <div className="flex justify-between h-10">
+        {todo.length > 3 ? <p className="text-sm text-gray-500 self-center hover:underline">view {todo.length - 3} more tasks</p> : <p></p>}
+        <div className="flex mt-2">
+          {(friend.length > 1 &&
+            friend.map((list) => {
+              return (
+                <div className="flex">
+                  <div className={`w-8 h-8 rounded-full absolute border-2 border-white bg-gray-400 z-${list.index}`}>
+                    <img
+                      className="inline object-cover w-full h-full items-center justify-center place-self-center rounded-full"
+                      src={`http://127.0.0.1:8000/api/user/image/${list.image}`}
+                      alt="Profile"
+                    />
+                  </div>
+                  <div className="w-5" />
                 </div>
-                <div className="w-5" />
-              </div>
-            );
-          })) ||
-          null}
-        {(image.length > 3 && (
-          <div className="w-8 h-8 z-0 rounded-full border-2 border-white bg-gray-300 flex flex-wrap content-center justify-center">
-            <p className="text-xs font-bold">+{image.length - 3}</p>
-          </div>
-        )) ||
-          null}
+              );
+            })) ||
+            null}
+          {(image.length > 3 && (
+            <div className="w-8 h-8 z-0 rounded-full border-2 border-white bg-gray-300 flex flex-wrap content-center justify-center">
+              <p className="text-xs font-bold">+{image.length - 3}</p>
+            </div>
+          )) ||
+            null}
+        </div>
       </div>
     </div>
   );
