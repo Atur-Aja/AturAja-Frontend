@@ -18,12 +18,8 @@ export default function Schedule({ show, onClose }) {
     today.setHours(0, 0, 0, 0);
 
     schedules.forEach((data) => {
-      if (!dateMap.includes(data.schedule.start_date)) {
-        dateMap.push(data.schedule.start_date);
-      }
-
-      if (!dateMap.includes(data.schedule.end_date)) {
-        dateMap.push(data.schedule.end_date);
+      if (!dateMap.includes(data.schedule.date)) {
+        dateMap.push(data.schedule.date);
       }
     });
 
@@ -56,10 +52,8 @@ export default function Schedule({ show, onClose }) {
       dateMapFormatted.sort((a, b) => a - b);
       dateMapFormatted.forEach((selDate) => {
         const filteredData = schedules.filter((data) => {
-          const sDate = new Date(data.schedule.start_date);
-          const eDate = new Date(data.schedule.end_date);
-
-          return selDate >= sDate && selDate <= eDate;
+          const date = new Date(data.schedule.date);
+          return selDate.getTime() == date.getTime();
         });
 
         const StringDate = selDate.getFullYear() + "-" + (selDate.getMonth() + 1) + "-" + selDate.getDate();
