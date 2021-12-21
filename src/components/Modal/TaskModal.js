@@ -180,7 +180,7 @@ export default function TaskModal({ onClose, show, task }) {
 
   return (
     <div className="fixed z-50 top-0 bottom-0 left-0 right-0 bg-filter flex items-center justify-center" onClick={onClose}>
-      <div className="w-2/5 py-3 px-6 shadow-xl rounded-md justify-self-end bg-white" onClick={(e) => e.stopPropagation()}>
+      <div className="invisible md:visible md:w-screen lg:w-2/5 md:mx-5 py-3 px-6 shadow-xl rounded-md justify-self-end bg-white" onClick={(e) => e.stopPropagation()}>
         <p className="font-bold text-2xl text-center">{(task.task?.id && "Detail") || "New Task"}</p>
         <div className="flex">
           <div className="w-1/2 ml-2 mr-8">
@@ -291,6 +291,121 @@ export default function TaskModal({ onClose, show, task }) {
             <GreenButton onClick={handleAddTask} loading={addLoad} text={"save"} />
           )}
         </div>
+      </div>
+
+      <div className="flex items-center justify-center">
+        <div className="z-50 md:hidden overflow-auto w-60 h-112 shadow-xl rounded-md justify-self-end bg-white" onClick={(e) => e.stopPropagation()}>
+          <p className="font-bold text-xl text-center mt-2">{(task.task?.id && "Detail") || "New Task"}</p>
+          <div className="flex-wrap md:flex mt-2">
+            <div className="w-52 mx-4">
+              <InputField label={"Title"} placeholder={"Enter title here"} onChange={(title) => setTitle(title)} value={title} />
+              <InputField
+                label={"Description"}
+                placeholder={"Enter description"}
+                onChange={(description) => setDescription(description)}
+                value={description}
+              />
+              <p className="font-semibold mt-2">People</p>
+              <div className="py-1 pr-3 border-b border-biruTua flex justify-between">
+                <input
+                  className="appearance-none bg-transparent px-2 py-1 w-3/4 text-gray-700 leading-tight focus:outline-none border-none"
+                  placeholder="Search username"
+                  onChange={(e) => handleSearchUser(e)}
+                  value={name}
+                />
+                <div className="flex self-center">
+                  {searchLoad ? <div class="mr-3 loader ease-linear rounded-full border-2 border-t-2 border-gray-600 h-4 w-4" /> : null}
+                  <IconSearch width={"1rem"} height={"1rem"} />
+                </div>
+              </div>
+              <div className="flex mt-2">
+                {(people?.length &&
+                  people.map((list) =>
+                    list.username == localStorage.getItem("username") ? null : (
+                      <div className="relative text-sm px-2 py-1 shadow-lg rounded-md bg-ijo ml-1">
+                        <label className="absolute z-50 -top-3 -right-1 cursor-pointer" onClick={() => handleDeletePeople(list.id)}>
+                          x
+                        </label>
+                        {list.username}
+                      </div>
+                    )
+                  )) ||
+                  null}
+              </div>
+              {(users?.length &&
+                users.map((list) => (
+                  <div className="flex justify-between mt-2" key={list.id}>
+                    <div className="flex">
+                      <div className="w-8 h-8 border border-black border-opacity-5 rounded-full bg-abuTua">
+                        <img
+                          className="inline object-cover w-full h-full items-center justify-center place-self-center rounded-full"
+                          src={`http://127.0.0.1:8000/api/user/image/${list.photo}`}
+                          alt="Profile"
+                        />
+                      </div>
+                      <p className="ml-3 self-center">{list.username}</p>
+                    </div>
+                    <div className="flex self-center">
+                      <button
+                        className="bg-biruTua hover:bg-biru text-white text-xs rounded-md px-3 h-5 mx-2"
+                        onClick={() => handleAddPeople(list.username, list.id)}
+                      >
+                        add
+                      </button>
+                    </div>
+                  </div>
+                ))) ||
+                null}
+              <div>
+              <InputField label={"Due Date"} onChange={(date) => setDueDate(date)} value={due_date} type={"date"} />
+              <input type="time" name="time" value={due_time} className="w-full border rounded-lg text-sm px-2 py-1" onChange={onChangeDueTime} />
+              <SelectField
+                placeholder={"choose priority"}
+                label={"Priority"}
+                options={priorityOptions}
+                value={priority}
+                onChange={(priority) => setPriority(priority)}
+              />
+              <p className="font-semibold mt-4">To do :</p>
+              <div className="flex">
+                <input
+                  type="text"
+                  className="ml-2 text-sm appearance-none bg-transparent focus:outline-none"
+                  placeholder="+ add todo"
+                  value={text}
+                  onChange={onChangeText}
+                />
+                <IconPlus width={"25"} height={"25"} onClick={handleAddTodos} />
+              </div>
+              <div className="ml-2 text-sm h-24 overflow-y-auto">
+                {(todos?.length &&
+                  todos.map((todo, i) => (
+                    <div className="flex my-1" key={i}>
+                      {task.task?.id && (
+                        <input
+                          key={i}
+                          type="checkbox"
+                          className="w-4 h-4 mx-2 self-center cursor-pointer border border-gray-500 rounded-sm bg-abuMuda appearance-none checked:bg-biruTua checked:border-transparent"
+                        />
+                      )}
+                      <input type="text" className="w-24" value={todo.name} onChange={(e) => updateTodo(e.target.value, i)} />
+                      {/* <p>{todo.name}</p> */}
+                      <IconDelete width={"16"} height={"16"} onClick={() => handleDeleteTodos(i, todo.id)} />
+                    </div>
+                  ))) ||
+                  null}
+              </div>
+            </div>
+            </div>
+          </div>
+        <div className="flex justify-end my-4 mr-2">
+          {task.task?.id && <DeleteButton onClick={handleDeleteTask} loading={delLoad} />}
+          <WhiteButton onClick={onClose} text={"cancel"} />
+          {(task.task?.id && <GreenButton onClick={handleUpdateTask} loading={addLoad} text={"update"} />) || (
+            <GreenButton onClick={handleAddTask} loading={addLoad} text={"save"} />
+          )}
+        </div>
+      </div>
       </div>
     </div>
   );

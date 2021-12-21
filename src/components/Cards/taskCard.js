@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { IconCheck } from "../Icons";
+//import { IconCheck } from "../Icons";
 
 export default function TaskCard({ priority, title, time, todo, member }) {
   const image = member.map((e) => e.photo);
@@ -44,7 +44,7 @@ export default function TaskCard({ priority, title, time, todo, member }) {
             }
             onClick={handleMarkAllStatus}
           >
-            <IconCheck />
+            {/* <IconCheck /> */}
           </div>
         </div>
       </div>

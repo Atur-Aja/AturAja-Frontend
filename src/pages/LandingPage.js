@@ -3,13 +3,13 @@ import Meeting from '../assets/meeting.jpg';
 
 export default function LandingPage () {
   return (
-    <div className='bg-abuMuda h-screen'>
-      <div className='h-full -mt-14 flex'>
-        <img src={Meeting} className='w-1/2 self-center' alt='people meeting'/>
-        <div className='flex flex-wrap content-center text-abuTua'>
+    <div className='bg-abuMuda h-full md:h-screen'>
+      <div className='mih-h-screen flex flex-wrap md:flex-nowrap items-center md:items-start justify-center md:justify-start'>
+        <img src={Meeting} className='w-full md:w-1/2 pt-28 md:pt-20 lg:pt-40 self-center' alt='people meeting'/>
+        <div className='flex flex-wrap content-center text-abuTua md:self-center'>
           <div>
-            <p className='font-bold text-5xl'>Welcome</p>
-            <p>Bingung cari jadwal ? AturAja!</p>
+            <p className='font-bold text-4xl md:text-5xl lg:text-6xl'>Welcome</p>
+            <p className='text-base md:text-lg lg:text-2xl'>Bingung cari jadwal ? AturAja!</p>
           </div>
         </div>
       </div>
