@@ -128,7 +128,7 @@ export default function HomePage({ show, onClose, isToday }) {
                 return (
                   <div key={list.schedule.id} onClick={() => handleListSchedule(list)}>
                     <ScheduleCard
-                      title={schedule.title}
+                      title={list.schedule.title}
                       startTime={moment(list.schedule.start_time, "HH:mm:ss").format("LT")}
                       endTime={moment(list.schedule.end_time, "HH:mm:ss").format("LT")}
                       date={moment(list.schedule.date).format("ll")}
@@ -163,6 +163,8 @@ export default function HomePage({ show, onClose, isToday }) {
                 return (
                   <div key={task.task.id} onClick={() => handleListTask(task)}>
                     <TaskCard
+                      id={task.task.id}
+                      status={task.task.status}
                       priority={task.task.priority}
                       title={task.task.title}
                       time={moment(task.task.time, "HH:mm:ss").format("LT")}

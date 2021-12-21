@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { IconCheck } from "../Icons";
+import Swal from "sweetalert2";
+import axios from "axios";
+import { Url } from "../../helpers/server";
 
-export default function TaskCard({ priority, title, time, todo, member }) {
+export default function TaskCard({ id, status, priority, title, time, todo, member }) {
   const image = member.map((e) => e.photo);
   const [friend, setFriend] = useState(image);
   const [mark, setMark] = useState("");
-  const [allStatus, setAllStatus] = useState(false);
+  const [allStatus, setAllStatus] = useState(status);
   const index = [30, 20, 10];
   const friendSliced = friend.slice(0, 3);
   const newData = friendSliced.map((value) => {
@@ -23,7 +26,43 @@ export default function TaskCard({ priority, title, time, todo, member }) {
     else if (priority == 4) setMark("!!!");
   }, []);
 
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
+
   const handleMarkAllStatus = (e) => {
+    e.stopPropagation();
+    setAllStatus(!allStatus);
+
+    axios
+      .put(Url.Task + `/${id}`, {
+        status: !allStatus,
+        friends: member.map((data) => data.id),
+      })
+      .then((resp) => {
+        if (resp.status == 200) {
+          Toast.fire({
+            icon: "success",
+            title: "task checked successfule",
+          });
+        } else {
+          Toast.fire({
+            icon: "error",
+            title: "try again",
+          });
+        }
+      });
+  };
+
+  const handleMarkTodo = (e) => {
     e.stopPropagation();
     setAllStatus(!allStatus);
   };
@@ -52,23 +91,29 @@ export default function TaskCard({ priority, title, time, todo, member }) {
       {(todo.length > 3 &&
         todo.slice(0, 3).map((data, i) => (
           <div className="flex mt-1">
-            <input
-              key={i}
-              type="checkbox"
-              className="w-6 h-7 mx-2 cursor-pointer border border-gray-500 rounded-md bg-abuMuda appearance-none checked:bg-biruTua checked:border-transparent"
-              onClick={(e) => e.stopPropagation()}
-            />
+            <div
+              className={
+                `w-6 h-6 mx-2 cursor-pointer border border-gray-500 rounded-md appearance-none flex justify-center text-abuMuda ` +
+                (allStatus ? "bg-biruTua border-transparent" : "bg-abuMuda")
+              }
+              onClick={handleMarkTodo}
+            >
+              <IconCheck />
+            </div>
             <p onClick={(e) => e.stopPropagation()}>{data.name}</p>
           </div>
         ))) ||
         todo.map((data, i) => (
           <div className="flex mt-1">
-            <input
-              key={i}
-              type="checkbox"
-              className="w-6 h-7 mx-2 cursor-pointer border border-gray-500 rounded-md bg-abuMuda appearance-none checked:bg-biruTua checked:border-transparent"
-              onClick={(e) => e.stopPropagation()}
-            />
+            <div
+              className={
+                `w-6 h-6 mx-2 cursor-pointer border border-gray-500 rounded-md appearance-none flex justify-center text-abuMuda ` +
+                (allStatus ? "bg-biruTua border-transparent" : "bg-abuMuda")
+              }
+              onClick={handleMarkTodo}
+            >
+              <IconCheck />
+            </div>
             <p onClick={(e) => e.stopPropagation()}>{data.name}</p>
           </div>
         ))}

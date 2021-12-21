@@ -7,7 +7,7 @@ import { IconTask } from "../components/Icons";
 import TaskModal from "../components/Modal/TaskModal";
 import { clearSearch } from "../redux/actions/friend";
 
-export default function Task({ show, onClose }) {
+export default function Task() {
   const tasks = useSelector((state) => state.task.results.tasks);
   const [loadTasks, setLoadTasks] = useState(false);
   const dispatch = useDispatch();
@@ -73,18 +73,20 @@ export default function Task({ show, onClose }) {
   }, [tasks]);
 
   const [task, setTask] = useState({});
+  const [taskModal, setTaskModal] = useState(false);
   const handleListTask = (task) => {
     setTask(task);
+    setTaskModal(true);
   };
-  const closeTask = (e) => {
+  const closeTask = () => {
     dispatch(clearSearch());
     dispatch(getAllTask());
-    onClose && onClose(e);
+    setTaskModal(false);
   };
 
   return (
     <div className="h-screen px-4 pt-4">
-      <TaskModal onClose={closeTask} show={show} task={task} />
+      <TaskModal onClose={closeTask} show={taskModal} task={task} />
       {loadTasks ? (
         <div className="h-full w-full flex flex-wrap content-center justify-center">
           <div className="h-3 w-3 bg-gray-500 rounded-full mr-1 animate-bounce"></div>
