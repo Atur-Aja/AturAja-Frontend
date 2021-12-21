@@ -61,6 +61,16 @@ export default function TaskCard({ id, status, description, priority, title, tim
           });
         }
       });
+
+    const status = [...todoStatus];
+    status.map((data, idx) => {
+      status[idx].status = !allStatus;
+      setTodoStatus(status);
+
+      axios.put(Url.Todo + `/${data.id}`, {
+        status: status[idx].status,
+      });
+    });
   };
 
   const handleMarkTodo = (e, data, idx) => {
@@ -86,13 +96,32 @@ export default function TaskCard({ id, status, description, priority, title, tim
           });
         }
       });
+
+    if (allStatus) {
+      setAllStatus(false);
+    }
   };
+
+  useEffect(() => {
+    const checked = todoStatus.filter((data) => data.status == true);
+    if (todoStatus.length == checked.length) {
+      setAllStatus(true);
+    }
+  }, [todoStatus]);
+
+  useEffect(() => {
+    setAllStatus(status);
+    const checked = todoStatus.filter((data) => data.status == true);
+    if (todoStatus.length != checked.length) {
+      setAllStatus(false);
+    }
+  }, []);
 
   return (
     <div className="bg-white shadow-lg rounded-md px-4 py-2 mt-4 h-48 cursor-pointer">
       <div className="flex justify-between">
         <div className="flex w-1/2">
-          {mark != "" ? <p className="font-semibold mr-3">{mark}</p> : null}
+          {mark != "" ? <p className="font-bold mr-3 text-red-500">{mark}</p> : null}
           <p className="font-semibold">{title}</p>
         </div>
         <div className="w-1/2 flex justify-between">

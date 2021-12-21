@@ -101,7 +101,7 @@ export default function Login() {
         </div>
         <form>
           <div className="mt-10 mx-4">
-            <AuthField placeholder={"Email"} value={email} onChange={(email) => setEmail(email)} icon={<Email />} />
+            <AuthField placeholder={"Email / username"} value={email} onChange={(email) => setEmail(email)} icon={<Email />} />
             <AuthField
               placeholder={"Password"}
               value={password}
