@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { Url } from "../../helpers/server";
 
-export default function TaskCard({ id, status, priority, title, time, todo, member }) {
+export default function TaskCard({ id, status, description, priority, title, time, todo, member }) {
   const image = member.map((e) => e.photo);
   const [friend, setFriend] = useState(image);
   const [mark, setMark] = useState("");
@@ -108,6 +108,13 @@ export default function TaskCard({ id, status, priority, title, time, todo, memb
           </div>
         </div>
       </div>
+      {(todo.length < 3 && (
+        <div className="mb-3">
+          <p className="text-xs text-gray-500">Description :</p>
+          {description}
+        </div>
+      )) ||
+        null}
       {(todo?.length && <p className="text-xs text-gray-500">Todo :</p>) || <p className="text-xs text-gray-500">empty todo list</p>}
       {(todo.length > 3 &&
         todo.slice(0, 3).map((data, idx) => (

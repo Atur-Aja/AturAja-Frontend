@@ -165,6 +165,7 @@ export default function HomePage({ show, onClose, isToday }) {
                     <TaskCard
                       id={task.task.id}
                       status={task.task.status}
+                      description={task.task.description}
                       priority={task.task.priority}
                       title={task.task.title}
                       time={moment(task.task.time, "HH:mm:ss").format("LT")}
