@@ -44,11 +44,14 @@ export default function ScheduleCard({ title, startTime, endTime, date, location
               return (
                 <div className="flex">
                   <div className={`w-8 h-8 rounded-full absolute border-2 border-white bg-gray-400 z-` + list.index}>
-                    <img
-                      className="inline object-cover w-full h-full items-center justify-center place-self-center rounded-full"
-                      src={`http://127.0.0.1:8000/api/user/image/${list.image}`}
-                      alt="Profile"
-                    />
+                    {(list.image && (
+                      <img
+                        className="inline object-cover w-full h-full items-center justify-center place-self-center rounded-full"
+                        src={`http://127.0.0.1:8000/api/user/image/${list.image}`}
+                        alt="Profile"
+                      />
+                    )) ||
+                      null}
                   </div>
                   <div className="w-5" />
                 </div>

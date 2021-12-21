@@ -48,7 +48,7 @@ export default function TaskCard({ priority, title, time, todo, member }) {
           </div>
         </div>
       </div>
-      {(todo?.length && <p className="text-xs text-gray-500">Todo :</p>) || null}
+      {(todo?.length && <p className="text-xs text-gray-500">Todo :</p>) || <p className="text-xs text-gray-500">empty todo list</p>}
       {(todo.length > 3 &&
         todo.slice(0, 3).map((data, i) => (
           <div className="flex mt-1">
@@ -61,7 +61,17 @@ export default function TaskCard({ priority, title, time, todo, member }) {
             <p onClick={(e) => e.stopPropagation()}>{data.name}</p>
           </div>
         ))) ||
-        null}
+        todo.map((data, i) => (
+          <div className="flex mt-1">
+            <input
+              key={i}
+              type="checkbox"
+              className="w-6 h-7 mx-2 cursor-pointer border border-gray-500 rounded-md bg-abuMuda appearance-none checked:bg-biruTua checked:border-transparent"
+              onClick={(e) => e.stopPropagation()}
+            />
+            <p onClick={(e) => e.stopPropagation()}>{data.name}</p>
+          </div>
+        ))}
       <div className="flex justify-between h-10">
         {todo.length > 3 ? <p className="text-sm text-gray-500 self-center hover:underline">view {todo.length - 3} more tasks</p> : <p></p>}
         <div className="flex mt-2">

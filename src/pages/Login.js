@@ -5,7 +5,7 @@ import { ReactComponent as Eye } from "../assets/eye.svg";
 import { ReactComponent as EyeOff } from "../assets/eye-off.svg";
 import Logo from "../assets/logo.svg";
 import { Link, useHistory } from "react-router-dom";
-import { checkProfile, login } from "../redux/actions/auth";
+import { login } from "../redux/actions/auth";
 import { clearMessage } from "../redux/actions/message";
 import { AuthField } from "../components/Commons/FormField";
 import { AuthButton } from "../components/Commons/LinkButton";
@@ -57,9 +57,8 @@ export default function Login() {
             history.push("/home");
           } else {
             Toast.fire({
-              icon: "success",
-              title: "Signed in successfully",
-              text: "Please fill your profile data",
+              icon: "info",
+              title: "Please fill your profile data",
             });
             history.push("/setup-profile");
           }
