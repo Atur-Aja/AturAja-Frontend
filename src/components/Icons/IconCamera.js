@@ -1,6 +1,6 @@
-const IconCamera = ({ width, height }) => {
+const IconCamera = () => {
   return (
-    <svg width={width} height={height} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
       <path
         strokeLinecap="round"
         strokeLinejoin="round"

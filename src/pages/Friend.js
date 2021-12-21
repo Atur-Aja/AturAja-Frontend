@@ -21,10 +21,13 @@ export default function Friend({ show, onClose }) {
   };
 
   return (
-    <div className="h-screen px-4 pt-4">
+    <div className="min-h-screen">
       <FriendModal onClose={closeFriend} show={show} />
+      <div className="fixed bg-abuMuda w-full pt-4 px-6 md:px-14">
+        <p className="font-semibold text-lg md:text-xl">Friends</p>
+      </div>
       {loadFriends ? (
-        <div className="h-full w-full flex flex-wrap content-center justify-center">
+        <div className="min-h-screen items-center flex flex-wrap content-center justify-center">
           <div className="h-3 w-3 bg-gray-500 rounded-full mr-1 animate-bounce"></div>
           <div className="h-3 w-3 bg-gray-500 rounded-full mr-1 animate-bounce50"></div>
           <div className="h-3 w-3 bg-gray-500 rounded-full mr-1 animate-bounce100"></div>
@@ -32,7 +35,7 @@ export default function Friend({ show, onClose }) {
         </div>
       ) : (
         (friends?.length && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:md:grid-cols-4 xl:grid-cols-5 gap-1 md:gap-4 pt-10 px-4 md:px-12">
             {friends.map((user) => (
               <FriendCard
                 reload={() => dispatch(getAllFriend())}
@@ -46,12 +49,17 @@ export default function Friend({ show, onClose }) {
             ))}
           </div>
         )) || (
-          <div className="h-full w-full flex flex-wrap content-center justify-center grid">
-            <div className="w-40 h-40 rounded-full bg-gray-400 text-biruTua justify-self-center flex flex-wrap content-center justify-center">
-              <IconFriend width={"80"} height={"80"} />
+          <div className="min-h-screen items-center flex flex-wrap content-center justify-center grid">
+            <div className="md:hidden w-24 h-24 rounded-full bg-gray-400 text-biruTua justify-self-center flex flex-wrap content-center justify-center">
+              <IconFriend width={"60"} height={"60"} />
             </div>
-            <p className="text-xl justify-self-center font-semibold">No Friend</p>
-            <p className="justify-self-center">you can build connection by clicking “add friend” button</p>
+            <p className="md:hidden text-base md:text-lg lg:text-xl justify-self-center font-semibold">No Friend</p>
+            <p className="md:hidden text-xs md:text-sm lg:text-base text-center justify-self-center">you can build connection by clicking “add friend” button</p>
+            <div className="invisible md:visible md:w-32 md:h-32 lg:w-40 lg:h-40 rounded-full bg-gray-400 text-biruTua justify-self-center flex flex-wrap content-center justify-center">
+              <IconFriend width={"112"} height={"112"} />
+            </div>
+            <p className="invisible md:visible text-base md:text-xl lg:text-2xl justify-self-center font-semibold">No Friend</p>
+            <p className="invisible md:visible text-xs md:text-base lg:text-lg text-center justify-self-center">you can build connection by clicking “add friend” button</p>
           </div>
         )
       )}

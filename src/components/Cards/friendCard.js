@@ -37,8 +37,8 @@ export default function FriendCard({ reload, username, photo, email, phoneNumber
           )) ||
             null}
         </div>
-        <div className="col-span-2 text-center self-center text-md text-abuTua">
-          <p className="font-semibold text-lg text-black">{username}</p>
+        <div className="col-span-2 text-center self-center text-md text-abuTua justify-between ">
+          <p className="font-semibold text-base sm:text-lg text-black">{username}</p>
           <p>{email}</p>
           <p>{phoneNumber}</p>
           <button
