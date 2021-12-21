@@ -7,7 +7,7 @@ import { IconTask } from "../components/Icons";
 import TaskModal from "../components/Modal/TaskModal";
 import { clearSearch } from "../redux/actions/friend";
 
-export default function Task() {
+export default function Task({ onClose, show }) {
   const tasks = useSelector((state) => state.task.results.tasks);
   const [loadTasks, setLoadTasks] = useState(false);
   const dispatch = useDispatch();
@@ -68,7 +68,15 @@ export default function Task() {
           });
         }
       });
-      setGroupedTask(groupedTaskCopy);
+      const sortedData = [];
+      groupedTaskCopy.map((item) => {
+        const newData = item.data.sort((a, b) => (a.task.priority < b.task.priority ? 1 : -1));
+        sortedData.push({
+          date: item.date,
+          data: newData,
+        });
+      });
+      setGroupedTask(sortedData);
     }
   }, [tasks]);
 
@@ -82,11 +90,12 @@ export default function Task() {
     dispatch(clearSearch());
     dispatch(getAllTask());
     setTaskModal(false);
+    onClose && onClose();
   };
 
   return (
     <div className="h-screen px-4 pt-4">
-      <TaskModal onClose={closeTask} show={taskModal} task={task} />
+      <TaskModal onClose={closeTask || onClose} show={taskModal || show} task={task} />
       {loadTasks ? (
         <div className="h-full w-full flex flex-wrap content-center justify-center">
           <div className="h-3 w-3 bg-gray-500 rounded-full mr-1 animate-bounce"></div>
@@ -113,8 +122,10 @@ export default function Task() {
                 <div className="grid grid-cols-3 gap-4">
                   {task.data.map((list) => {
                     return (
-                      <div onClick={() => handleListTask(list)}>
+                      <div key={list.task.id} onClick={() => handleListTask(list)}>
                         <TaskCard
+                          id={list.task.id}
+                          status={list.task.status}
                           priority={list.task.priority}
                           title={list.task.title}
                           time={moment(list.task.time, "HH:mm:ss").format("LT")}

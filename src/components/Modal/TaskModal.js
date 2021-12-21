@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { InputField, SelectField } from "../Commons/FormField";
 import { createTask, deleteTaskById, updateTaskById } from "../../redux/actions/task";
 import { GreenButton, WhiteButton, DeleteButton } from "../Commons/LinkButton";
-import { IconPlus, IconDelete, IconSearch } from "../Icons";
+import { IconPlus, IconDelete, IconSearch, IconCheck } from "../Icons";
 import { createTodo, deleteTodoById, updateTodoById } from "../../redux/actions/todo";
 import { searchFriend } from "../../redux/actions/friend";
 import Swal from "sweetalert2";
@@ -11,20 +11,20 @@ import Swal from "sweetalert2";
 const priorityOptions = [
   {
     label: "none",
-    value: "1",
+    value: "0",
   },
   {
     label: "low",
-    value: "2",
+    value: "1",
   },
   {
     label: "medium",
-    value: "3",
+    value: "2",
   },
 
   {
     label: "high",
-    value: "4",
+    value: "3",
   },
 ];
 
@@ -128,7 +128,7 @@ export default function TaskModal({ onClose, show, task }) {
 
   const saveUpdatedTodo = () => {
     todos.map((list) => {
-      return dispatch(updateTodoById(list.id, list.name));
+      return dispatch(updateTodoById(list.id, list.name, list.status));
     });
   };
 
@@ -163,18 +163,28 @@ export default function TaskModal({ onClose, show, task }) {
       setDueDate(task.task.date);
       setDueTime(task.task.time);
       setPriority(task.task.priority);
+    }
 
+    if (task.member?.length) {
       const people = task.member.map((mem) => ({ username: mem.username, id: mem.id }));
       setPeople([...people]);
       const peopleIds = people.map((person) => person.id);
       setFriend([...peopleIds]);
     }
 
+    setTodos([]);
     if (task.todo?.length) {
       let todo = task.todo.map((list) => list);
       setTodos(todo);
     }
   }, [task]);
+
+  const handleMarkTodo = (e, idx) => {
+    e.stopPropagation();
+    const newTodos = [...todos];
+    newTodos[idx].status = !newTodos[idx].status;
+    setTodos(newTodos);
+  };
 
   if (!show) return null;
 
@@ -266,18 +276,25 @@ export default function TaskModal({ onClose, show, task }) {
             </div>
             <div className="ml-2 text-sm h-24 overflow-y-auto">
               {(todos?.length &&
-                todos.map((todo, i) => (
-                  <div className="flex my-1" key={i}>
-                    {task.task?.id && (
-                      <input
-                        key={i}
-                        type="checkbox"
-                        className="w-4 h-4 mx-2 self-center cursor-pointer border border-gray-500 rounded-sm bg-abuMuda appearance-none checked:bg-biruTua checked:border-transparent"
-                      />
-                    )}
-                    <input type="text" className="w-24" value={todo.name} onChange={(e) => updateTodo(e.target.value, i)} />
-                    {/* <p>{todo.name}</p> */}
-                    <IconDelete width={"16"} height={"16"} onClick={() => handleDeleteTodos(i, todo.id)} />
+                todos.map((todo, idx) => (
+                  <div className="flex my-1" key={idx}>
+                    <div
+                      className={
+                        `w-4 h-4 mx-2 cursor-pointer border border-gray-500 rounded-sm appearance-none flex justify-center text-abuMuda ` +
+                        (todo.status ? "bg-biruTua border-transparent" : "bg-abuMuda")
+                      }
+                      onClick={(e) => handleMarkTodo(e, idx)}
+                    >
+                      <IconCheck />
+                    </div>
+                    <input type="text" className="w-24" value={todo.name} onChange={(e) => updateTodo(e.target.value, idx)} />
+                    {(todo.update_by && (
+                      <div className="relative text-xs px-4 h-5 self-center rounded-full bg-gray-300 ml-2" onClick={(e) => e.stopPropagation()}>
+                        {todo.update_by}
+                      </div>
+                    )) ||
+                      null}
+                    <IconDelete width={"16"} height={"16"} onClick={() => handleDeleteTodos(idx, todo.id)} />
                   </div>
                 ))) ||
                 null}

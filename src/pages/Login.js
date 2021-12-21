@@ -67,7 +67,7 @@ export default function Login() {
       .catch(() => {
         Toast.fire({
           icon: "warning",
-          title: "The given data was invalid",
+          title: "The given data was invalid or email have not been verified",
         });
         setLoading(false);
       });

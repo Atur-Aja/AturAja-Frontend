@@ -9,6 +9,7 @@ export default function TaskCard({ id, status, priority, title, time, todo, memb
   const [friend, setFriend] = useState(image);
   const [mark, setMark] = useState("");
   const [allStatus, setAllStatus] = useState(status);
+  const [todoStatus, setTodoStatus] = useState(todo);
   const index = [30, 20, 10];
   const friendSliced = friend.slice(0, 3);
   const newData = friendSliced.map((value) => {
@@ -21,9 +22,9 @@ export default function TaskCard({ id, status, priority, title, time, todo, memb
   useEffect(() => {
     setFriend(newData);
 
-    if (priority == 2) setMark("!");
-    else if (priority == 3) setMark("!!");
-    else if (priority == 4) setMark("!!!");
+    if (priority == 1) setMark("!");
+    else if (priority == 2) setMark("!!");
+    else if (priority == 3) setMark("!!!");
   }, []);
 
   const Toast = Swal.mixin({
@@ -51,7 +52,7 @@ export default function TaskCard({ id, status, priority, title, time, todo, memb
         if (resp.status == 200) {
           Toast.fire({
             icon: "success",
-            title: "task checked successfule",
+            title: "task checked successfully",
           });
         } else {
           Toast.fire({
@@ -62,9 +63,29 @@ export default function TaskCard({ id, status, priority, title, time, todo, memb
       });
   };
 
-  const handleMarkTodo = (e) => {
+  const handleMarkTodo = (e, data, idx) => {
     e.stopPropagation();
-    setAllStatus(!allStatus);
+    const status = [...todoStatus];
+    status[idx].status = !status[idx].status;
+    setTodoStatus(status);
+
+    axios
+      .put(Url.Todo + `/${data.id}`, {
+        status: status[idx].status,
+      })
+      .then((resp) => {
+        if (resp.status == 200) {
+          Toast.fire({
+            icon: "success",
+            title: "task checked successfully",
+          });
+        } else {
+          Toast.fire({
+            icon: "error",
+            title: "try again",
+          });
+        }
+      });
   };
 
   return (
@@ -89,37 +110,49 @@ export default function TaskCard({ id, status, priority, title, time, todo, memb
       </div>
       {(todo?.length && <p className="text-xs text-gray-500">Todo :</p>) || <p className="text-xs text-gray-500">empty todo list</p>}
       {(todo.length > 3 &&
-        todo.slice(0, 3).map((data, i) => (
-          <div className="flex mt-1">
+        todo.slice(0, 3).map((data, idx) => (
+          <div className="flex mt-1" key={idx}>
             <div
               className={
                 `w-6 h-6 mx-2 cursor-pointer border border-gray-500 rounded-md appearance-none flex justify-center text-abuMuda ` +
-                (allStatus ? "bg-biruTua border-transparent" : "bg-abuMuda")
+                (todoStatus[idx].status ? "bg-biruTua border-transparent" : "bg-abuMuda")
               }
-              onClick={handleMarkTodo}
+              onClick={(e) => handleMarkTodo(e, data, idx)}
             >
               <IconCheck />
             </div>
             <p onClick={(e) => e.stopPropagation()}>{data.name}</p>
+            {(data.update_by && (
+              <div className="relative text-xs px-4 h-5 self-center rounded-full bg-gray-300 ml-4" onClick={(e) => e.stopPropagation()}>
+                {data.update_by}
+              </div>
+            )) ||
+              null}
           </div>
         ))) ||
-        todo.map((data, i) => (
-          <div className="flex mt-1">
+        todo.map((data, idx) => (
+          <div className="flex mt-1" key={idx}>
             <div
               className={
                 `w-6 h-6 mx-2 cursor-pointer border border-gray-500 rounded-md appearance-none flex justify-center text-abuMuda ` +
-                (allStatus ? "bg-biruTua border-transparent" : "bg-abuMuda")
+                (todoStatus[idx].status ? "bg-biruTua border-transparent" : "bg-abuMuda")
               }
-              onClick={handleMarkTodo}
+              onClick={(e) => handleMarkTodo(e, data, idx)}
             >
               <IconCheck />
             </div>
             <p onClick={(e) => e.stopPropagation()}>{data.name}</p>
+            {(data.update_by && (
+              <div className="relative text-xs px-4 h-5 self-center rounded-full bg-gray-300 ml-4" onClick={(e) => e.stopPropagation()}>
+                {data.update_by}
+              </div>
+            )) ||
+              null}
           </div>
         ))}
       <div className="flex justify-between h-10">
         {todo.length > 3 ? <p className="text-sm text-gray-500 self-center hover:underline">view {todo.length - 3} more tasks</p> : <p></p>}
-        <div className="flex mt-2">
+        <div className="flex mt-2 relative">
           {(friend.length > 1 &&
             friend.map((list) => {
               return (

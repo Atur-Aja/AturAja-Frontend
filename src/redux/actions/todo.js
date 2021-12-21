@@ -35,11 +35,12 @@ export function deleteTodoById(id) {
   };
 }
 
-export function updateTodoById(id, name) {
+export function updateTodoById(id, name, status) {
   return (dispatch) => {
     return axios
       .put(Url.Todo + `/${id}`, {
         name,
+        status,
       })
       .then(() => {
         dispatch({

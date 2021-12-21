@@ -38,7 +38,7 @@ export default function ScheduleCard({ title, startTime, endTime, date, location
       </div>
       <div className="flex text-biruTua mt-3">
         <IconGroup />
-        <div className="flex ml-2">
+        <div className="flex ml-2 relative">
           {(friend.length > 1 &&
             friend.map((list) => {
               return (
