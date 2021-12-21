@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { Url } from "../../helpers/server";
 
-export default function TaskCard({ id, status, priority, title, time, todo, member }) {
+export default function TaskCard({ id, status, description, priority, title, time, todo, member }) {
   const image = member.map((e) => e.photo);
   const [friend, setFriend] = useState(image);
   const [mark, setMark] = useState("");
@@ -61,6 +61,16 @@ export default function TaskCard({ id, status, priority, title, time, todo, memb
           });
         }
       });
+
+    const status = [...todoStatus];
+    status.map((data, idx) => {
+      status[idx].status = !allStatus;
+      setTodoStatus(status);
+
+      axios.put(Url.Todo + `/${data.id}`, {
+        status: status[idx].status,
+      });
+    });
   };
 
   const handleMarkTodo = (e, data, idx) => {
@@ -86,13 +96,32 @@ export default function TaskCard({ id, status, priority, title, time, todo, memb
           });
         }
       });
+
+    if (allStatus) {
+      setAllStatus(false);
+    }
   };
+
+  useEffect(() => {
+    const checked = todoStatus.filter((data) => data.status == true);
+    if (todoStatus.length == checked.length) {
+      setAllStatus(true);
+    }
+  }, [todoStatus]);
+
+  useEffect(() => {
+    setAllStatus(status);
+    const checked = todoStatus.filter((data) => data.status == true);
+    if (todoStatus.length != checked.length) {
+      setAllStatus(false);
+    }
+  }, []);
 
   return (
     <div className="bg-white shadow-lg rounded-md px-4 py-2 mt-4 h-48 cursor-pointer">
       <div className="flex justify-between">
         <div className="flex w-1/2">
-          {mark != "" ? <p className="font-semibold mr-3">{mark}</p> : null}
+          {mark != "" ? <p className="font-bold mr-3 text-red-500">{mark}</p> : null}
           <p className="font-semibold">{title}</p>
         </div>
         <div className="w-1/2 flex justify-between">
@@ -108,6 +137,13 @@ export default function TaskCard({ id, status, priority, title, time, todo, memb
           </div>
         </div>
       </div>
+      {(todo.length < 3 && (
+        <div className="mb-3">
+          <p className="text-xs text-gray-500">Description :</p>
+          {description}
+        </div>
+      )) ||
+        null}
       {(todo?.length && <p className="text-xs text-gray-500">Todo :</p>) || <p className="text-xs text-gray-500">empty todo list</p>}
       {(todo.length > 3 &&
         todo.slice(0, 3).map((data, idx) => (

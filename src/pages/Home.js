@@ -163,6 +163,9 @@ export default function HomePage({ show, onClose, isToday }) {
                 return (
                   <div key={task.task.id} onClick={() => handleListTask(task)}>
                     <TaskCard
+                      id={task.task.id}
+                      status={task.task.status}
+                      description={task.task.description}
                       priority={task.task.priority}
                       title={task.task.title}
                       time={moment(task.task.time, "HH:mm:ss").format("LT")}

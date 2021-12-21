@@ -129,6 +129,7 @@ export default function Task({ onClose, show }) {
                         <TaskCard
                           id={list.task.id}
                           status={list.task.status}
+                          description={list.task.description}
                           priority={list.task.priority}
                           title={list.task.title}
                           time={moment(list.task.time, "HH:mm:ss").format("LT")}
