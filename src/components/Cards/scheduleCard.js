@@ -59,7 +59,7 @@ export default function ScheduleCard({ title, startTime, endTime, date, location
             })) ||
             null}
           {(image.length > 3 && (
-            <div className="w-8 h-8 z-0 rounded-full border-2 border-white bg-gray-300 flex flex-wrap content-center justify-center">
+            <div className="w-8 h-8 z-0 rounded-full ml-1 border-2 border-white bg-gray-300 flex flex-wrap content-center justify-center">
               <p className="text-xs font-bold">+{image.length - 3}</p>
             </div>
           )) || <p className="ml-1">-</p>}
