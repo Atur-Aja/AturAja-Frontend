@@ -108,15 +108,13 @@ export default function HomePage({ show, onClose, isToday }) {
   };
 
   return (
-    <div className="h-screen w-screen">
+    <div className="h-screen">
       <CreateButton onClose={onClose} show={show} taskModal={showTask} scheduleModal={showSchedule} />
       <TaskModal onClose={closeTask} show={taskModal} task={task} />
       <ScheduleModal onClose={closeSchedule} show={scheduleModal} schedule={schedule} />
-      <div className="h-full -mt-14 flex">
-        <div className="w-1/3 lg:w-2/5 py-16 px-4 overflow-y-auto">
-          <div className="fixed bg-abuMuda w-12 pt-4 px-6">
-            <p className="font-semibold text-xl">Schedule</p>
-          </div>
+      <div className="h-full w-screen -mt-14 flex">
+        <div className="md:w-72 lg:w-1/3 xl:w-2/5 py-16 px-4 overflow-y-auto">
+          <p className="font-semibold text-xl">Schedule</p>
           {loadSchedule ? (
             <div className="h-full w-full flex flex-wrap content-center justify-center">
               <div className="h-3 w-3 bg-gray-500 rounded-full mr-1 animate-bounce"></div>
@@ -129,9 +127,8 @@ export default function HomePage({ show, onClose, isToday }) {
               schedules.map((list) => {
                 return (
                   <div key={list.schedule.id} onClick={() => handleListSchedule(list)}>
-                    <div className="grid grid-cols-1 gap-1 pt-10 mx-4" />
                     <ScheduleCard
-                      title={list.schedule.title}
+                      title={schedule.title}
                       startTime={moment(list.schedule.start_time, "HH:mm:ss").format("LT")}
                       endTime={moment(list.schedule.end_time, "HH:mm:ss").format("LT")}
                       date={moment(list.schedule.date).format("ll")}
@@ -151,10 +148,8 @@ export default function HomePage({ show, onClose, isToday }) {
             )
           )}
         </div>
-        <div className="w-1/3 lg:w-2/5 py-16 px-4 border-l border-black border-opacity-10 overflow-y-auto">
-          <div className="fixed bg-abuMuda w-12 pt-4 px-6">
-            <p className="font-semibold text-xl mb-4">Task</p>
-          </div>
+        <div className="md:w-72 lg:w-1/3 xl:w-2/5 py-16 px-4 border-l border-black border-opacity-10 overflow-y-auto">
+          <p className="font-semibold text-xl">Tasks</p>
           {loadTask ? (
             <div className="h-full w-full flex flex-wrap content-center justify-center">
               <div className="h-3 w-3 bg-gray-500 rounded-full mr-1 animate-bounce"></div>
@@ -167,10 +162,7 @@ export default function HomePage({ show, onClose, isToday }) {
               tasks.map((task) => {
                 return (
                   <div key={task.task.id} onClick={() => handleListTask(task)}>
-                    <div className="grid grid-cols-1 gap-1 pt-10 mx-4" />
                     <TaskCard
-                      id={task.task.id}
-                      status={task.task.status}
                       priority={task.task.priority}
                       title={task.task.title}
                       time={moment(task.task.time, "HH:mm:ss").format("LT")}
@@ -190,7 +182,7 @@ export default function HomePage({ show, onClose, isToday }) {
             )
           )}
         </div>
-        <div className="w-72 md:w-96 lg:w-1/3 py-20 px-4 md:px-24 bg-abu">
+        <div className="md:w-114 lg:w-126 xl:w-4/12 py-20 xl:px-2 lg:px-2 md:px-4 bg-abu">
           <div className="flex">
             <p className="text-5xl mr-2">{nativeDate}</p>
             <p className="text-3xl pb-1 self-end">{nativeDay}</p>

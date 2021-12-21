@@ -149,7 +149,7 @@ export default function Task({ onClose, show }) {
             <p className="md:hidden text-base md:text-lg lg:text-xl justify-self-center font-semibold">No Task</p>
             <p className="md:hidden text-xs md:text-sm lg:text-base text-center justify-self-center">you can add task by clicking “create” button</p>
             <div className="invisible md:visible md:w-32 md:h-32 lg:w-40 lg:h-40 rounded-full bg-gray-400 text-biruTua justify-self-center flex flex-wrap content-center justify-center">
-              <IconTask width={"112"} height={"112"} />
+              <IconTask width={"100"} height={"100"} />
             </div>
             <p className="invisible md:visible text-base md:text-xl lg:text-2xl justify-self-center font-semibold">No Task</p>
             <p className="invisible md:visible text-xs md:text-base lg:text-lg text-center justify-self-center">you can add task by clicking “create” button</p>

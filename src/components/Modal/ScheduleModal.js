@@ -44,8 +44,6 @@ export default function ScheduleModal({ onClose, show, schedule }) {
   const users = useSelector((state) => state.friend.results);
   const recommendation = useSelector((state) => state.schedule.matched);
 
-  console.log(recommendation);
-
   const [addLoad, setAddLoad] = useState(false);
   const [delLoad, setDelLoad] = useState(false);
   const [searchLoad, setSearchLoad] = useState(false);
