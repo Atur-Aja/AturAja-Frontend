@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/actions/auth";
-import { IconHome, IconLogout, IconSchedule, IconSetting, IconTask, IconFriend } from "./Icons";
+import { IconHome, IconLogout, IconSchedule, IconTask, IconFriend } from "./Icons";
 import { getAllFriendReq } from "../redux/actions/friend";
 
 const menuLinks = [
@@ -57,7 +57,6 @@ export default function Sidebar({ isOpen }) {
           />
         </div>
         <div>
-          <MenuLink target="/setting" icon={<IconSetting />} text={"Settings"} open={isOpen} />
           <MenuLink target="/login" icon={<IconLogout />} text={"Logout"} open={isOpen} onClick={logOut} />
         </div>
       </div>
