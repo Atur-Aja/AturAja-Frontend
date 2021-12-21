@@ -46,9 +46,10 @@ export default function SignUp() {
     setLoading(true);
     dispatch(register(username, email, password, passwordValidate))
       .then(() => {
-        Toast.fire({
-          icon: "success",
+        Swal.fire({
           title: "Registered successfully",
+          text: "Check your email for verification",
+          icon: "success",
         });
         setUsername("");
         setEmail("");
@@ -82,7 +83,6 @@ export default function SignUp() {
           <div className="mx-4 grid">
             <p className="text-black text-base md:text-lg font-bold place-self-center">Create your account</p>
             <AuthField placeholder={"Username"} value={username} onChange={(username) => setUsername(username)} icon={<User />} />
-            <p className="ml-2 text-sm text-red-600">lalala</p>
             <AuthField placeholder={"Email"} value={email} onChange={(email) => setEmail(email)} icon={<Email />} type={"email"} />
             <AuthField
               placeholder={"Password"}

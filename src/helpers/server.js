@@ -10,4 +10,5 @@ export const Url = {
   Dashboard: apiUrl + "/dashboard",
   User: apiUrl + "/user",
   Friend: apiUrl + "/friend",
+  Password: apiUrl + "/password",
 };
