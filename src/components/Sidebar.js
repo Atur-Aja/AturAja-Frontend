@@ -26,7 +26,7 @@ export default function Sidebar({ isOpen }) {
 
   useEffect(() => {
     dispatch(getAllFriendReq());
-  }, [dispatch]);
+  }, []);
 
   const logOut = () => {
     dispatch(logout());

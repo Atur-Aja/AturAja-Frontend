@@ -37,6 +37,7 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordValidate, setPasswordValidate] = useState("");
+  const [error, setError] = useState([]);
 
   const dispatch = useDispatch();
 
@@ -70,6 +71,10 @@ export default function SignUp() {
     }
   };
 
+  const handleUsername = (data) => {
+    setUsername(data);
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-biruTua px-4 py-12">
       <div className="w-80 h-112 md:w-96 md:h-128 rounded-xl px-2 md:px-4 py-14 bg-abuMuda">
@@ -77,6 +82,7 @@ export default function SignUp() {
           <div className="mx-4 grid">
             <p className="text-black text-base md:text-lg font-bold place-self-center">Create your account</p>
             <AuthField placeholder={"Username"} value={username} onChange={(username) => setUsername(username)} icon={<User />} />
+            <p className="ml-2 text-sm text-red-600">lalala</p>
             <AuthField placeholder={"Email"} value={email} onChange={(email) => setEmail(email)} icon={<Email />} type={"email"} />
             <AuthField
               placeholder={"Password"}

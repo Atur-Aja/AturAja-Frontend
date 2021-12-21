@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Url } from "../../helpers/server";
-import { REGISTER_SUCCESS, REGISTER_FAILED, LOGIN_SUCCESS, LOGIN_FAILED, LOGOUT, SET_MESSAGE } from "./type";
+import { REGISTER_SUCCESS, REGISTER_FAILED, LOGIN_SUCCESS, LOGIN_FAILED, LOGOUT, SET_MESSAGE, CHECK_PROFILE } from "./type";
 
 export function register(username, email, password, password_validate, phone_number) {
   return (dispatch) => {
@@ -64,5 +64,21 @@ export function login(login, password) {
 export function logout() {
   return {
     type: LOGOUT,
+  };
+}
+
+export function checkProfile() {
+  return (dispatch) => {
+    return axios
+      .get(Url.Dashboard + "/cek")
+      .then((response) => {
+        return dispatch({
+          type: CHECK_PROFILE,
+          payload: response.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 }

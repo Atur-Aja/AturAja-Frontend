@@ -5,11 +5,13 @@ import { ReactComponent as Eye } from "../assets/eye.svg";
 import { ReactComponent as EyeOff } from "../assets/eye-off.svg";
 import Logo from "../assets/logo.svg";
 import { Link, useHistory } from "react-router-dom";
-import { login } from "../redux/actions/auth";
+import { checkProfile, login } from "../redux/actions/auth";
 import { clearMessage } from "../redux/actions/message";
 import { AuthField } from "../components/Commons/FormField";
 import { AuthButton } from "../components/Commons/LinkButton";
+import axios from "axios";
 import Swal from "sweetalert2";
+import { Url } from "../helpers/server";
 
 export default function Login() {
   const [isReveal, setIsReveal] = useState(true);
@@ -46,11 +48,22 @@ export default function Login() {
 
     dispatch(login(email, password))
       .then(() => {
-        Toast.fire({
-          icon: "success",
-          title: "Signed in successfully",
+        axios.get(Url.Dashboard + "/cek").then((resp) => {
+          if (resp.data == true) {
+            Toast.fire({
+              icon: "success",
+              title: "Signed in successfully",
+            });
+            history.push("/home");
+          } else {
+            Toast.fire({
+              icon: "success",
+              title: "Signed in successfully",
+              text: "Please fill your profile data",
+            });
+            history.push("/setup-profile");
+          }
         });
-        history.push("/home");
       })
       .catch(() => {
         Toast.fire({
