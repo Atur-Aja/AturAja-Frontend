@@ -37,6 +37,7 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordValidate, setPasswordValidate] = useState("");
+  const [error, setError] = useState([]);
 
   const dispatch = useDispatch();
 
@@ -45,9 +46,10 @@ export default function SignUp() {
     setLoading(true);
     dispatch(register(username, email, password, passwordValidate))
       .then(() => {
-        Toast.fire({
-          icon: "success",
+        Swal.fire({
           title: "Registered successfully",
+          text: "Check your email for verification",
+          icon: "success",
         });
         setUsername("");
         setEmail("");
@@ -68,6 +70,10 @@ export default function SignUp() {
     if (e.keyCode === 13) {
       handleRegister();
     }
+  };
+
+  const handleUsername = (data) => {
+    setUsername(data);
   };
 
   return (

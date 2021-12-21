@@ -7,7 +7,7 @@ import { IconTask } from "../components/Icons";
 import TaskModal from "../components/Modal/TaskModal";
 import { clearSearch } from "../redux/actions/friend";
 
-export default function Task({ show, onClose }) {
+export default function Task({ onClose, show }) {
   const tasks = useSelector((state) => state.task.results.tasks);
   const [loadTasks, setLoadTasks] = useState(false);
   const dispatch = useDispatch();
@@ -68,18 +68,29 @@ export default function Task({ show, onClose }) {
           });
         }
       });
-      setGroupedTask(groupedTaskCopy);
+      const sortedData = [];
+      groupedTaskCopy.map((item) => {
+        const newData = item.data.sort((a, b) => (a.task.priority < b.task.priority ? 1 : -1));
+        sortedData.push({
+          date: item.date,
+          data: newData,
+        });
+      });
+      setGroupedTask(sortedData);
     }
   }, [tasks]);
 
   const [task, setTask] = useState({});
+  const [taskModal, setTaskModal] = useState(false);
   const handleListTask = (task) => {
     setTask(task);
+    setTaskModal(true);
   };
-  const closeTask = (e) => {
+  const closeTask = () => {
     dispatch(clearSearch());
     dispatch(getAllTask());
-    onClose && onClose(e);
+    setTaskModal(false);
+    onClose && onClose();
   };
 
   return (
@@ -114,8 +125,10 @@ export default function Task({ show, onClose }) {
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:md:grid-cols-4 xl:grid-cols-5 gap-1 md:gap-4 pt-10 px-4 md:px-12">
                   {task.data.map((list) => {
                     return (
-                      <div onClick={() => handleListTask(list)}>
+                      <div key={list.task.id} onClick={() => handleListTask(list)}>
                         <TaskCard
+                          id={list.task.id}
+                          status={list.task.status}
                           priority={list.task.priority}
                           title={list.task.title}
                           time={moment(list.task.time, "HH:mm:ss").format("LT")}

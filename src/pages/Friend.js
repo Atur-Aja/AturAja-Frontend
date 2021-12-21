@@ -44,7 +44,7 @@ export default function Friend({ show, onClose }) {
                 email={user.email}
                 phoneNumber={user.phone_number}
                 id={user.id}
-                photo={`http://127.0.0.1:8000/api/user/image/${user.photo}`}
+                photo={user.photo}
               />
             ))}
           </div>

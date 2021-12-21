@@ -44,6 +44,8 @@ export default function ScheduleModal({ onClose, show, schedule }) {
   const users = useSelector((state) => state.friend.results);
   const recommendation = useSelector((state) => state.schedule.matched);
 
+  console.log(recommendation);
+
   const [addLoad, setAddLoad] = useState(false);
   const [delLoad, setDelLoad] = useState(false);
   const [searchLoad, setSearchLoad] = useState(false);
@@ -172,8 +174,9 @@ export default function ScheduleModal({ onClose, show, schedule }) {
 
   useEffect(() => {
     const date = selRecom.toString().split(" ");
-    setStartTime(date[1]);
-    setEndTime(date[3]);
+    setDate(date[1]);
+    setStartTime(date[3]);
+    setEndTime(date[5]);
   }, [selRecom]);
 
   const handleSearchUser = (e) => {
@@ -197,8 +200,8 @@ export default function ScheduleModal({ onClose, show, schedule }) {
     dispatch(matchSchedule(date, start_time, end_time, friend));
     if (recommendation.rekomendasi?.length) {
       const dataRecom = recommendation.rekomendasi.map((list) => ({
-        label: "start: " + list.start_time + " end: " + list.end_time,
-        value: "start: " + list.start_time + " end: " + list.end_time,
+        label: "date: " + list.date + " start: " + list.start_time + " end: " + list.end_time,
+        value: "date: " + list.date + " start: " + list.start_time + " end: " + list.end_time,
       }));
       setRecom([...dataRecom]);
     } else {
@@ -253,12 +256,15 @@ export default function ScheduleModal({ onClose, show, schedule }) {
               users.map((list) => (
                 <div className="flex justify-between mt-2" key={list.id}>
                   <div className="flex">
-                    <div className="w-8 h-8 border border-black border-opacity-5 rounded-full bg-abuTua">
-                      <img
-                        className="inline object-cover w-full h-full items-center justify-center place-self-center rounded-full"
-                        src={`http://127.0.0.1:8000/api/user/image/${list.photo}`}
-                        alt="Profile"
-                      />
+                    <div className="w-8 h-8 border border-black border-opacity-5 rounded-full bg-gray-400">
+                      {(list.photo && (
+                        <img
+                          className="inline object-cover w-full h-full items-center justify-center place-self-center rounded-full"
+                          src={`http://127.0.0.1:8000/api/user/image/${list.photo}`}
+                          alt="Profile"
+                        />
+                      )) ||
+                        null}
                     </div>
                     <p className="ml-3 self-center">{list.username}</p>
                   </div>
@@ -291,7 +297,7 @@ export default function ScheduleModal({ onClose, show, schedule }) {
               <input type="time" name="start" value={end_time} className="border rounded-lg text-sm px-2 py-1" onChange={onChangeEndTime} />
             </div>
             {(recom?.length && (
-              <div className="flex">
+              <div>
                 <label className="self-center mr-2">Recommendation: </label>
                 <SelectField placeholder={"choose recommendation"} options={recom} value={selRecom} onChange={(recom) => setSelRecom(recom)} />
               </div>

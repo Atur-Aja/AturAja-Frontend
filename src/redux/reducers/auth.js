@@ -1,8 +1,9 @@
-import { REGISTER_SUCCESS, REGISTER_FAILED, LOGIN_SUCCESS, LOGIN_FAILED, LOGOUT } from "../actions/type";
+import { REGISTER_SUCCESS, REGISTER_FAILED, LOGIN_SUCCESS, LOGIN_FAILED, LOGOUT, CHECK_PROFILE } from "../actions/type";
 
 const initialState = {
   user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null,
   error: null,
+  profile: false,
 };
 
 export default function auth(state = initialState, action) {
@@ -37,6 +38,11 @@ export default function auth(state = initialState, action) {
       return {
         user: null,
         error: null,
+      };
+    case CHECK_PROFILE:
+      return {
+        ...state,
+        profile: action.payload,
       };
     default:
       return state;

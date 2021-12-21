@@ -18,7 +18,7 @@ export default function ScheduleCard({ title, startTime, endTime, date, location
   }, []);
 
   return (
-    <div className="bg-white shadow-lg rounded-md px-4 py-2 mt-4 cursor-pointer">
+    <div className="bg-white shadow-lg rounded-md px-4 py-2 mt-4 h-48 cursor-pointer">
       <p className="font-semibold">{title}</p>
       {date ? (
         <div className="flex text-biruTua mt-3">
@@ -38,17 +38,20 @@ export default function ScheduleCard({ title, startTime, endTime, date, location
       </div>
       <div className="flex text-biruTua mt-3">
         <IconGroup />
-        <div className="flex ml-2">
+        <div className="flex ml-2 relative">
           {(friend.length > 1 &&
             friend.map((list) => {
               return (
                 <div className="flex">
                   <div className={`w-8 h-8 rounded-full absolute border-2 border-white bg-gray-400 z-` + list.index}>
-                    <img
-                      className="inline object-cover w-full h-full items-center justify-center place-self-center rounded-full"
-                      src={`http://127.0.0.1:8000/api/user/image/${list.image}`}
-                      alt="Profile"
-                    />
+                    {(list.image && (
+                      <img
+                        className="inline object-cover w-full h-full items-center justify-center place-self-center rounded-full"
+                        src={`http://127.0.0.1:8000/api/user/image/${list.image}`}
+                        alt="Profile"
+                      />
+                    )) ||
+                      null}
                   </div>
                   <div className="w-5" />
                 </div>
@@ -56,7 +59,7 @@ export default function ScheduleCard({ title, startTime, endTime, date, location
             })) ||
             null}
           {(image.length > 3 && (
-            <div className="w-8 h-8 z-0 rounded-full border-2 border-white bg-gray-300 flex flex-wrap content-center justify-center">
+            <div className="w-8 h-8 z-0 rounded-full ml-1 border-2 border-white bg-gray-300 flex flex-wrap content-center justify-center">
               <p className="text-xs font-bold">+{image.length - 3}</p>
             </div>
           )) || <p className="ml-1">-</p>}

@@ -14,6 +14,10 @@ import myCustomLocale from "../helpers/calendarConf";
 import { IconSchedule } from "../components/Icons";
 import { IconTask } from "../components/Icons";
 import { clearSearch } from "../redux/actions/friend";
+import axios from "axios";
+import { Url } from "../helpers/server";
+import Swal from "sweetalert2";
+import { useHistory } from "react-router-dom";
 
 const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
@@ -32,8 +36,31 @@ export default function HomePage({ show, onClose, isToday }) {
   const [loadSchedule, setLoadSchedule] = useState(false);
   const [loadTask, setLoadTask] = useState(false);
 
+  let history = useHistory();
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
+
   const dispatch = useDispatch();
   useEffect(() => {
+    axios.get(Url.Dashboard + "/cek").then((resp) => {
+      if (resp.data == false) {
+        Toast.fire({
+          icon: "info",
+          title: "Please fill your profile data",
+        });
+        history.push("/setup-profile");
+      }
+    });
+
     setLoadSchedule(true);
     setLoadTask(true);
     dispatch(getScheduleByDate(selectedDate)).then(() => setLoadSchedule(false));
@@ -104,7 +131,7 @@ export default function HomePage({ show, onClose, isToday }) {
                   <div key={list.schedule.id} onClick={() => handleListSchedule(list)}>
                     <div className="grid grid-cols-1 gap-1 pt-10 mx-4" />
                     <ScheduleCard
-                      title={schedule.title}
+                      title={list.schedule.title}
                       startTime={moment(list.schedule.start_time, "HH:mm:ss").format("LT")}
                       endTime={moment(list.schedule.end_time, "HH:mm:ss").format("LT")}
                       date={moment(list.schedule.date).format("ll")}
@@ -142,6 +169,8 @@ export default function HomePage({ show, onClose, isToday }) {
                   <div key={task.task.id} onClick={() => handleListTask(task)}>
                     <div className="grid grid-cols-1 gap-1 pt-10 mx-4" />
                     <TaskCard
+                      id={task.task.id}
+                      status={task.task.status}
                       priority={task.task.priority}
                       title={task.task.title}
                       time={moment(task.task.time, "HH:mm:ss").format("LT")}

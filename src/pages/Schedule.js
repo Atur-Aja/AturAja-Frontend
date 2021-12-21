@@ -7,7 +7,7 @@ import { IconSchedule } from "../components/Icons";
 import ScheduleModal from "../components/Modal/ScheduleModal";
 import { clearSearch } from "../redux/actions/friend";
 
-export default function Schedule({ show, onClose }) {
+export default function Schedule({ onClose, show }) {
   const schedules = useSelector((state) => state.schedule.results.schedules);
   const [loadSchedules, setLoadSchedules] = useState(false);
   const dispatch = useDispatch();
@@ -82,13 +82,16 @@ export default function Schedule({ show, onClose }) {
   }, [schedules]);
 
   const [schedule, setSchedule] = useState({});
+  const [scheduleModal, setScheduleModal] = useState(false);
   const handleListSchedule = (schedule) => {
     setSchedule(schedule);
+    setScheduleModal(true);
   };
-  const closeSchedule = (e) => {
+  const closeSchedule = () => {
     dispatch(clearSearch());
     dispatch(getAllSchedule());
-    onClose && onClose(e);
+    setScheduleModal(false);
+    onClose && onClose();
   };
 
   return (
