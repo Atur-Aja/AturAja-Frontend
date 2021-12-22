@@ -114,7 +114,7 @@ export default function Schedule({ onClose, show }) {
                   })}
                 </p>
                 <div className="border-t border-black" />
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-1 md:gap-4">
                   {list.data.map((list) => {
                     return (
                       <div onClick={() => handleListSchedule(list)}>
@@ -137,7 +137,7 @@ export default function Schedule({ onClose, show }) {
               <IconSchedule width={"80"} height={"80"} />
             </div>
             <p className="text-xl justify-self-center font-semibold">No Schedule</p>
-            <p className="justify-self-center">you can add schedule by clicking “create” button</p>
+            <p className="justify-self-center text-center">you can add schedule by clicking “create” button</p>
           </div>
         )
       )}

@@ -112,8 +112,8 @@ export default function HomePage({ show, onClose, isToday }) {
       <CreateButton onClose={onClose} show={show} taskModal={showTask} scheduleModal={showSchedule} />
       <TaskModal onClose={closeTask} show={taskModal} task={task} />
       <ScheduleModal onClose={closeSchedule} show={scheduleModal} schedule={schedule} />
-      <div className="h-full -mt-14 flex">
-        <div className="w-2/5 py-16 px-4 overflow-y-auto">
+      <div className="h-full w-screen -mt-14 flex">
+        <div className="md:w-72 lg:w-1/3 xl:w-2/5 py-16 px-4 overflow-y-auto">
           <p className="font-semibold text-xl">Schedule</p>
           {loadSchedule ? (
             <div className="h-full w-full flex flex-wrap content-center justify-center">
@@ -148,7 +148,7 @@ export default function HomePage({ show, onClose, isToday }) {
             )
           )}
         </div>
-        <div className="w-2/5 py-16 px-4 border-l border-black border-opacity-10 overflow-y-auto">
+        <div className="md:w-72 lg:w-1/3 xl:w-2/5 py-16 px-4 border-l border-black border-opacity-10 overflow-y-auto">
           <p className="font-semibold text-xl">Tasks</p>
           {loadTask ? (
             <div className="h-full w-full flex flex-wrap content-center justify-center">
@@ -185,7 +185,7 @@ export default function HomePage({ show, onClose, isToday }) {
             )
           )}
         </div>
-        <div className="w-1/5 py-20 px-4 bg-abu">
+        <div className="md:w-114 lg:w-126 xl:w-4/12 py-20 xl:px-2 lg:px-2 md:px-4 bg-abu">
           <div className="flex">
             <p className="text-5xl mr-2">{nativeDate}</p>
             <p className="text-3xl pb-1 self-end">{nativeDay}</p>

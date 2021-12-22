@@ -137,7 +137,7 @@ export default function TaskCard({ id, status, description, priority, title, tim
           </div>
         </div>
       </div>
-      {(todo.length < 3 && (
+      {(!todo.length && (
         <div className="mb-3">
           <p className="text-xs text-gray-500">Description :</p>
           {description}

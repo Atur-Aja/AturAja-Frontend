@@ -25,12 +25,12 @@ export default function FriendCard({ reload, username, photo, email, phoneNumber
   };
 
   return (
-    <div className="bg-white shadow-lg rounded-xl p-4 mt-4 cursos-pointer flex justify-between">
+    <div className="bg-white shadow-lg rounded-xl p-4 mt-4 cursos-pointer flex justify-center">
       <div className="grid grid-cols-3 gap-4">
-        <div className="bg-white border-2 border-gray-200 shadow-xl w-16 h-16 md:w-20 md:h-20 rounded-full justify-self-center flex flex-wrap content-center justify-center ">
+        <div className="bg-white border-2 border-gray-200 shadow-xl w-16 h-16 md:w-20 md:h-20 rounded-full justify-self-center flex flex-wrap content-center justify-center">
           {(photo && (
             <img
-              className="inline object-cover w-16 h-16 md:w-20 md:h-20 items-center justify-center place-self-center rounded-full "
+              className="inline object-cover w-16 h-16 md:w-20 md:h-20 items-center justify-center place-self-center rounded-full"
               src={`http://127.0.0.1:8000/api/user/image/${photo}`}
               alt="Profile"
             />
@@ -38,7 +38,7 @@ export default function FriendCard({ reload, username, photo, email, phoneNumber
             null}
         </div>
         <div className="col-span-2 text-center self-center text-md text-abuTua">
-          <p className="font-semibold text-lg text-black">{username}</p>
+          <p className="font-semibold text-base sm:text-lg text-black">{username}</p>
           <p>{email}</p>
           <p>{phoneNumber}</p>
           <button

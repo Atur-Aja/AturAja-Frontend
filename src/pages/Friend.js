@@ -32,7 +32,7 @@ export default function Friend({ show, onClose }) {
         </div>
       ) : (
         (friends?.length && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-1 md:gap-4">
             {friends.map((user) => (
               <FriendCard
                 reload={() => dispatch(getAllFriend())}
@@ -51,7 +51,7 @@ export default function Friend({ show, onClose }) {
               <IconFriend width={"80"} height={"80"} />
             </div>
             <p className="text-xl justify-self-center font-semibold">No Friend</p>
-            <p className="justify-self-center">you can build connection by clicking “add friend” button</p>
+            <p className="justify-self-center text-center">you can build connection by clicking “add friend” button</p>
           </div>
         )
       )}

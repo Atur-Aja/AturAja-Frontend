@@ -88,7 +88,7 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-biruTua">
-      <div className="w-80 h-112 md:w-96 md:h-128 rounded-xl px-2 md:px-4 py-14 bg-abuMuda">
+      <div className="w-80 h-112 md:w-96 md:h-128 lg:w-112 lg:h-144 rounded-xl px-2 md:px-4 lg:px-8 py-14 bg-abuMuda">
         <div className="flex flex-wrap content-center justify-center">
           <img src={Logo} className="w-16 md:w-20" alt="logo" />
           <div className="ml-4 font-comforta text-2xl md:text-3xl font-semibold grid place-content-center">
@@ -111,20 +111,20 @@ export default function Login() {
               onClick={toggle}
               onKeyPress={handleKeyPress}
             />
-            <div className="mt-2 flex justify-end text-gray-600 text-sm hover:text-biru">
+            <div className="mt-2 flex justify-end text-gray-600 text-xs md:text-sm lg:text-base hover:text-biru">
               <Link to="/reset">
                 <p>Forgot Password?</p>
               </Link>
             </div>
           </div>
-          <div className="grid mt-12 md:mt-20">
+          <div className="grid mt-12 md:mt-20 lg:mt-24">
             <div className="flex justify-center">
               <AuthButton text={"Sign in"} loading={loading} onClick={handleLogin} />
             </div>
             <div className="flex place-self-center mt-2">
-              <p className="text-black text-xs">Don't have an account?</p>
+              <p className="text-black text-xs md:text-sm lg:text-base">Don't have an account?</p>
               <Link to="/signup">
-                <p className="text-biru text-xs hover:text-biruTua">Sign Up</p>
+                <p className="text-biru text-xs md:text-sm lg:text-base hover:text-biruTua">Sign Up</p>
               </Link>
             </div>
           </div>
