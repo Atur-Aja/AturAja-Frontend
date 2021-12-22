@@ -16,7 +16,7 @@ export default function Navbar({ toggle, toggleCreate, toggleToday, isLanding })
 
   const [isMobile, setIsMobile] = useState(false);
   return (
-    <div className="relative md:flex md:justify-between px-4 py-2 md:px-2 bg-biruTua sticky top-0 z-50 shadow-xl md:space-x-10 md:h-full">
+    <div className="relative md:flex md:justify-between px-4 py-2 bg-biruTua sticky top-0 z-50 shadow-xl md:space-x-10 md:h-full">
       <div className="flex justify-between items-center">
         <div className="flex content-center text-white">
           {isLanding ? null : <IconMenu onClick={toggle} />}
@@ -92,7 +92,7 @@ export default function Navbar({ toggle, toggleCreate, toggleToday, isLanding })
           <div className="w-10 h-10 rounded-full bg-abuTua ml-4">
             <img
               className="inline object-cover w-full h-full items-center justify-center place-self-center rounded-full"
-              src={`http://127.0.0.1:8000/api/user/image/${profile.photo}`}
+              src={`https://api.aturaja.me/api/user/image/${profile.photo}`}
               alt="Profile"
             />
           </div>

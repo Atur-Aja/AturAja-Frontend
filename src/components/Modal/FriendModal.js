@@ -148,7 +148,7 @@ export default function FriendModal({ onClose, show }) {
                         <div className="w-10 h-10 border border-black rounded-full">
                           <img
                             className="inline object-cover w-full h-full items-center justify-center place-self-center rounded-full"
-                            src={`http://127.0.0.1:8000/api/user/image/${list.photo}`}
+                            src={`https://api.aturaja.me/api/user/image/${list.photo}`}
                             alt="Profile"
                           />
                         </div>
@@ -177,7 +177,7 @@ export default function FriendModal({ onClose, show }) {
                           <div className="w-10 h-10 border border-black rounded-full">
                             <img
                               className="inline object-cover w-full h-full items-center justify-center place-self-center rounded-full"
-                              src={`http://127.0.0.1:8000/api/user/image/${list.photo}`}
+                              src={`https://api.aturaja.me/api/user/image/${list.photo}`}
                               alt="Profile"
                             />
                           </div>
@@ -197,7 +197,7 @@ export default function FriendModal({ onClose, show }) {
                           <div className="w-10 h-10 border border-black rounded-full">
                             <img
                               className="inline object-cover w-full h-full items-center justify-center place-self-center rounded-full"
-                              src={`http://127.0.0.1:8000/api/user/image/${list.photo}`}
+                              src={`https://api.aturaja.me/api/user/image/${list.photo}`}
                               alt="Profile"
                             />
                           </div>

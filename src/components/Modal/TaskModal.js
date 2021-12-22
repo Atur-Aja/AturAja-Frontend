@@ -235,7 +235,7 @@ export default function TaskModal({ onClose, show, task }) {
                     <div className="w-8 h-8 border border-black border-opacity-5 rounded-full bg-abuTua">
                       <img
                         className="inline object-cover w-full h-full items-center justify-center place-self-center rounded-full"
-                        src={`http://127.0.0.1:8000/api/user/image/${list.photo}`}
+                        src={`https://api.aturaja.me/api/user/image/${list.photo}`}
                         alt="Profile"
                       />
                     </div>

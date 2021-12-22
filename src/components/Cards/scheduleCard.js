@@ -47,7 +47,7 @@ export default function ScheduleCard({ title, startTime, endTime, date, location
                     {(list.image && (
                       <img
                         className="inline object-cover w-full h-full items-center justify-center place-self-center rounded-full"
-                        src={`http://127.0.0.1:8000/api/user/image/${list.image}`}
+                        src={`https://api.aturaja.me/api/user/image/${list.image}`}
                         alt="Profile"
                       />
                     )) ||

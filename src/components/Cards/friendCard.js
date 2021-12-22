@@ -31,7 +31,7 @@ export default function FriendCard({ reload, username, photo, email, phoneNumber
           {(photo && (
             <img
               className="inline object-cover w-16 h-16 md:w-20 md:h-20 items-center justify-center place-self-center rounded-full"
-              src={`http://127.0.0.1:8000/api/user/image/${photo}`}
+              src={`https://api.aturaja.me/api/user/image/${photo}`}
               alt="Profile"
             />
           )) ||
