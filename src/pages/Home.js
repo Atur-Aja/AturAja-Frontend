@@ -143,7 +143,7 @@ export default function HomePage({ show, onClose, isToday }) {
                   <IconSchedule width={"80"} height={"80"} />
                 </div>
                 <p className="text-xl justify-self-center font-semibold">No Schedule</p>
-                <p className="justify-self-center">you can add schedule by clicking “create” button</p>
+                <p className="justify-self-center text-center">you can add schedule by clicking “create” button</p>
               </div>
             )
           )}
@@ -180,12 +180,12 @@ export default function HomePage({ show, onClose, isToday }) {
                   <IconTask width={"80"} height={"80"} />
                 </div>
                 <p className="text-xl justify-self-center font-semibold">No Task</p>
-                <p className="justify-self-center">you can add task by clicking “create” button</p>
+                <p className="justify-self-center text-center">you can add task by clicking “create” button</p>
               </div>
             )
           )}
         </div>
-        <div className="md:w-114 lg:w-126 xl:w-4/12 py-20 xl:px-2 lg:px-2 md:px-4 bg-abu">
+        <div className="md:w-114 lg:w-126 xl:w-1/3 py-20 xl:px-2 lg:px-2 md:px-4 bg-abu">
           <div className="flex">
             <p className="text-5xl mr-2">{nativeDate}</p>
             <p className="text-3xl pb-1 self-end">{nativeDay}</p>
