@@ -125,7 +125,7 @@ export default function FriendModal({ onClose, show }) {
                   value={name}
                 />
                 <div className="flex self-center">
-                  {loadSearch ? <div class="mr-3 loader ease-linear rounded-full border-2 border-t-2 border-gray-600 h-4 w-4" /> : null}
+                  {loadSearch ? <div className="mr-3 loader ease-linear rounded-full border-2 border-t-2 border-gray-600 h-4 w-4" /> : null}
                   <IconSearch width={"1rem"} height={"1rem"} />
                 </div>
               </div>
