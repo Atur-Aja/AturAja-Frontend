@@ -4,9 +4,12 @@ import { clearSearch, getAllFriend } from "../redux/actions/friend";
 import FriendCard from "../components/Cards/friendCard";
 import FriendModal from "../components/Modal/FriendModal";
 import { IconFriend } from "../components/Icons";
+import { toggleCreate } from "../redux/actions/bar";
 
-export default function Friend({ show, onClose }) {
+export default function Friend() {
   const friends = useSelector((state) => state.friend.friends);
+  const isCreate = useSelector((state) => state.bar.create);
+  const isSidebar = useSelector((state) => state.bar.sidebar);
   const [loadFriends, setLoadFriends] = useState(false);
 
   const dispatch = useDispatch();
@@ -17,12 +20,12 @@ export default function Friend({ show, onClose }) {
 
   const closeFriend = (e) => {
     dispatch(clearSearch());
-    onClose && onClose(e);
+    dispatch(toggleCreate(false));
   };
 
   return (
-    <div className="h-screen px-4 pt-4">
-      <FriendModal onClose={closeFriend} show={show} />
+    <div className={"h-screen px-4 pt-4 transition-all ease-in-out duration-200 " + (isSidebar ? "lg:ml-60" : "lg:ml-14")}>
+      <FriendModal onClose={closeFriend} show={isCreate} />
       {loadFriends ? (
         <div className="h-full w-full flex flex-wrap content-center justify-center">
           <div className="h-3 w-3 bg-gray-500 rounded-full mr-1 animate-bounce"></div>

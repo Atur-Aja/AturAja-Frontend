@@ -5,10 +5,13 @@ import { getProfile } from "../redux/actions/profil";
 import Logo from "../assets/logo.svg";
 import { IconMenu, IconToday } from "./Icons";
 import { baseUrl } from "../helpers/config";
+import { toggleSidebar, toggleCreate, setToday } from "../redux/actions/bar";
 
-export default function Navbar({ toggle, toggleCreate, toggleToday, isLanding }) {
+export default function Navbar({ isLanding }) {
   const location = useLocation().pathname;
   const profile = useSelector((state) => state.profile.results);
+  const isCreate = useSelector((state) => state.bar.create);
+  const isSidebar = useSelector((state) => state.bar.sidebar);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -20,7 +23,7 @@ export default function Navbar({ toggle, toggleCreate, toggleToday, isLanding })
     <div className="relative md:flex md:justify-between px-4 py-2 bg-biruTua sticky top-0 z-50 shadow-xl md:space-x-10 md:h-full">
       <div className="flex justify-between items-center">
         <div className="flex content-center text-white">
-          {isLanding ? null : <IconMenu onClick={toggle} />}
+          {isLanding ? null : <IconMenu onClick={() => dispatch(toggleSidebar(!isSidebar))} />}
           <img src={Logo} className="w-8 h-8 md:w-12 md:h-12 shadow-2xl md:ml-6 mb-2" alt="logo" />
           <p className="font-comforta font-semibold flex content-center ml-2 text-lg md:text-2xl md:mt-2">atur aja</p>
         </div>
@@ -74,16 +77,16 @@ export default function Navbar({ toggle, toggleCreate, toggleToday, isLanding })
       ) : (
         <div className="flex self-center">
           {location === "/friends" ? (
-            <p className="cursor-pointer flex flex-wrap content-center text-white font-mulish" onClick={toggleCreate}>
+            <p className="cursor-pointer flex flex-wrap content-center text-white font-mulish" onClick={() => dispatch(toggleCreate(!isCreate))}>
               + Add Friend
             </p>
           ) : (
             <div className="flex">
-              <p className="cursor-pointer flex flex-wrap content-center text-white font-mulish" onClick={toggleCreate}>
+              <p className="cursor-pointer flex flex-wrap content-center text-white font-mulish" onClick={() => dispatch(toggleCreate(!isCreate))}>
                 + Create
               </p>
               {location === "/home" ? (
-                <div className="flex flex-wrap content-center ml-6 cursor-pointer" onClick={toggleToday}>
+                <div className="flex flex-wrap content-center ml-6 cursor-pointer" onClick={() => dispatch(setToday(true))}>
                   <IconToday width="1.25rem" height="1.25rem" />
                   <p className="flex flex-wrap content-center text-white font-mulish ml-1">Today</p>
                 </div>

@@ -6,9 +6,12 @@ import moment from "moment";
 import { IconSchedule } from "../components/Icons";
 import ScheduleModal from "../components/Modal/ScheduleModal";
 import { clearSearch } from "../redux/actions/friend";
+import { toggleCreate } from "../redux/actions/bar";
 
-export default function Schedule({ onClose, show }) {
+export default function Schedule() {
   const schedules = useSelector((state) => state.schedule.results.schedules);
+  const isCreate = useSelector((state) => state.bar.create);
+  const isSidebar = useSelector((state) => state.bar.sidebar);
   const [loadSchedules, setLoadSchedules] = useState(false);
   const dispatch = useDispatch();
 
@@ -85,12 +88,12 @@ export default function Schedule({ onClose, show }) {
     dispatch(clearSearch());
     dispatch(getAllSchedule());
     setScheduleModal(false);
-    onClose && onClose();
+    dispatch(toggleCreate(false));
   };
 
   return (
-    <div className="h-screen px-4 pt-4">
-      <ScheduleModal onClose={closeSchedule || onClose} show={scheduleModal || show} schedule={schedule} />
+    <div className={"h-screen px-4 pt-4 transition-all ease-in-out duration-200 " + (isSidebar ? "lg:ml-60" : "lg:ml-14")}>
+      <ScheduleModal onClose={closeSchedule} show={scheduleModal || isCreate} schedule={schedule} />
       {loadSchedules ? (
         <div className="h-full w-full flex flex-wrap content-center justify-center">
           <div className="h-3 w-3 bg-gray-500 rounded-full mr-1 animate-bounce"></div>

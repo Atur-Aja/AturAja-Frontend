@@ -6,9 +6,12 @@ import moment from "moment";
 import { IconTask } from "../components/Icons";
 import TaskModal from "../components/Modal/TaskModal";
 import { clearSearch } from "../redux/actions/friend";
+import { toggleCreate } from "../redux/actions/bar";
 
-export default function Task({ onClose, show }) {
+export default function Task() {
   const tasks = useSelector((state) => state.task.results.tasks);
+  const isCreate = useSelector((state) => state.bar.create);
+  const isSidebar = useSelector((state) => state.bar.sidebar);
   const [loadTasks, setLoadTasks] = useState(false);
   const dispatch = useDispatch();
 
@@ -90,12 +93,12 @@ export default function Task({ onClose, show }) {
     dispatch(clearSearch());
     dispatch(getAllTask());
     setTaskModal(false);
-    onClose && onClose();
+    dispatch(toggleCreate(false));
   };
 
   return (
-    <div className="h-screen px-4 pt-4">
-      <TaskModal onClose={closeTask || onClose} show={taskModal || show} task={task} />
+    <div className={"h-screen px-4 pt-4 transition-all ease-in-out duration-200 " + (isSidebar ? "lg:ml-60" : "lg:ml-14")}>
+      <TaskModal onClose={closeTask} show={taskModal || isCreate} task={task} />
       {loadTasks ? (
         <div className="h-full w-full flex flex-wrap content-center justify-center">
           <div className="h-3 w-3 bg-gray-500 rounded-full mr-1 animate-bounce"></div>

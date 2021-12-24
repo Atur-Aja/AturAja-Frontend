@@ -18,12 +18,17 @@ import axios from "axios";
 import { Url } from "../helpers/server";
 import Swal from "sweetalert2";
 import { useHistory } from "react-router-dom";
+import { setToday, toggleCreate } from "../redux/actions/bar";
 
 const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
-export default function HomePage({ show, onClose, isToday }) {
+export default function HomePage() {
   const schedules = useSelector((state) => state.schedule.results);
   const tasks = useSelector((state) => state.task.results.tasks);
+
+  const isCreate = useSelector((state) => state.bar.create);
+  const isToday = useSelector((state) => state.bar.today);
+  const isSidebar = useSelector((state) => state.bar.sidebar);
 
   const today = utils().getToday();
   const [selectedDay, setSelectedDay] = useState(today);
@@ -65,19 +70,20 @@ export default function HomePage({ show, onClose, isToday }) {
     setLoadTask(true);
     dispatch(getScheduleByDate(selectedDate)).then(() => setLoadSchedule(false));
     dispatch(getTaskByDate(selectedDate)).then(() => setLoadTask(false));
-  }, [dispatch, selectedDate]);
+  }, [selectedDate]);
 
   useEffect(() => {
     setLoadSchedule(true);
     setLoadTask(true);
     if (isToday) {
       setSelectedDay(today);
+      dispatch(setToday(false));
     }
     setNativeDate(date);
     setNativeDay(day);
     dispatch(getScheduleByDate(selectedDate)).then(() => setLoadSchedule(false));
     dispatch(getTaskByDate(selectedDate)).then(() => setLoadTask(false));
-  }, [dispatch, date, day, selectedDate, selectedDay, isToday]);
+  }, [date, day, selectedDate, selectedDay, isToday]);
 
   const [taskModal, setTaskModal] = useState(false);
   const [scheduleModal, setScheduleModal] = useState(false);
@@ -108,8 +114,8 @@ export default function HomePage({ show, onClose, isToday }) {
   };
 
   return (
-    <div className="h-screen">
-      <CreateButton onClose={onClose} show={show} taskModal={showTask} scheduleModal={showSchedule} />
+    <div className={"h-screen transition-all ease-in-out duration-200 " + (isSidebar ? "lg:ml-60" : "lg:ml-14")}>
+      <CreateButton onClose={() => dispatch(toggleCreate(false))} show={isCreate} taskModal={showTask} scheduleModal={showSchedule} />
       <TaskModal onClose={closeTask} show={taskModal} task={task} />
       <ScheduleModal onClose={closeSchedule} show={scheduleModal} schedule={schedule} />
       <div className="h-full w-screen -mt-14 flex">
