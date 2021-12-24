@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { deleteFriend } from "../../redux/actions/friend";
 import Swal from "sweetalert2";
+import { baseUrl } from "../../helpers/config";
 
 export default function FriendCard({ reload, username, photo, email, phoneNumber, id }) {
   const dispatch = useDispatch();
@@ -31,7 +32,7 @@ export default function FriendCard({ reload, username, photo, email, phoneNumber
           {(photo && (
             <img
               className="inline object-cover w-16 h-16 md:w-20 md:h-20 items-center justify-center place-self-center rounded-full"
-              src={`https://api.aturaja.me/api/user/image/${photo}`}
+              src={`${baseUrl}/api/user/image/${photo}`}
               alt="Profile"
             />
           )) ||

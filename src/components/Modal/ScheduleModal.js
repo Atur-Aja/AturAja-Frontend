@@ -6,6 +6,7 @@ import { InputField, SelectField } from "../Commons/FormField";
 import { GreenButton, WhiteButton, DeleteButton } from "../Commons/LinkButton";
 import { IconSearch } from "../Icons";
 import Swal from "sweetalert2";
+import { baseUrl } from "../../helpers/config";
 
 const repeatOptions = [
   {
@@ -258,7 +259,7 @@ export default function ScheduleModal({ onClose, show, schedule }) {
                       {(list.photo && (
                         <img
                           className="inline object-cover w-full h-full items-center justify-center place-self-center rounded-full"
-                          src={`https://api.aturaja.me/api/user/image/${list.photo}`}
+                          src={`${baseUrl}/api/user/image/${list.photo}`}
                           alt="Profile"
                         />
                       )) ||

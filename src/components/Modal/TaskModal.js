@@ -7,6 +7,7 @@ import { IconPlus, IconDelete, IconSearch, IconCheck } from "../Icons";
 import { createTodo, deleteTodoById, updateTodoById } from "../../redux/actions/todo";
 import { searchFriend } from "../../redux/actions/friend";
 import Swal from "sweetalert2";
+import { baseUrl } from "../../helpers/config";
 
 const priorityOptions = [
   {
@@ -235,7 +236,7 @@ export default function TaskModal({ onClose, show, task }) {
                     <div className="w-8 h-8 border border-black border-opacity-5 rounded-full bg-abuTua">
                       <img
                         className="inline object-cover w-full h-full items-center justify-center place-self-center rounded-full"
-                        src={`https://api.aturaja.me/api/user/image/${list.photo}`}
+                        src={`${baseUrl}/api/user/image/${list.photo}`}
                         alt="Profile"
                       />
                     </div>

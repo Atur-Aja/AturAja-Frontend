@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { baseUrl } from "../../helpers/config";
 import { IconSchedule, IconLocation, IconClock, IconGroup } from "../Icons";
 
 export default function ScheduleCard({ title, startTime, endTime, date, location, member }) {
@@ -47,7 +48,7 @@ export default function ScheduleCard({ title, startTime, endTime, date, location
                     {(list.image && (
                       <img
                         className="inline object-cover w-full h-full items-center justify-center place-self-center rounded-full"
-                        src={`https://api.aturaja.me/api/user/image/${list.image}`}
+                        src={`${baseUrl}/api/user/image/${list.image}`}
                         alt="Profile"
                       />
                     )) ||

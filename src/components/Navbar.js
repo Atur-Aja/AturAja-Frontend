@@ -4,6 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { getProfile } from "../redux/actions/profil";
 import Logo from "../assets/logo.svg";
 import { IconMenu, IconToday } from "./Icons";
+import { baseUrl } from "../helpers/config";
 
 export default function Navbar({ toggle, toggleCreate, toggleToday, isLanding }) {
   const location = useLocation().pathname;
@@ -92,7 +93,7 @@ export default function Navbar({ toggle, toggleCreate, toggleToday, isLanding })
           <div className="w-10 h-10 rounded-full bg-abuTua ml-4">
             <img
               className="inline object-cover w-full h-full items-center justify-center place-self-center rounded-full"
-              src={`https://api.aturaja.me/api/user/image/${profile.photo}`}
+              src={`${baseUrl}/api/user/image/${profile.photo}`}
               alt="Profile"
             />
           </div>

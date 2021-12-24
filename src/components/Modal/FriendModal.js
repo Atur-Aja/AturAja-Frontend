@@ -4,6 +4,7 @@ import { acceptRequest, declineRequest, getAllFriendReq, getAllFriendReqSent, in
 import { IconSearch } from "../Icons";
 import { GreenButton, WhiteButton } from "../Commons/LinkButton";
 import Swal from "sweetalert2";
+import { baseUrl } from "../../helpers/config";
 
 export default function FriendModal({ onClose, show }) {
   const users = useSelector((state) => state.friend.results);
@@ -148,7 +149,7 @@ export default function FriendModal({ onClose, show }) {
                         <div className="w-10 h-10 border border-black rounded-full">
                           <img
                             className="inline object-cover w-full h-full items-center justify-center place-self-center rounded-full"
-                            src={`https://api.aturaja.me/api/user/image/${list.photo}`}
+                            src={`${baseUrl}/api/user/image/${list.photo}`}
                             alt="Profile"
                           />
                         </div>
@@ -177,7 +178,7 @@ export default function FriendModal({ onClose, show }) {
                           <div className="w-10 h-10 border border-black rounded-full">
                             <img
                               className="inline object-cover w-full h-full items-center justify-center place-self-center rounded-full"
-                              src={`https://api.aturaja.me/api/user/image/${list.photo}`}
+                              src={`${baseUrl}/api/user/image/${list.photo}`}
                               alt="Profile"
                             />
                           </div>
@@ -197,7 +198,7 @@ export default function FriendModal({ onClose, show }) {
                           <div className="w-10 h-10 border border-black rounded-full">
                             <img
                               className="inline object-cover w-full h-full items-center justify-center place-self-center rounded-full"
-                              src={`https://api.aturaja.me/api/user/image/${list.photo}`}
+                              src={`${baseUrl}/api/user/image/${list.photo}`}
                               alt="Profile"
                             />
                           </div>
