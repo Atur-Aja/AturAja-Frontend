@@ -29,7 +29,7 @@ const priorityOptions = [
   },
 ];
 
-export default function TaskModal({ onClose, show, task }) {
+export default function TaskModal({ onClose, show, task, selDate }) {
   const users = useSelector((state) => state.friend.results);
   const [addLoad, setAddLoad] = useState(false);
   const [delLoad, setDelLoad] = useState(false);
@@ -43,7 +43,7 @@ export default function TaskModal({ onClose, show, task }) {
   const [newTodos, setNewTodos] = useState([]);
   const [friend, setFriend] = useState([]);
   const [text, setText] = useState();
-  const [priority, setPriority] = useState("");
+  const [priority, setPriority] = useState(priorityOptions[0].label);
   const [name, setName] = useState("");
   const [people, setPeople] = useState([]);
 
@@ -179,6 +179,18 @@ export default function TaskModal({ onClose, show, task }) {
       setTodos(todo);
     }
   }, [task]);
+
+  function addZeroBefore(n) {
+    return (n < 10 ? "0" : "") + n;
+  }
+
+  useEffect(() => {
+    const date = new Date();
+    const hours = addZeroBefore(date.getHours() + 1);
+    const minutes = addZeroBefore(date.getMinutes());
+    setDueDate(selDate);
+    setDueTime(hours + ":" + minutes);
+  }, [show]);
 
   const handleMarkTodo = (e, idx) => {
     e.stopPropagation();

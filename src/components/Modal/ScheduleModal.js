@@ -28,12 +28,12 @@ const repeatOptions = [
 ];
 const notificationOptions = [
   {
-    label: "10 minutes",
-    value: "10 minutes",
-  },
-  {
     label: "5 minutes",
     value: "5 minutes",
+  },
+  {
+    label: "10 minutes",
+    value: "10 minutes",
   },
   {
     label: "30 minutes",
@@ -41,7 +41,7 @@ const notificationOptions = [
   },
 ];
 
-export default function ScheduleModal({ onClose, show, schedule }) {
+export default function ScheduleModal({ onClose, show, schedule, selDate }) {
   const users = useSelector((state) => state.friend.results);
   const recommendation = useSelector((state) => state.schedule.matched);
 
@@ -55,8 +55,8 @@ export default function ScheduleModal({ onClose, show, schedule }) {
   const [date, setDate] = useState("");
   const [start_time, setStartTime] = useState("");
   const [end_time, setEndTime] = useState("");
-  const [repeat, setRepeat] = useState("");
-  const [notification, setNotification] = useState("");
+  const [repeat, setRepeat] = useState(repeatOptions[3].label);
+  const [notification, setNotification] = useState(notificationOptions[2].label);
   const [friend, setFriend] = useState([]);
   const [name, setName] = useState("");
   const [people, setPeople] = useState([]);
@@ -166,8 +166,6 @@ export default function ScheduleModal({ onClose, show, schedule }) {
       setDate("");
       setStartTime("");
       setEndTime("");
-      setRepeat("");
-      setNotification("");
     }
   }, [schedule]);
 
@@ -207,6 +205,20 @@ export default function ScheduleModal({ onClose, show, schedule }) {
       setRecom([]);
     }
   }, [date, start_time, end_time, friend]);
+
+  function addZeroBefore(n) {
+    return (n < 10 ? "0" : "") + n;
+  }
+
+  useEffect(() => {
+    setDate(selDate);
+    const date = new Date();
+    const startHours = addZeroBefore(date.getHours() + 1);
+    const endHours = addZeroBefore(date.getHours() + 2);
+    const minutes = addZeroBefore(date.getMinutes());
+    setStartTime(startHours + ":" + minutes);
+    setEndTime(endHours + ":" + minutes);
+  }, [show]);
 
   if (!show) return null;
 
