@@ -108,12 +108,14 @@ export default function TaskModal({ onClose, show, task, selDate }) {
     });
   };
   const handleAddTodos = () => {
-    const data = { name: text };
-    const todoList = [...todos, data];
-    const newTodoList = [...newTodos, text];
-    setTodos(todoList);
-    setNewTodos(newTodoList);
-    setText("");
+    if (text != "") {
+      const data = { name: text };
+      const todoList = [...todos, data];
+      const newTodoList = [...newTodos, text];
+      setTodos(todoList);
+      setNewTodos(newTodoList);
+      setText("");
+    }
   };
   const handleDeleteTodos = (i, id) => {
     const itemRemoved = todos.splice(i, 1);
