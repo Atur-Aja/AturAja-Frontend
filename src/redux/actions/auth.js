@@ -55,7 +55,7 @@ export function login(login, password) {
           type: SET_MESSAGE,
           payload: error.response.data.message,
         });
-        console.log("error bosq = ", error.response.data.message);
+        console.log(error.response.data.message);
         return Promise.reject();
       });
   };
