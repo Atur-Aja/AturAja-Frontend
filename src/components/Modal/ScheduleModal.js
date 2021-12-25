@@ -236,7 +236,7 @@ export default function ScheduleModal({ onClose, show, schedule, selDate }) {
               value={description}
             />
             <InputField label={"Location"} placeholder={"Enter location"} onChange={(location) => setLocation(location)} value={location} />
-            <p className="font-semibold mt-2">People</p>
+            <p className="font-semibold mt-2">Invited members</p>
             <div className="py-1 pr-3 border-b border-biruTua flex justify-between">
               <input
                 className="appearance-none bg-transparent px-2 py-1 w-3/4 text-gray-700 leading-tight focus:outline-none border-none"

@@ -15,16 +15,16 @@ const priorityOptions = [
     value: "0",
   },
   {
-    label: "low",
+    label: "less urgent",
     value: "1",
   },
   {
-    label: "medium",
+    label: "urgent",
     value: "2",
   },
 
   {
-    label: "high",
+    label: "very urgent",
     value: "3",
   },
 ];
@@ -216,7 +216,7 @@ export default function TaskModal({ onClose, show, task, selDate }) {
               onChange={(description) => setDescription(description)}
               value={description}
             />
-            <p className="font-semibold mt-2">People</p>
+            <p className="font-semibold mt-2">Invited members</p>
             <div className="py-1 pr-3 border-b border-biruTua flex justify-between">
               <input
                 className="appearance-none bg-transparent px-2 py-1 w-3/4 text-gray-700 leading-tight focus:outline-none border-none"
