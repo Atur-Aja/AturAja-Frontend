@@ -164,8 +164,9 @@ export default function ScheduleModal({ onClose, show, schedule, selDate }) {
       setDescription("");
       setLocation("");
       setDate("");
-      setStartTime("");
-      setEndTime("");
+      setCurrentTime();
+      setRepeat(repeatOptions[3].label);
+      setNotification(notificationOptions[2].label);
     }
   }, [schedule]);
 
@@ -210,15 +211,27 @@ export default function ScheduleModal({ onClose, show, schedule, selDate }) {
     return (n < 10 ? "0" : "") + n;
   }
 
-  useEffect(() => {
+  const setCurrentTime = () => {
     setDate(selDate);
     const date = new Date();
-    const startHours = addZeroBefore(date.getHours() + 1);
-    const endHours = addZeroBefore(date.getHours() + 2);
+    var startHours = "0";
+    var endHours = "0";
+    if (date.getHours() + 1 == 24) {
+      startHours = "01";
+    } else {
+      startHours = addZeroBefore(date.getHours() + 1);
+    }
+    if (date.getHours() + 2 == 24) {
+      endHours = "01";
+    } else if (date.getHours() + 2 == 25) {
+      endHours = "02";
+    } else {
+      endHours = addZeroBefore(date.getHours() + 2);
+    }
     const minutes = addZeroBefore(date.getMinutes());
     setStartTime(startHours + ":" + minutes);
     setEndTime(endHours + ":" + minutes);
-  }, [show]);
+  };
 
   if (!show) return null;
 

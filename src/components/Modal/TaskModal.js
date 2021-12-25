@@ -166,6 +166,12 @@ export default function TaskModal({ onClose, show, task, selDate }) {
       setDueDate(task.task.date);
       setDueTime(task.task.time);
       setPriority(task.task.priority);
+    } else {
+      setTitle("");
+      setDescription("");
+      setDueDate("");
+      setCurrentTime();
+      setPriority(priorityOptions[0].label);
     }
 
     if (task.member?.length) {
@@ -186,13 +192,18 @@ export default function TaskModal({ onClose, show, task, selDate }) {
     return (n < 10 ? "0" : "") + n;
   }
 
-  useEffect(() => {
+  const setCurrentTime = () => {
     const date = new Date();
-    const hours = addZeroBefore(date.getHours() + 1);
+    var hours = "0";
+    if (date.getHours() + 1 == 24) {
+      hours = "01";
+    } else {
+      hours = addZeroBefore(date.getHours() + 1);
+    }
     const minutes = addZeroBefore(date.getMinutes());
     setDueDate(selDate);
     setDueTime(hours + ":" + minutes);
-  }, [show]);
+  };
 
   const handleMarkTodo = (e, idx) => {
     e.stopPropagation();

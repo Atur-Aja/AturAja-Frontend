@@ -41,6 +41,9 @@ export default function HomePage() {
   const [loadSchedule, setLoadSchedule] = useState(false);
   const [loadTask, setLoadTask] = useState(false);
 
+  const [schedule, setSchedule] = useState({});
+  const [task, setTask] = useState({});
+
   let history = useHistory();
   const Toast = Swal.mixin({
     toast: true,
@@ -90,20 +93,20 @@ export default function HomePage() {
   const showTask = () => setTaskModal(true);
   const showSchedule = () => setScheduleModal(true);
   const closeTask = () => {
+    setTask({});
     dispatch(clearSearch());
     setTaskModal(false);
     setLoadTask(true);
     dispatch(getTaskByDate(selectedDate)).then(() => setLoadTask(false));
   };
   const closeSchedule = () => {
+    setSchedule({});
     dispatch(clearSearch());
     setScheduleModal(false);
     setLoadSchedule(true);
     dispatch(getScheduleByDate(selectedDate)).then(() => setLoadSchedule(false));
   };
 
-  const [schedule, setSchedule] = useState({});
-  const [task, setTask] = useState({});
   const handleListSchedule = (schedule) => {
     setSchedule(schedule);
     setScheduleModal(true);
