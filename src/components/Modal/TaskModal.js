@@ -42,7 +42,7 @@ export default function TaskModal({ onClose, show, task, selDate }) {
   const [todos, setTodos] = useState([]);
   const [newTodos, setNewTodos] = useState([]);
   const [friend, setFriend] = useState([]);
-  const [text, setText] = useState();
+  const [text, setText] = useState("");
   const [priority, setPriority] = useState(priorityOptions[0].label);
   const [name, setName] = useState("");
   const [people, setPeople] = useState([]);
