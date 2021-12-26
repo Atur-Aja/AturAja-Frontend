@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { ReactComponent as Email } from "../assets/email.svg";
 import { ReactComponent as Eye } from "../assets/eye.svg";
@@ -38,6 +38,11 @@ export default function SignUp() {
   const [password, setPassword] = useState("");
   const [passwordValidate, setPasswordValidate] = useState("");
 
+  const [errUsername, setErrUsername] = useState(null);
+  const [errEmail, setErrEmail] = useState(null);
+  const [errPassword, setErrPassword] = useState(null);
+  const [errPasswdVal, setErrPasswdVal] = useState(null);
+
   const dispatch = useDispatch();
 
   const handleRegister = (e) => {
@@ -71,14 +76,54 @@ export default function SignUp() {
     }
   };
 
+  useEffect(() => {
+    if (username != "") {
+      if (/^[a-zA-Z0-9_-]{4,16}$/.test(username)) {
+        setErrUsername(null);
+      } else {
+        setErrUsername("Username must be between 4-16 characters and only contain uppercase, lowercase, number, underscore, hyphen");
+      }
+    }
+  }, [username]);
+
+  useEffect(() => {
+    if (email != "") {
+      if (/^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/.test(email)) {
+        setErrEmail(null);
+      } else {
+        setErrEmail("Invalid email address");
+      }
+    }
+  }, [email]);
+
+  useEffect(() => {
+    if (password != "") {
+      if (password.length >= 8) {
+        setErrPassword(null);
+      } else {
+        setErrPassword("Password must has at least 8 characters");
+      }
+    }
+  }, [password]);
+
+  useEffect(() => {
+    if (passwordValidate == password) {
+      setErrPasswdVal(null);
+    } else {
+      setErrPasswdVal("Invalid confirm password");
+    }
+  }, [passwordValidate]);
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-biruTua px-4 py-12">
       <div className="w-80 h-112 md:w-96 md:h-128 lg:w-112 lg:h-144 rounded-xl px-2 md:px-4 lg:px-8 py-14 bg-abuMuda">
         <form>
           <div className="mx-4 grid">
             <p className="text-black text-base md:text-lg lg:text-xl font-bold place-self-center">Create your account</p>
-            <AuthField placeholder={"Username"} value={username} onChange={(username) => setUsername(username)} icon={<User />} />
-            <AuthField placeholder={"Email"} value={email} onChange={(email) => setEmail(email)} icon={<Email />} type={"email"} />
+            <AuthField placeholder={"Username"} value={username} onChange={(username) => setUsername(username)} icon={<User />} error={errUsername} />
+            {errUsername && <p className="text-red-500 text-sm">{errUsername}</p>}
+            <AuthField placeholder={"Email"} value={email} onChange={(email) => setEmail(email)} icon={<Email />} type={"email"} error={errEmail} />
+            {errEmail && <p className="text-red-500 text-sm">{errEmail}</p>}
             <AuthField
               placeholder={"Password"}
               value={password}
@@ -86,7 +131,9 @@ export default function SignUp() {
               icon={isReveal ? <EyeOff /> : <Eye />}
               type={isReveal ? "password" : "text"}
               onClick={toggle}
+              error={errPassword}
             />
+            {errPassword && <p className="text-red-500 text-sm">{errPassword}</p>}
             <AuthField
               placeholder={"Confirm Password"}
               value={passwordValidate}
@@ -95,7 +142,9 @@ export default function SignUp() {
               type={isRevealConf ? "password" : "text"}
               onClick={toggleConf}
               onKeyPress={handleKeyPress}
+              error={errPasswdVal}
             />
+            {errPasswdVal && <p className="text-red-500 text-sm">{errPasswdVal}</p>}
             <div className="grid mt-14">
               <div className="flex justify-center w-full">
                 <AuthButton text={"Sign up"} loading={loading} onClick={handleRegister} />
