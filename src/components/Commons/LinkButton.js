@@ -1,10 +1,13 @@
-const GreenButton = ({ onClick, loading, text }) => {
+const GreenButton = ({ onClick, loading, text, invited }) => {
   const handleClick = (e) => {
     onClick && onClick(e);
   };
-
   return (
-    <button className="bg-biruTua hover:bg-biru text-white rounded-lg px-3 py-1 mx-2" onClick={handleClick} disabled={loading}>
+    <button
+      className={`text-white rounded-lg px-3 py-1 mx-2 ` + (invited ? "bg-gray-500" : "bg-biruTua hover:bg-biru")}
+      onClick={handleClick}
+      disabled={loading || invited}
+    >
       {loading ? <div className="loader ease-linear rounded-full border-2 border-t-2 border-gray-400 h-4 w-4" /> : text}
     </button>
   );

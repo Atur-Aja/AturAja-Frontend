@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { acceptRequest, declineRequest, getAllFriendReq, getAllFriendReqSent, inviteFriend, searchUser } from "../../redux/actions/friend";
 import { IconSearch } from "../Icons";
@@ -17,6 +17,10 @@ export default function FriendModal({ onClose, show }) {
   const [loadDec, setloadDec] = useState([]);
 
   const [name, setName] = useState("");
+
+  useEffect(() => {
+    setName("");
+  }, [onClose]);
 
   const dispatch = useDispatch();
   const handleSearchUser = (e) => {
@@ -53,6 +57,7 @@ export default function FriendModal({ onClose, show }) {
     newArr[i] = true;
     setloadInv(newArr);
     dispatch(inviteFriend(user_id)).then(() => {
+      dispatch(searchUser(name));
       setloadInv([]);
       Toast.fire({
         icon: "success",
@@ -156,7 +161,12 @@ export default function FriendModal({ onClose, show }) {
                         <p className="text-lg ml-3 font-semibold self-center">{list.username}</p>
                       </div>
                       <div className="flex self-center">
-                        <GreenButton text={"invite"} onClick={(e) => handleInviteUser(list.id, i)} loading={loadInv[i]} />
+                        <GreenButton
+                          text={list.invited == "true" ? "invited" : "invite"}
+                          onClick={(e) => handleInviteUser(list.id, i)}
+                          loading={loadInv[i]}
+                          invited={list.invited == "true"}
+                        />
                       </div>
                     </div>
                   ))))) ||
