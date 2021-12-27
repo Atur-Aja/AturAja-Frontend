@@ -96,14 +96,14 @@ export default function FriendModal({ onClose, show }) {
 
   return (
     <div className="fixed z-50 top-0 bottom-0 left-0 right-0 bg-filter flex items-center justify-center" onClick={onClose}>
-      <div className="w-2/5 h-5/12 py-3 px-6 shadow-xl rounded-md justify-self-end bg-white" onClick={(e) => e.stopPropagation()}>
-        <p className="font-bold text-2xl text-center">Add Friend</p>
-        <div className="w-full h-5/6 mt-4 border border-biruTua rounded-md overflow-y-auto">
+      <div className="w-60 h-112 overflow-auto md:w-2/5 md:h-5/12 py-3 px-3 md:px-6 shadow-xl rounded-md justify-self-end bg-white" onClick={(e) => e.stopPropagation()}>
+        <p className="font-bold text-xl md:text-2xl text-center">Add Friend</p>
+        <div className="w-full h96 md:h-5/6 mt-2 md:mt-4 border border-biruTua rounded-md overflow-y-auto">
           <div className="sticky top-0 bg-white">
             <div className="flex cursor-pointer">
               <div
                 className={
-                  "w-1/2 py-1 text-biruTua text-center text-xl font-bold border-b border-biruTua rounded-tr-md " +
+                  "w-1/2 py-1 text-biruTua text-center textlg md:text-xl font-bold border-b border-biruTua rounded-tr-md " +
                   (isInvite ? "text-white bg-biruTua" : "")
                 }
                 onClick={toggleInvite}
@@ -112,7 +112,7 @@ export default function FriendModal({ onClose, show }) {
               </div>
               <div
                 className={
-                  "flex justify-center w-1/2 py-1 text-biruTua text-xl font-bold border-b border-biruTua rounded-tl-md " +
+                  "flex justify-center w-1/2 py-1 text-biruTua text-lg md:text-xl font-bold border-b border-biruTua rounded-tl-md " +
                   (isInvite ? "" : "text-white bg-biruTua")
                 }
                 onClick={toggleWaiting}
@@ -122,9 +122,9 @@ export default function FriendModal({ onClose, show }) {
               </div>
             </div>
             {(isInvite && (
-              <div className="mx-6 my-3 px-2 py-1 border-b border-biruTua flex justify-between">
+              <div className="mx-3 md:mx-6 my-3 px-2 py-1 border-b border-biruTua flex justify-between">
                 <input
-                  className="appearance-none bg-transparent w-1/2 text-gray-700 leading-tight focus:outline-none border-none"
+                  className="appearance-none bg-transparent w-3/4 md:w-1/2 text-gray-700 leading-tight focus:outline-none border-none"
                   placeholder="search username"
                   onChange={(e) => handleSearchUser(e)}
                   value={name}

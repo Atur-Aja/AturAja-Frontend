@@ -216,10 +216,10 @@ export default function TaskModal({ onClose, show, task, selDate }) {
 
   return (
     <div className="fixed z-50 top-0 bottom-0 left-0 right-0 bg-filter flex items-center justify-center" onClick={onClose}>
-      <div className="w-2/5 py-3 px-6 shadow-xl rounded-md justify-self-end bg-white" onClick={(e) => e.stopPropagation()}>
-        <p className="font-bold text-2xl text-center">{(task.task?.id && "Detail") || "New Task"}</p>
-        <div className="flex">
-          <div className="w-1/2 ml-2 mr-8">
+      <div className="w-60 h-112 overflow-auto md:w-2/5 py-3 px-3 md:px-6 shadow-xl rounded-md justify-self-end bg-white" onClick={(e) => e.stopPropagation()}>
+        <p className="font-bold text-xl md:text-2xl text-center">{(task.task?.id && "Detail") || "New Task"}</p>
+        <div className="flex flex-col md:flex-row md:mt-3">
+          <div className="md:w-1/2 md:ml-2 md:mr-8 mx-2 md:mx-0">
             <InputField label={"Title"} placeholder={"Enter title here"} onChange={(title) => setTitle(title)} value={title} />
             <InputField
               label={"Description"}
@@ -279,7 +279,7 @@ export default function TaskModal({ onClose, show, task, selDate }) {
               ))) ||
               null}
           </div>
-          <div className="w-1/2 mr-2 ml-8">
+          <div className="md:w-1/2 md:mr-2 md:ml-8 mx-2 md:mx-0">
             <InputField label={"Due Date"} onChange={(date) => setDueDate(date)} value={due_date} type={"date"} />
             <input type="time" name="time" value={due_time} className="w-full border rounded-lg text-sm px-2 py-1" onChange={onChangeDueTime} />
             <SelectField

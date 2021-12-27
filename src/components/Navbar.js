@@ -50,7 +50,7 @@ export default function Navbar({ isLanding }) {
       </div>
       {isLanding ? (
         <div className={`${isMobile ? "block" : "hidden"} md:flex flex-col md:flex-row content-center text-white font-mulish`}>
-          <div className="flex flex-col md:flex-row content-center md:flex md:my-4">
+          {/* <div className="flex flex-col md:flex-row content-center md:flex md:my-4">
             <Link to="/">
               <p className="border-t-2 md:border-t-0 font-semibold text-lg mx-0 md:mx-4 hover:text-gray-400">Fitur</p>
             </Link>
@@ -60,8 +60,8 @@ export default function Navbar({ isLanding }) {
             <Link to="/">
               <p className="font-semibold text-lg mx-0 md:mx-4 hover:text-gray-400">Bantuan</p>
             </Link>
-          </div>
-          <div className="flex md:flex-row content-center justify-between py-2">
+          </div> */}
+          {/* <div className="flex md:flex-row content-center justify-between py-2">
             <Link to="/login">
               <button className="bg-biru hover:bg-biruTua px-4 md:px-8 py-2 rounded md:rounded-full ml-0 md:ml-2 md:ml-4 mr-2 shadow-2xl">
                 Login
@@ -72,7 +72,7 @@ export default function Navbar({ isLanding }) {
                 Register
               </button>
             </Link>
-          </div>
+          </div> */}
         </div>
       ) : (
         <div className="flex self-center">
