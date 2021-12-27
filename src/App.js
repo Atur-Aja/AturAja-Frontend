@@ -31,7 +31,7 @@ function App() {
         <Route path="/signup" component={SignUp} />
         <Route path="/setup-profile" component={SetProfile} />
         <Route exact path="/">
-          <Navbar isLanding={true} />
+          {/* <Navbar isLanding={true} /> */}
           <LandingPage />
         </Route>
         <Route>
