@@ -43,7 +43,7 @@ export default function TaskModal({ onClose, show, task, selDate }) {
   const [newTodos, setNewTodos] = useState([]);
   const [friend, setFriend] = useState([]);
   const [text, setText] = useState("");
-  const [priority, setPriority] = useState(priorityOptions[0].label);
+  const [priority, setPriority] = useState(priorityOptions[0].value);
   const [name, setName] = useState("");
   const [people, setPeople] = useState([]);
 
@@ -171,7 +171,7 @@ export default function TaskModal({ onClose, show, task, selDate }) {
       setDescription("");
       setDueDate("");
       setCurrentTime();
-      setPriority(priorityOptions[0].label);
+      setPriority(priorityOptions[0].value);
     }
 
     if (task.member?.length) {
