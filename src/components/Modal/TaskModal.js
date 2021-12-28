@@ -211,6 +211,7 @@ export default function TaskModal({ onClose, show, task, selDate }) {
     const newTodos = [...todos];
     newTodos[idx].status = !newTodos[idx].status;
     setTodos(newTodos);
+    setNewTodos([]);
   };
 
   if (!show) return null;
