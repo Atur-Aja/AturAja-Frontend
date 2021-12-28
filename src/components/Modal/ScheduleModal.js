@@ -55,8 +55,8 @@ export default function ScheduleModal({ onClose, show, schedule, selDate }) {
   const [date, setDate] = useState("");
   const [start_time, setStartTime] = useState("");
   const [end_time, setEndTime] = useState("");
-  const [repeat, setRepeat] = useState(repeatOptions[3].label);
-  const [notification, setNotification] = useState(notificationOptions[2].label);
+  const [repeat, setRepeat] = useState(repeatOptions[3].value);
+  const [notification, setNotification] = useState(notificationOptions[2].value);
   const [friend, setFriend] = useState([]);
   const [name, setName] = useState("");
   const [people, setPeople] = useState([]);
@@ -165,10 +165,10 @@ export default function ScheduleModal({ onClose, show, schedule, selDate }) {
       setLocation("");
       setDate("");
       setCurrentTime();
-      setRepeat(repeatOptions[3].label);
-      setNotification(notificationOptions[2].label);
+      setRepeat(repeatOptions[3].value);
+      setNotification(notificationOptions[2].value);
     }
-  }, [schedule]);
+  }, [schedule, show]);
 
   useEffect(() => {
     const date = selRecom.toString().split(" ");

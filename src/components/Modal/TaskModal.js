@@ -186,7 +186,7 @@ export default function TaskModal({ onClose, show, task, selDate }) {
       let todo = task.todo.map((list) => list);
       setTodos(todo);
     }
-  }, [task]);
+  }, [task, show]);
 
   function addZeroBefore(n) {
     return (n < 10 ? "0" : "") + n;
