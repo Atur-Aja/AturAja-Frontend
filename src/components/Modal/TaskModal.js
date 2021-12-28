@@ -170,6 +170,7 @@ export default function TaskModal({ onClose, show, task, selDate }) {
       setTitle("");
       setDescription("");
       setDueDate("");
+      setFriend([]);
       setCurrentTime();
       setPriority(priorityOptions[0].value);
     }

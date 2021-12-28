@@ -164,6 +164,7 @@ export default function ScheduleModal({ onClose, show, schedule, selDate }) {
       setDescription("");
       setLocation("");
       setDate("");
+      setFriend([]);
       setCurrentTime();
       setRepeat(repeatOptions[3].value);
       setNotification(notificationOptions[2].value);
