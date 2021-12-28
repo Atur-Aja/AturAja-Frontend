@@ -90,6 +90,7 @@ export default function Task() {
     setTaskModal(true);
   };
   const closeTask = () => {
+    setTask({});
     dispatch(clearSearch());
     dispatch(getAllTask());
     setTaskModal(false);
