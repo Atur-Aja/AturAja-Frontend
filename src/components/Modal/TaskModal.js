@@ -107,6 +107,13 @@ export default function TaskModal({ onClose, show, task, selDate }) {
       }
     });
   };
+
+  const handleKeyPress = (e) => {
+    if (e.charCode === 13) {
+      handleAddTodos();
+    }
+  };
+
   const handleAddTodos = () => {
     if (text != "") {
       const data = { name: text };
@@ -298,6 +305,7 @@ export default function TaskModal({ onClose, show, task, selDate }) {
                 className="ml-2 text-sm appearance-none bg-transparent focus:outline-none"
                 placeholder="+ add todo"
                 value={text}
+                onKeyPress={handleKeyPress}
                 onChange={onChangeText}
               />
               <IconPlus width={"25"} height={"25"} onClick={handleAddTodos} />
