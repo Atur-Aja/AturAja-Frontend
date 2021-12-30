@@ -47,44 +47,102 @@ export default function TaskModal({ onClose, show, task, selDate }) {
   const [name, setName] = useState("");
   const [people, setPeople] = useState([]);
 
+  const [errTitle, setErrTitle] = useState("");
+  const [errDate, setErrDate] = useState("");
+
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
+
   const dispatch = useDispatch();
+
+  function fieldCheck() {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (title !== "" && due_date !== "") {
+          resolve();
+        } else if (title == "") {
+          setErrTitle("Title field is required");
+        } else if (due_date == "") {
+          setErrDate("Date field is required");
+        }
+        reject();
+      }, 300);
+    });
+  }
+
   const handleAddTask = (e) => {
     e.preventDefault();
-    setAddLoad(true);
-    dispatch(createTask(title, description, due_date, due_time, newTodos, friend, priority)).then(() => {
-      Swal.fire({
-        text: "Your task has been created successfully.",
-        icon: "success",
-        timer: 3000,
-        timerProgressBar: true,
-      });
-      setAddLoad(false);
-      onClose();
-    });
-  };
-  const handleUpdateTask = (e) => {
-    e.preventDefault();
-    Swal.fire({
-      title: "Are you sure?",
-      text: "Are you sure want to update this taks?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#c1c1c1",
-      confirmButtonText: "update",
-    }).then((result) => {
-      if (result.isConfirmed) {
+
+    fieldCheck()
+      .then(() => {
         setAddLoad(true);
-        dispatch(createTodo(task.task.id, newTodos));
-        saveUpdatedTodo();
-        dispatch(updateTaskById(task.task.id, title, description, due_date, due_time, friend, priority)).then(() => {
-          Swal.fire({ title: "Updated!", text: "Your task has been updated successfully.", icon: "success", timer: 3000, timerProgressBar: true });
+        dispatch(createTask(title, description, due_date, due_time, newTodos, friend, priority)).then(() => {
+          Swal.fire({
+            text: "Your task has been created successfully.",
+            icon: "success",
+            timer: 3000,
+            timerProgressBar: true,
+          });
           setAddLoad(false);
           onClose();
         });
-        setNewTodos([]);
-      }
-    });
+      })
+      .catch(() => {
+        Toast.fire({
+          icon: "warning",
+          title: "Please fill up the blank fields with valid data",
+        });
+      });
+  };
+
+  const handleUpdateTask = (e) => {
+    e.preventDefault();
+
+    fieldCheck()
+      .then(() => {
+        Swal.fire({
+          title: "Are you sure?",
+          text: "Are you sure want to update this taks?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#c1c1c1",
+          confirmButtonText: "update",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            setAddLoad(true);
+            dispatch(createTodo(task.task.id, newTodos));
+            saveUpdatedTodo();
+            dispatch(updateTaskById(task.task.id, title, description, due_date, due_time, friend, priority)).then(() => {
+              Swal.fire({
+                title: "Updated!",
+                text: "Your task has been updated successfully.",
+                icon: "success",
+                timer: 3000,
+                timerProgressBar: true,
+              });
+              setAddLoad(false);
+              onClose();
+            });
+            setNewTodos([]);
+          }
+        });
+      })
+      .catch(() => {
+        Toast.fire({
+          icon: "warning",
+          title: "Please fill up the blank fields with valid data",
+        });
+      });
   };
   const handleDeleteTask = (e) => {
     e.preventDefault();
@@ -196,6 +254,26 @@ export default function TaskModal({ onClose, show, task, selDate }) {
     }
   }, [task, show]);
 
+  useEffect(() => {
+    if (title !== "" && title.length >= 3 && title.length <= 32) {
+      setErrTitle("");
+    } else if (title !== "" && (title.length < 3 || title.length > 32)) {
+      setErrTitle("Title must be between 3-32 characters");
+    }
+  }, [title]);
+
+  useEffect(() => {
+    if (due_date !== "") {
+      setErrDate("");
+    } else {
+      setErrDate("Date field is required");
+    }
+  }, [due_date]);
+  useEffect(() => {
+    setErrTitle("");
+    setErrDate("");
+  }, [onClose]);
+
   function addZeroBefore(n) {
     return (n < 10 ? "0" : "") + n;
   }
@@ -230,6 +308,7 @@ export default function TaskModal({ onClose, show, task, selDate }) {
         <div className="flex">
           <div className="w-1/2 ml-2 mr-8">
             <InputField label={"Title"} placeholder={"Enter title here"} onChange={(title) => setTitle(title)} value={title} />
+            {errTitle && <p className="text-red-500 text-sm">{errTitle}</p>}
             <InputField
               label={"Description"}
               placeholder={"Enter description"}
@@ -290,6 +369,7 @@ export default function TaskModal({ onClose, show, task, selDate }) {
           </div>
           <div className="w-1/2 mr-2 ml-8">
             <InputField label={"Due Date"} onChange={(date) => setDueDate(date)} value={due_date} type={"date"} />
+            {errDate && <p className="text-red-500 text-sm">{errDate}</p>}
             <input type="time" name="time" value={due_time} className="w-full border rounded-lg text-sm px-2 py-1" onChange={onChangeDueTime} />
             <SelectField
               placeholder={"choose priority"}
