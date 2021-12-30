@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { setProfile } from "../redux/actions/profil";
 import { useDispatch } from "react-redux";
 import { AuthField } from "../components/Commons/FormField";
@@ -36,6 +36,10 @@ export default function SetProfile() {
   let history = useHistory();
   const dispatch = useDispatch();
 
+  const [errPhoto, setErrPhoto] = useState(null);
+  const [errName, setErrName] = useState(null);
+  const [errPhone, setErrPhone] = useState(null);
+
   const handleSave = (e) => {
     e.preventDefault();
     setLoading(true);
@@ -58,11 +62,37 @@ export default function SetProfile() {
     } else {
       Toast.fire({
         icon: "warning",
-        title: "The given data was invalid",
+        title: "Please fill up the blank fields",
       });
       setLoading(false);
     }
+
+    if (image == null) {
+      setErrPhoto("This field is required");
+    }
+    if (fullName == "") {
+      setErrName("This field is required");
+    }
+    if (phoneNumber == "") {
+      setErrPhone("This field is required");
+    }
   };
+
+  useEffect(() => {
+    if (image !== null) {
+      setErrPhoto(null);
+    }
+  }, [image]);
+  useEffect(() => {
+    if (fullName !== "") {
+      setErrName(null);
+    }
+  }, [fullName]);
+  useEffect(() => {
+    if (phoneNumber !== "") {
+      setErrPhone(null);
+    }
+  }, [phoneNumber]);
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
@@ -91,9 +121,11 @@ export default function SetProfile() {
                 <IconCamera />
               </label>
             </div>
+            {errPhoto && <p className="text-red-500 text-sm">{errPhoto}</p>}
           </div>
           <div className="mt-6 mx-4">
             <AuthField placeholder={"Full Name"} value={fullName} onChange={(fullName) => setFullName(fullName)} icon={<User />} />
+            {errName && <p className="text-red-500 text-sm">{errName}</p>}
             <AuthField
               placeholder={"Phone Number"}
               value={phoneNumber}
@@ -102,6 +134,7 @@ export default function SetProfile() {
               type={"number"}
               onKeyPress={handleKeyPress}
             />
+            {errPhone && <p className="text-red-500 text-sm">{errPhone}</p>}
           </div>
           <div className="grid mt-14">
             <div className="flex justify-center">
