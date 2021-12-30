@@ -7,6 +7,7 @@ import { IconPlus, IconDelete, IconSearch, IconCheck } from "../Icons";
 import { createTodo, deleteTodoById, updateTodoById } from "../../redux/actions/todo";
 import { searchFriend } from "../../redux/actions/friend";
 import Swal from "sweetalert2";
+import { baseUrl } from "../../helpers/config";
 
 const priorityOptions = [
   {
@@ -14,21 +15,21 @@ const priorityOptions = [
     value: "0",
   },
   {
-    label: "low",
+    label: "less urgent",
     value: "1",
   },
   {
-    label: "medium",
+    label: "urgent",
     value: "2",
   },
 
   {
-    label: "high",
+    label: "very urgent",
     value: "3",
   },
 ];
 
-export default function TaskModal({ onClose, show, task }) {
+export default function TaskModal({ onClose, show, task, selDate }) {
   const users = useSelector((state) => state.friend.results);
   const [addLoad, setAddLoad] = useState(false);
   const [delLoad, setDelLoad] = useState(false);
@@ -41,49 +42,107 @@ export default function TaskModal({ onClose, show, task }) {
   const [todos, setTodos] = useState([]);
   const [newTodos, setNewTodos] = useState([]);
   const [friend, setFriend] = useState([]);
-  const [text, setText] = useState();
-  const [priority, setPriority] = useState("");
+  const [text, setText] = useState("");
+  const [priority, setPriority] = useState(priorityOptions[0].value);
   const [name, setName] = useState("");
   const [people, setPeople] = useState([]);
 
+  const [errTitle, setErrTitle] = useState("");
+  const [errDate, setErrDate] = useState("");
+
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
+
   const dispatch = useDispatch();
+
+  function fieldCheck() {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (title !== "" && due_date !== "") {
+          resolve();
+        } else if (title == "") {
+          setErrTitle("Title field is required");
+        } else if (due_date == "") {
+          setErrDate("Date field is required");
+        }
+        reject();
+      }, 300);
+    });
+  }
+
   const handleAddTask = (e) => {
     e.preventDefault();
-    setAddLoad(true);
-    dispatch(createTask(title, description, due_date, due_time, newTodos, friend, priority)).then(() => {
-      Swal.fire({
-        text: "Your task has been created successfully.",
-        icon: "success",
-        timer: 3000,
-        timerProgressBar: true,
-      });
-      setAddLoad(false);
-      onClose();
-    });
-  };
-  const handleUpdateTask = (e) => {
-    e.preventDefault();
-    Swal.fire({
-      title: "Are you sure?",
-      text: "Are you sure want to update this taks?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#c1c1c1",
-      confirmButtonText: "update",
-    }).then((result) => {
-      if (result.isConfirmed) {
+
+    fieldCheck()
+      .then(() => {
         setAddLoad(true);
-        dispatch(createTodo(task.task.id, newTodos));
-        saveUpdatedTodo();
-        dispatch(updateTaskById(task.task.id, title, description, due_date, due_time, friend, priority)).then(() => {
-          Swal.fire({ title: "Updated!", text: "Your task has been updated successfully.", icon: "success", timer: 3000, timerProgressBar: true });
+        dispatch(createTask(title, description, due_date, due_time, newTodos, friend, priority)).then(() => {
+          Swal.fire({
+            text: "Your task has been created successfully.",
+            icon: "success",
+            timer: 3000,
+            timerProgressBar: true,
+          });
           setAddLoad(false);
           onClose();
         });
-        setNewTodos([]);
-      }
-    });
+      })
+      .catch(() => {
+        Toast.fire({
+          icon: "warning",
+          title: "Please fill up the blank fields with valid data",
+        });
+      });
+  };
+
+  const handleUpdateTask = (e) => {
+    e.preventDefault();
+
+    fieldCheck()
+      .then(() => {
+        Swal.fire({
+          title: "Are you sure?",
+          text: "Are you sure want to update this taks?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#c1c1c1",
+          confirmButtonText: "update",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            setAddLoad(true);
+            dispatch(createTodo(task.task.id, newTodos));
+            saveUpdatedTodo();
+            dispatch(updateTaskById(task.task.id, title, description, due_date, due_time, friend, priority)).then(() => {
+              Swal.fire({
+                title: "Updated!",
+                text: "Your task has been updated successfully.",
+                icon: "success",
+                timer: 3000,
+                timerProgressBar: true,
+              });
+              setAddLoad(false);
+              onClose();
+            });
+            setNewTodos([]);
+          }
+        });
+      })
+      .catch(() => {
+        Toast.fire({
+          icon: "warning",
+          title: "Please fill up the blank fields with valid data",
+        });
+      });
   };
   const handleDeleteTask = (e) => {
     e.preventDefault();
@@ -106,13 +165,22 @@ export default function TaskModal({ onClose, show, task }) {
       }
     });
   };
+
+  const handleKeyPress = (e) => {
+    if (e.charCode === 13) {
+      handleAddTodos();
+    }
+  };
+
   const handleAddTodos = () => {
-    const data = { name: text };
-    const todoList = [...todos, data];
-    const newTodoList = [...newTodos, text];
-    setTodos(todoList);
-    setNewTodos(newTodoList);
-    setText("");
+    if (text != "") {
+      const data = { name: text };
+      const todoList = [...todos, data];
+      const newTodoList = [...newTodos, text];
+      setTodos(todoList);
+      setNewTodos(newTodoList);
+      setText("");
+    }
   };
   const handleDeleteTodos = (i, id) => {
     const itemRemoved = todos.splice(i, 1);
@@ -163,6 +231,13 @@ export default function TaskModal({ onClose, show, task }) {
       setDueDate(task.task.date);
       setDueTime(task.task.time);
       setPriority(task.task.priority);
+    } else {
+      setTitle("");
+      setDescription("");
+      setDueDate("");
+      setFriend([]);
+      setCurrentTime();
+      setPriority(priorityOptions[0].value);
     }
 
     if (task.member?.length) {
@@ -177,13 +252,51 @@ export default function TaskModal({ onClose, show, task }) {
       let todo = task.todo.map((list) => list);
       setTodos(todo);
     }
-  }, [task]);
+  }, [task, show]);
+
+  useEffect(() => {
+    if (title !== "" && title.length >= 3 && title.length <= 32) {
+      setErrTitle("");
+    } else if (title !== "" && (title.length < 3 || title.length > 32)) {
+      setErrTitle("Title must be between 3-32 characters");
+    }
+  }, [title]);
+
+  useEffect(() => {
+    if (due_date !== "") {
+      setErrDate("");
+    } else {
+      setErrDate("Date field is required");
+    }
+  }, [due_date]);
+  useEffect(() => {
+    setErrTitle("");
+    setErrDate("");
+  }, [onClose]);
+
+  function addZeroBefore(n) {
+    return (n < 10 ? "0" : "") + n;
+  }
+
+  const setCurrentTime = () => {
+    const date = new Date();
+    var hours = "0";
+    if (date.getHours() + 1 == 24) {
+      hours = "01";
+    } else {
+      hours = addZeroBefore(date.getHours() + 1);
+    }
+    const minutes = addZeroBefore(date.getMinutes());
+    setDueDate(selDate);
+    setDueTime(hours + ":" + minutes);
+  };
 
   const handleMarkTodo = (e, idx) => {
     e.stopPropagation();
     const newTodos = [...todos];
     newTodos[idx].status = !newTodos[idx].status;
     setTodos(newTodos);
+    setNewTodos([]);
   };
 
   if (!show) return null;
@@ -195,13 +308,14 @@ export default function TaskModal({ onClose, show, task }) {
         <div className="flex">
           <div className="w-1/2 ml-2 mr-8">
             <InputField label={"Title"} placeholder={"Enter title here"} onChange={(title) => setTitle(title)} value={title} />
+            {errTitle && <p className="text-red-500 text-sm">{errTitle}</p>}
             <InputField
               label={"Description"}
               placeholder={"Enter description"}
               onChange={(description) => setDescription(description)}
               value={description}
             />
-            <p className="font-semibold mt-2">People</p>
+            <p className="font-semibold mt-2">Invited members</p>
             <div className="py-1 pr-3 border-b border-biruTua flex justify-between">
               <input
                 className="appearance-none bg-transparent px-2 py-1 w-3/4 text-gray-700 leading-tight focus:outline-none border-none"
@@ -210,7 +324,7 @@ export default function TaskModal({ onClose, show, task }) {
                 value={name}
               />
               <div className="flex self-center">
-                {searchLoad ? <div class="mr-3 loader ease-linear rounded-full border-2 border-t-2 border-gray-600 h-4 w-4" /> : null}
+                {searchLoad ? <div className="mr-3 loader ease-linear rounded-full border-2 border-t-2 border-gray-600 h-4 w-4" /> : null}
                 <IconSearch width={"1rem"} height={"1rem"} />
               </div>
             </div>
@@ -235,7 +349,7 @@ export default function TaskModal({ onClose, show, task }) {
                     <div className="w-8 h-8 border border-black border-opacity-5 rounded-full bg-abuTua">
                       <img
                         className="inline object-cover w-full h-full items-center justify-center place-self-center rounded-full"
-                        src={`http://127.0.0.1:8000/api/user/image/${list.photo}`}
+                        src={`${baseUrl}/api/user/image/${list.photo}`}
                         alt="Profile"
                       />
                     </div>
@@ -255,6 +369,7 @@ export default function TaskModal({ onClose, show, task }) {
           </div>
           <div className="w-1/2 mr-2 ml-8">
             <InputField label={"Due Date"} onChange={(date) => setDueDate(date)} value={due_date} type={"date"} />
+            {errDate && <p className="text-red-500 text-sm">{errDate}</p>}
             <input type="time" name="time" value={due_time} className="w-full border rounded-lg text-sm px-2 py-1" onChange={onChangeDueTime} />
             <SelectField
               placeholder={"choose priority"}
@@ -270,6 +385,7 @@ export default function TaskModal({ onClose, show, task }) {
                 className="ml-2 text-sm appearance-none bg-transparent focus:outline-none"
                 placeholder="+ add todo"
                 value={text}
+                onKeyPress={handleKeyPress}
                 onChange={onChangeText}
               />
               <IconPlus width={"25"} height={"25"} onClick={handleAddTodos} />

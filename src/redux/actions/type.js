@@ -5,6 +5,7 @@ export const LOGIN_FAILED = "LOGIN_FAILED";
 export const LOGOUT = "LOGOUT";
 
 export const CHECK_PROFILE = "CHECK_PROFILE";
+export const CHECK_USERNAME = "CHECK_USERNAME";
 
 export const SET_MESSAGE = "SET_MESSAGE";
 export const CLEAR_MESSAGE = "CLEAR_MESSAGE";

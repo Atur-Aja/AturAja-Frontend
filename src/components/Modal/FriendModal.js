@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { acceptRequest, declineRequest, getAllFriendReq, getAllFriendReqSent, inviteFriend, searchUser } from "../../redux/actions/friend";
 import { IconSearch } from "../Icons";
 import { GreenButton, WhiteButton } from "../Commons/LinkButton";
 import Swal from "sweetalert2";
+import { baseUrl } from "../../helpers/config";
 
 export default function FriendModal({ onClose, show }) {
   const users = useSelector((state) => state.friend.results);
@@ -16,6 +17,10 @@ export default function FriendModal({ onClose, show }) {
   const [loadDec, setloadDec] = useState([]);
 
   const [name, setName] = useState("");
+
+  useEffect(() => {
+    setName("");
+  }, [onClose]);
 
   const dispatch = useDispatch();
   const handleSearchUser = (e) => {
@@ -52,6 +57,7 @@ export default function FriendModal({ onClose, show }) {
     newArr[i] = true;
     setloadInv(newArr);
     dispatch(inviteFriend(user_id)).then(() => {
+      dispatch(searchUser(name));
       setloadInv([]);
       Toast.fire({
         icon: "success",
@@ -124,7 +130,7 @@ export default function FriendModal({ onClose, show }) {
                   value={name}
                 />
                 <div className="flex self-center">
-                  {loadSearch ? <div class="mr-3 loader ease-linear rounded-full border-2 border-t-2 border-gray-600 h-4 w-4" /> : null}
+                  {loadSearch ? <div className="mr-3 loader ease-linear rounded-full border-2 border-t-2 border-gray-600 h-4 w-4" /> : null}
                   <IconSearch width={"1rem"} height={"1rem"} />
                 </div>
               </div>
@@ -148,14 +154,19 @@ export default function FriendModal({ onClose, show }) {
                         <div className="w-10 h-10 border border-black rounded-full">
                           <img
                             className="inline object-cover w-full h-full items-center justify-center place-self-center rounded-full"
-                            src={`http://127.0.0.1:8000/api/user/image/${list.photo}`}
+                            src={`${baseUrl}/api/user/image/${list.photo}`}
                             alt="Profile"
                           />
                         </div>
                         <p className="text-lg ml-3 font-semibold self-center">{list.username}</p>
                       </div>
                       <div className="flex self-center">
-                        <GreenButton text={"invite"} onClick={(e) => handleInviteUser(list.id, i)} loading={loadInv[i]} />
+                        <GreenButton
+                          text={list.invited ? "invited" : "invite"}
+                          onClick={(e) => handleInviteUser(list.id, i)}
+                          loading={loadInv[i]}
+                          invited={list.invited}
+                        />
                       </div>
                     </div>
                   ))))) ||
@@ -177,7 +188,7 @@ export default function FriendModal({ onClose, show }) {
                           <div className="w-10 h-10 border border-black rounded-full">
                             <img
                               className="inline object-cover w-full h-full items-center justify-center place-self-center rounded-full"
-                              src={`http://127.0.0.1:8000/api/user/image/${list.photo}`}
+                              src={`${baseUrl}/api/user/image/${list.photo}`}
                               alt="Profile"
                             />
                           </div>
@@ -197,7 +208,7 @@ export default function FriendModal({ onClose, show }) {
                           <div className="w-10 h-10 border border-black rounded-full">
                             <img
                               className="inline object-cover w-full h-full items-center justify-center place-self-center rounded-full"
-                              src={`http://127.0.0.1:8000/api/user/image/${list.photo}`}
+                              src={`${baseUrl}/api/user/image/${list.photo}`}
                               alt="Profile"
                             />
                           </div>

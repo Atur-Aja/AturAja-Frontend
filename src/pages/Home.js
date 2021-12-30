@@ -18,12 +18,17 @@ import axios from "axios";
 import { Url } from "../helpers/server";
 import Swal from "sweetalert2";
 import { useHistory } from "react-router-dom";
+import { setToday, toggleCreate } from "../redux/actions/bar";
 
 const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
-export default function HomePage({ show, onClose, isToday }) {
+export default function HomePage() {
   const schedules = useSelector((state) => state.schedule.results);
   const tasks = useSelector((state) => state.task.results.tasks);
+
+  const isCreate = useSelector((state) => state.bar.create);
+  const isToday = useSelector((state) => state.bar.today);
+  const isSidebar = useSelector((state) => state.bar.sidebar);
 
   const today = utils().getToday();
   const [selectedDay, setSelectedDay] = useState(today);
@@ -35,6 +40,9 @@ export default function HomePage({ show, onClose, isToday }) {
 
   const [loadSchedule, setLoadSchedule] = useState(false);
   const [loadTask, setLoadTask] = useState(false);
+
+  const [schedule, setSchedule] = useState({});
+  const [task, setTask] = useState({});
 
   let history = useHistory();
   const Toast = Swal.mixin({
@@ -65,39 +73,40 @@ export default function HomePage({ show, onClose, isToday }) {
     setLoadTask(true);
     dispatch(getScheduleByDate(selectedDate)).then(() => setLoadSchedule(false));
     dispatch(getTaskByDate(selectedDate)).then(() => setLoadTask(false));
-  }, [dispatch, selectedDate]);
+  }, [selectedDate]);
 
   useEffect(() => {
     setLoadSchedule(true);
     setLoadTask(true);
     if (isToday) {
       setSelectedDay(today);
+      dispatch(setToday(false));
     }
     setNativeDate(date);
     setNativeDay(day);
     dispatch(getScheduleByDate(selectedDate)).then(() => setLoadSchedule(false));
     dispatch(getTaskByDate(selectedDate)).then(() => setLoadTask(false));
-  }, [dispatch, date, day, selectedDate, selectedDay, isToday]);
+  }, [date, day, selectedDate, selectedDay, isToday]);
 
   const [taskModal, setTaskModal] = useState(false);
   const [scheduleModal, setScheduleModal] = useState(false);
   const showTask = () => setTaskModal(true);
   const showSchedule = () => setScheduleModal(true);
   const closeTask = () => {
+    setTask({});
     dispatch(clearSearch());
     setTaskModal(false);
     setLoadTask(true);
     dispatch(getTaskByDate(selectedDate)).then(() => setLoadTask(false));
   };
   const closeSchedule = () => {
+    setSchedule({});
     dispatch(clearSearch());
     setScheduleModal(false);
     setLoadSchedule(true);
     dispatch(getScheduleByDate(selectedDate)).then(() => setLoadSchedule(false));
   };
 
-  const [schedule, setSchedule] = useState({});
-  const [task, setTask] = useState({});
   const handleListSchedule = (schedule) => {
     setSchedule(schedule);
     setScheduleModal(true);
@@ -108,10 +117,10 @@ export default function HomePage({ show, onClose, isToday }) {
   };
 
   return (
-    <div className="h-screen">
-      <CreateButton onClose={onClose} show={show} taskModal={showTask} scheduleModal={showSchedule} />
-      <TaskModal onClose={closeTask} show={taskModal} task={task} />
-      <ScheduleModal onClose={closeSchedule} show={scheduleModal} schedule={schedule} />
+    <div className={"h-screen transition-all ease-in-out duration-200 " + (isSidebar ? "lg:ml-60" : "lg:ml-14")}>
+      <CreateButton onClose={() => dispatch(toggleCreate(false))} show={isCreate} taskModal={showTask} scheduleModal={showSchedule} />
+      <TaskModal onClose={closeTask} show={taskModal} task={task} selDate={selectedDate} />
+      <ScheduleModal onClose={closeSchedule} show={scheduleModal} schedule={schedule} selDate={selectedDate} />
       <div className="h-full w-screen -mt-14 flex">
         <div className="md:w-72 lg:w-1/3 xl:w-2/5 py-16 px-4 overflow-y-auto">
           <p className="font-semibold text-xl">Schedule</p>
@@ -143,7 +152,7 @@ export default function HomePage({ show, onClose, isToday }) {
                   <IconSchedule width={"80"} height={"80"} />
                 </div>
                 <p className="text-xl justify-self-center font-semibold">No Schedule</p>
-                <p className="justify-self-center">you can add schedule by clicking “create” button</p>
+                <p className="justify-self-center text-center">you can add schedule by clicking “create” button</p>
               </div>
             )
           )}
@@ -180,12 +189,12 @@ export default function HomePage({ show, onClose, isToday }) {
                   <IconTask width={"80"} height={"80"} />
                 </div>
                 <p className="text-xl justify-self-center font-semibold">No Task</p>
-                <p className="justify-self-center">you can add task by clicking “create” button</p>
+                <p className="justify-self-center text-center">you can add task by clicking “create” button</p>
               </div>
             )
           )}
         </div>
-        <div className="md:w-114 lg:w-126 xl:w-4/12 py-20 xl:px-2 lg:px-2 md:px-4 bg-abu">
+        <div className="md:w-114 lg:w-126 xl:w-1/3 py-20 xl:px-2 lg:px-2 md:px-4 bg-abu">
           <div className="flex">
             <p className="text-5xl mr-2">{nativeDate}</p>
             <p className="text-3xl pb-1 self-end">{nativeDay}</p>

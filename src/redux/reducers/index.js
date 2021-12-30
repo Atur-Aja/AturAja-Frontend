@@ -5,6 +5,7 @@ import schedule from "./schedule";
 import task from "./task";
 import friend from "./friend";
 import profile from "./profile";
+import bar from "./bar";
 
 export default combineReducers({
   auth: auth,
@@ -13,4 +14,5 @@ export default combineReducers({
   task: task,
   friend: friend,
   profile: profile,
+  bar: bar,
 });

@@ -6,9 +6,12 @@ import moment from "moment";
 import { IconSchedule } from "../components/Icons";
 import ScheduleModal from "../components/Modal/ScheduleModal";
 import { clearSearch } from "../redux/actions/friend";
+import { toggleCreate } from "../redux/actions/bar";
 
-export default function Schedule({ onClose, show }) {
+export default function Schedule() {
   const schedules = useSelector((state) => state.schedule.results.schedules);
+  const isCreate = useSelector((state) => state.bar.create);
+  const isSidebar = useSelector((state) => state.bar.sidebar);
   const [loadSchedules, setLoadSchedules] = useState(false);
   const dispatch = useDispatch();
 
@@ -82,18 +85,16 @@ export default function Schedule({ onClose, show }) {
     setScheduleModal(true);
   };
   const closeSchedule = () => {
+    setSchedule({});
     dispatch(clearSearch());
     dispatch(getAllSchedule());
     setScheduleModal(false);
-    onClose && onClose();
+    dispatch(toggleCreate(false));
   };
 
   return (
-    <div className="min-h-screen">
-      <ScheduleModal onClose={closeSchedule || onClose} show={scheduleModal || show} schedule={schedule} />
-      <div className="fixed bg-abuMuda w-full pt-4 px-6 md:px-8 lg:px-10">
-        <p className="font-semibold text-lg md:text-xl">Schedule</p>
-      </div>
+    <div className={"h-screen px-4 pt-4 transition-all ease-in-out duration-200 " + (isSidebar ? "lg:ml-60" : "lg:ml-14")}>
+      <ScheduleModal onClose={closeSchedule} show={scheduleModal || isCreate} schedule={schedule} />
       {loadSchedules ? (
         <div className="min-h-screen items-center flex flex-wrap content-center justify-center">
           <div className="h-3 w-3 bg-gray-500 rounded-full mr-1 animate-bounce"></div>
@@ -117,7 +118,7 @@ export default function Schedule({ onClose, show }) {
                   })}
                 </p>
                 <div className="border-t border-black" />
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-1 md:gap-4 pt-10 px-4 md:px-12 lg:pt-16 lg:px-10">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-1 md:gap-4">
                   {list.data.map((list) => {
                     return (
                       <div onClick={() => handleListSchedule(list)}>
@@ -135,18 +136,13 @@ export default function Schedule({ onClose, show }) {
               </div>
             );
           })) || (
-        <div className="min-h-screen items-center flex flex-wrap content-center justify-center grid">
-          <div className="md:hidden w-24 h-24 rounded-full bg-gray-400 text-biruTua justify-self-center flex flex-wrap content-center justify-center">
-            <IconSchedule width={"60"} height={"60"} />
+          <div className="h-full w-full flex flex-wrap content-center justify-center grid">
+            <div className="w-40 h-40 rounded-full bg-gray-400 text-biruTua justify-self-center flex flex-wrap content-center justify-center">
+              <IconSchedule width={"80"} height={"80"} />
+            </div>
+            <p className="text-xl justify-self-center font-semibold">No Schedule</p>
+            <p className="justify-self-center text-center">you can add schedule by clicking “create” button</p>
           </div>
-          <p className="md:hidden text-base md:text-lg lg:text-xl justify-self-center font-semibold">No Schedule</p>
-          <p className="md:hidden text-xs md:text-sm lg:text-base text-center justify-self-center">you can add schedule by clicking “create” button</p>
-          <div className="invisible md:visible md:w-32 md:h-32 lg:w-40 lg:h-40 rounded-full bg-gray-400 text-biruTua justify-self-center flex flex-wrap content-center justify-center">
-            <IconSchedule width={"100"} height={"100"} />
-          </div>
-          <p className="invisible md:visible text-base md:text-xl lg:text-2xl justify-self-center font-semibold">No Schedule</p>
-          <p className="invisible md:visible text-xs md:text-base lg:text-lg text-center justify-self-center">you can add schedule by clicking “create” button</p>
-        </div>
         )
       )}
     </div>

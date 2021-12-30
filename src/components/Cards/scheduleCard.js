@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { baseUrl } from "../../helpers/config";
 import { IconSchedule, IconLocation, IconClock, IconGroup } from "../Icons";
 
 export default function ScheduleCard({ title, startTime, endTime, date, location, member }) {
@@ -34,7 +35,7 @@ export default function ScheduleCard({ title, startTime, endTime, date, location
       </div>
       <div className="flex text-biruTua mt-3">
         <IconLocation />
-        <p className="text-black ml-3">{location}</p>
+        <p className="text-black ml-3">{location ? location : <p>-</p>}</p>
       </div>
       <div className="flex text-biruTua mt-3">
         <IconGroup />
@@ -47,7 +48,7 @@ export default function ScheduleCard({ title, startTime, endTime, date, location
                     {(list.image && (
                       <img
                         className="inline object-cover w-full h-full items-center justify-center place-self-center rounded-full"
-                        src={`http://127.0.0.1:8000/api/user/image/${list.image}`}
+                        src={`${baseUrl}/api/user/image/${list.image}`}
                         alt="Profile"
                       />
                     )) ||

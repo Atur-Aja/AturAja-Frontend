@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { setProfile } from "../redux/actions/profil";
 import { useDispatch } from "react-redux";
 import { AuthField } from "../components/Commons/FormField";
@@ -36,33 +36,83 @@ export default function SetProfile() {
   let history = useHistory();
   const dispatch = useDispatch();
 
+  const [errPhoto, setErrPhoto] = useState(null);
+  const [errName, setErrName] = useState(null);
+  const [errPhone, setErrPhone] = useState(null);
+
+  function fieldCheck() {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (image !== null && image.size < 2097152 && fullName !== "" && phoneNumber !== "") {
+          resolve();
+        }
+        if (image == null) {
+          setErrPhoto("This field is required");
+        }
+        if (fullName == "") {
+          setErrName("This field is required");
+        }
+        if (phoneNumber == "") {
+          setErrPhone("This field is required");
+        }
+        reject();
+      }, 300);
+    });
+  }
+
   const handleSave = (e) => {
     e.preventDefault();
-    setLoading(true);
-    if (fullName !== "" && image !== null && phoneNumber !== "") {
-      dispatch(setProfile(fullName, image, phoneNumber))
-        .then(() => {
-          Toast.fire({
-            icon: "success",
-            title: "Profil updated successfully",
+
+    fieldCheck()
+      .then(() => {
+        setLoading(true);
+        dispatch(setProfile(fullName, image, phoneNumber))
+          .then(() => {
+            Toast.fire({
+              icon: "success",
+              title: "Profil updated successfully",
+            });
+            history.push("/home");
+          })
+          .catch(() => {
+            Toast.fire({
+              icon: "warning",
+              title: "The given data was invalid",
+            });
+            setLoading(false);
           });
-          history.push("/home");
-        })
-        .catch(() => {
-          Toast.fire({
-            icon: "warning",
-            title: "The given data was invalid",
-          });
-          setLoading(false);
+      })
+      .catch(() => {
+        Toast.fire({
+          icon: "warning",
+          title: "Please fill up the blank fields with valid data",
         });
-    } else {
-      Toast.fire({
-        icon: "warning",
-        title: "The given data was invalid",
+        setLoading(false);
       });
-      setLoading(false);
-    }
   };
+
+  useEffect(() => {
+    if (image !== null) {
+      setErrPhoto(null);
+    }
+    if (image !== null && image.size > 2097152) {
+      setErrPhoto("Image may not be greater than 2MB");
+    }
+  }, [image]);
+  useEffect(() => {
+    if (fullName !== "" && fullName.length >= 3 && fullName.length <= 32) {
+      setErrName(null);
+    } else if (fullName !== "" && (fullName.length < 3 || fullName.length > 32)) {
+      setErrName("Fullname must be between 3-32 characters");
+    }
+  }, [fullName]);
+  useEffect(() => {
+    if (phoneNumber !== "" && phoneNumber.length >= 10 && phoneNumber.length <= 16) {
+      setErrPhone(null);
+    } else if (phoneNumber !== "" && (phoneNumber.length < 10 || phoneNumber.length > 16)) {
+      setErrPhone("Phone Number must be between 10-16 characters");
+    }
+  }, [phoneNumber]);
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
@@ -91,9 +141,11 @@ export default function SetProfile() {
                 <IconCamera />
               </label>
             </div>
+            {errPhoto && <p className="text-red-500 text-sm">{errPhoto}</p>}
           </div>
           <div className="mt-6 mx-4">
             <AuthField placeholder={"Full Name"} value={fullName} onChange={(fullName) => setFullName(fullName)} icon={<User />} />
+            {errName && <p className="text-red-500 text-sm">{errName}</p>}
             <AuthField
               placeholder={"Phone Number"}
               value={phoneNumber}
@@ -102,6 +154,7 @@ export default function SetProfile() {
               type={"number"}
               onKeyPress={handleKeyPress}
             />
+            {errPhone && <p className="text-red-500 text-sm">{errPhone}</p>}
           </div>
           <div className="grid mt-14">
             <div className="flex justify-center">

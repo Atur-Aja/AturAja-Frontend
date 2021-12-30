@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { ReactComponent as Email } from "../assets/email.svg";
 import { ReactComponent as Eye } from "../assets/eye.svg";
 import { ReactComponent as EyeOff } from "../assets/eye-off.svg";
 import { ReactComponent as User } from "../assets/user.svg";
 import { Link } from "react-router-dom";
-import { register } from "../redux/actions/auth";
+import { checkUsername, register } from "../redux/actions/auth";
 import { AuthField } from "../components/Commons/FormField";
 import { AuthButton } from "../components/Commons/LinkButton";
 import Swal from "sweetalert2";
@@ -37,7 +37,14 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordValidate, setPasswordValidate] = useState("");
-  const [error, setError] = useState([]);
+
+  const [errUsername, setErrUsername] = useState(null);
+  const [errEmail, setErrEmail] = useState(null);
+  const [errPassword, setErrPassword] = useState(null);
+  const [errPasswdVal, setErrPasswdVal] = useState(null);
+
+  const isAvailable = useSelector((state) => state.auth.isAvailable);
+  const [checkLoad, setCheckLoad] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -72,9 +79,49 @@ export default function SignUp() {
     }
   };
 
-  const handleUsername = (data) => {
-    setUsername(data);
-  };
+  useEffect(() => {
+    setCheckLoad(true);
+    dispatch(checkUsername(username)).then(() => setCheckLoad(false));
+    if (username != "") {
+      if (/^[a-zA-Z0-9_-]{4,16}$/.test(username)) {
+        if (isAvailable) {
+          setErrUsername(null);
+        } else {
+          setErrUsername("Username already taken");
+        }
+      } else {
+        setErrUsername("Username must be between 4-16 characters and only contain uppercase, lowercase, number, underscore, hyphen");
+      }
+    }
+  }, [username, isAvailable]);
+
+  useEffect(() => {
+    if (email != "") {
+      if (/^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/.test(email)) {
+        setErrEmail(null);
+      } else {
+        setErrEmail("Invalid email address");
+      }
+    }
+  }, [email]);
+
+  useEffect(() => {
+    if (password != "") {
+      if (password.length >= 8) {
+        setErrPassword(null);
+      } else {
+        setErrPassword("Password must has at least 8 characters");
+      }
+    }
+  }, [password]);
+
+  useEffect(() => {
+    if (passwordValidate == password) {
+      setErrPasswdVal(null);
+    } else {
+      setErrPasswdVal("Invalid confirm password");
+    }
+  }, [passwordValidate]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-biruTua px-4 py-12">
@@ -82,8 +129,17 @@ export default function SignUp() {
         <form>
           <div className="mx-4 grid">
             <p className="text-black text-base md:text-lg lg:text-xl font-bold place-self-center">Create your account</p>
-            <AuthField placeholder={"Username"} value={username} onChange={(username) => setUsername(username)} icon={<User />} />
-            <AuthField placeholder={"Email"} value={email} onChange={(email) => setEmail(email)} icon={<Email />} type={"email"} />
+            <AuthField
+              placeholder={"Username"}
+              value={username}
+              onChange={(username) => setUsername(username)}
+              icon={<User />}
+              error={errUsername}
+              loading={checkLoad}
+            />
+            {errUsername && <p className="text-red-500 text-sm">{errUsername}</p>}
+            <AuthField placeholder={"Email"} value={email} onChange={(email) => setEmail(email)} icon={<Email />} type={"email"} error={errEmail} />
+            {errEmail && <p className="text-red-500 text-sm">{errEmail}</p>}
             <AuthField
               placeholder={"Password"}
               value={password}
@@ -91,7 +147,9 @@ export default function SignUp() {
               icon={isReveal ? <EyeOff /> : <Eye />}
               type={isReveal ? "password" : "text"}
               onClick={toggle}
+              error={errPassword}
             />
+            {errPassword && <p className="text-red-500 text-sm">{errPassword}</p>}
             <AuthField
               placeholder={"Confirm Password"}
               value={passwordValidate}
@@ -100,7 +158,9 @@ export default function SignUp() {
               type={isRevealConf ? "password" : "text"}
               onClick={toggleConf}
               onKeyPress={handleKeyPress}
+              error={errPasswdVal}
             />
+            {errPasswdVal && <p className="text-red-500 text-sm">{errPasswdVal}</p>}
             <div className="grid mt-14">
               <div className="flex justify-center w-full">
                 <AuthButton text={"Sign up"} loading={loading} onClick={handleRegister} />

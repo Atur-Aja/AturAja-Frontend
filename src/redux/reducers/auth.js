@@ -1,9 +1,10 @@
-import { REGISTER_SUCCESS, REGISTER_FAILED, LOGIN_SUCCESS, LOGIN_FAILED, LOGOUT, CHECK_PROFILE } from "../actions/type";
+import { REGISTER_SUCCESS, REGISTER_FAILED, LOGIN_SUCCESS, LOGIN_FAILED, LOGOUT, CHECK_PROFILE, CHECK_USERNAME } from "../actions/type";
 
 const initialState = {
   user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null,
   error: null,
   profile: false,
+  isAvailable: false,
 };
 
 export default function auth(state = initialState, action) {
@@ -43,6 +44,11 @@ export default function auth(state = initialState, action) {
       return {
         ...state,
         profile: action.payload,
+      };
+    case CHECK_USERNAME:
+      return {
+        ...state,
+        isAvailable: action.payload.isAvailable,
       };
     default:
       return state;

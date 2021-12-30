@@ -3,6 +3,7 @@ import { IconCheck } from "../Icons";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { Url } from "../../helpers/server";
+import { baseUrl } from "../../helpers/config";
 
 export default function TaskCard({ id, status, description, priority, title, time, todo, member }) {
   const image = member.map((e) => e.photo);
@@ -137,7 +138,7 @@ export default function TaskCard({ id, status, description, priority, title, tim
           </div>
         </div>
       </div>
-      {(todo.length < 3 && (
+      {(!todo.length && (
         <div className="mb-3">
           <p className="text-xs text-gray-500">Description :</p>
           {description}
@@ -197,7 +198,7 @@ export default function TaskCard({ id, status, description, priority, title, tim
                     {(list.image && (
                       <img
                         className="inline object-cover w-full h-full items-center justify-center place-self-center rounded-full"
-                        src={`http://127.0.0.1:8000/api/user/image/${list.image}`}
+                        src={`${baseUrl}/api/user/image/${list.image}`}
                         alt="Profile"
                       />
                     )) ||

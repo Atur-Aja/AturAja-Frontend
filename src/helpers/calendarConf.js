@@ -5,6 +5,11 @@ const myCustomLocale = {
   // week days by order
   weekDays: [
     {
+      name: "Sunday", // used for accessibility
+      short: "Su", // displayed at the top of days' rows
+      isWeekend: true, // is it a formal weekend or not?
+    },
+    {
       name: "Monday",
       short: "Mo",
     },
@@ -27,11 +32,6 @@ const myCustomLocale = {
     {
       name: "Saturday",
       short: "Sa",
-    },
-    {
-      name: "Sunday", // used for accessibility
-      short: "Su", // displayed at the top of days' rows
-      isWeekend: true, // is it a formal weekend or not?
     },
   ],
 

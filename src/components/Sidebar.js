@@ -20,8 +20,9 @@ const MenuLink = ({ target, text, icon, open, ...props }) => {
   );
 };
 
-export default function Sidebar({ isOpen }) {
+export default function Sidebar() {
   const request = useSelector((state) => state.friend.request);
+  const isSidebar = useSelector((state) => state.bar.sidebar);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -36,13 +37,13 @@ export default function Sidebar({ isOpen }) {
     <div
       className={
         "bg-biruTua shadow-lg group fixed top-0 left-0 " +
-        (isOpen ? "w-60 z-30 lg:z-40" : "w-14 hover:w-60 hidden lg:block lg:z-40 transition-all ease-in-out duration-300")
+        (isSidebar ? "w-60 z-30 lg:z-40" : "w-14 hover:w-60 hidden lg:block lg:z-40 transition-all ease-in-out duration-300")
       }
     >
       <div className="h-screen text-white pt-20 pb-4 grid place-content-between">
         <div>
           {menuLinks.map(({ target, text, icon }, idx) => (
-            <MenuLink key={idx} target={target} icon={icon} text={text} open={isOpen} />
+            <MenuLink key={idx} target={target} icon={icon} text={text} open={isSidebar} />
           ))}
           <MenuLink
             target="/friends"
@@ -53,11 +54,11 @@ export default function Sidebar({ isOpen }) {
               </div>
             }
             text={"Friends"}
-            open={isOpen}
+            open={isSidebar}
           />
         </div>
         <div>
-          <MenuLink target="/login" icon={<IconLogout />} text={"Logout"} open={isOpen} onClick={logOut} />
+          <MenuLink target="/login" icon={<IconLogout />} text={"Logout"} open={isSidebar} onClick={logOut} />
         </div>
       </div>
     </div>

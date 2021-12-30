@@ -46,29 +46,47 @@ export default function Login() {
     e.preventDefault();
     setLoading(true);
 
-    dispatch(login(email, password))
-      .then(() => {
-        axios.get(Url.Dashboard + "/cek").then((resp) => {
-          if (resp.data == true) {
-            Toast.fire({
-              icon: "success",
-              title: "Signed in successfully",
-            });
-            history.push("/home");
-          } else {
-            Toast.fire({
-              icon: "info",
-              title: "Please fill your profile data",
-            });
-            history.push("/setup-profile");
-          }
-        });
+    axios
+      .post(Url.Login, { login: email, password })
+      .then((response) => {
+        if (response.status == 200) {
+          dispatch({
+            type: "LOGIN_SUCCESS",
+            payload: response.data,
+          });
+          axios.get(Url.Dashboard + "/cek").then((resp) => {
+            if (resp.data == true) {
+              Toast.fire({
+                icon: "success",
+                title: "Signed in successfully",
+              });
+              history.push("/home");
+            } else {
+              Toast.fire({
+                icon: "info",
+                title: "Please fill your profile data",
+              });
+              history.push("/setup-profile");
+            }
+          });
+        }
       })
-      .catch(() => {
-        Toast.fire({
-          icon: "warning",
-          title: "The given data was invalid or email have not been verified",
+      .catch((error) => {
+        console.log(error.response.status);
+        dispatch({
+          type: "LOGIN_FAILED",
         });
+        if (error.response.status == 404) {
+          Toast.fire({
+            icon: "warning",
+            title: "Please check your email and verify before sign in",
+          });
+        } else if (error.response.status == 401) {
+          Toast.fire({
+            icon: "warning",
+            title: "Invaid email/username or password",
+          });
+        }
         setLoading(false);
       });
   };

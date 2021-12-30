@@ -1,11 +1,14 @@
-const GreenButton = ({ onClick, loading, text }) => {
+const GreenButton = ({ onClick, loading, text, invited }) => {
   const handleClick = (e) => {
     onClick && onClick(e);
   };
-
   return (
-    <button className="bg-biruTua hover:bg-biru text-white rounded-lg px-3 py-1 mx-2" onClick={handleClick} disabled={loading}>
-      {loading ? <div class="loader ease-linear rounded-full border-2 border-t-2 border-gray-400 h-4 w-4" /> : text}
+    <button
+      className={`text-white rounded-lg px-3 py-1 mx-2 ` + (invited ? "bg-gray-500 cursor-not-allowed" : "bg-biruTua hover:bg-biru")}
+      onClick={handleClick}
+      disabled={loading || invited}
+    >
+      {loading ? <div className="loader ease-linear rounded-full border-2 border-t-2 border-gray-400 h-4 w-4" /> : text}
     </button>
   );
 };
@@ -17,7 +20,7 @@ const WhiteButton = ({ onClick, loading, text }) => {
 
   return (
     <button className="bg-white hover:bg-gray-300 shadow-xl text-biruTua rounded-lg px-3 py-1 mx-2" onClick={handleClick} disabled={loading}>
-      {loading ? <div class="loader ease-linear rounded-full border-2 border-t-2 border-gray-400 h-4 w-4" /> : text}
+      {loading ? <div className="loader ease-linear rounded-full border-2 border-t-2 border-gray-400 h-4 w-4" /> : text}
     </button>
   );
 };
@@ -30,7 +33,7 @@ const DeleteButton = ({ onClick, loading }) => {
   return (
     <button className="bg-white hover:bg-gray-300 shadow-xl text-biruTua rounded-lg px-3 py-1 mx-2" onClick={handleClick} disabled={loading}>
       {loading ? (
-        <div class="loader ease-linear rounded-full border-2 border-t-2 border-gray-400 h-4 w-4" />
+        <div className="loader ease-linear rounded-full border-2 border-t-2 border-gray-400 h-4 w-4" />
       ) : (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -53,13 +56,14 @@ const AuthButton = ({ text, loading, onClick }) => {
   return (
     <button
       className={
-        "bg-biru hover:bg-biruTua rounded-lg shadow-xl text-white font-bold px-16 md:px-20 lg:px-24 py-2 place-self-center " + (text === "Reset" ? "mt-24" : "")
+        "bg-biru hover:bg-biruTua rounded-lg shadow-xl text-white font-bold px-16 md:px-20 py-2 place-self-center " +
+        (text === "Reset" ? "mt-24" : "")
       }
       onClick={handleClick}
       type="submit"
       disabled={loading}
     >
-      {loading ? <div class="loader ease-linear rounded-full border-2 border-t-2 border-gray-400 h-6 w-6"></div> : text}
+      {loading ? <div className="loader ease-linear rounded-full border-2 border-t-2 border-gray-400 h-6 w-6"></div> : text}
     </button>
   );
 };
