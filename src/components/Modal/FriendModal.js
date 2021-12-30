@@ -162,10 +162,10 @@ export default function FriendModal({ onClose, show }) {
                       </div>
                       <div className="flex self-center">
                         <GreenButton
-                          text={list.invited == "true" ? "invited" : "invite"}
+                          text={list.invited ? "invited" : "invite"}
                           onClick={(e) => handleInviteUser(list.id, i)}
                           loading={loadInv[i]}
-                          invited={list.invited == "true"}
+                          invited={list.invited}
                         />
                       </div>
                     </div>

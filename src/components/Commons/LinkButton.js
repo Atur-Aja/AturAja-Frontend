@@ -4,7 +4,7 @@ const GreenButton = ({ onClick, loading, text, invited }) => {
   };
   return (
     <button
-      className={`text-white rounded-lg px-3 py-1 mx-2 ` + (invited ? "bg-gray-500" : "bg-biruTua hover:bg-biru")}
+      className={`text-white rounded-lg px-3 py-1 mx-2 ` + (invited ? "bg-gray-500 cursor-not-allowed" : "bg-biruTua hover:bg-biru")}
       onClick={handleClick}
       disabled={loading || invited}
     >

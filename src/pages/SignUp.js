@@ -84,10 +84,10 @@ export default function SignUp() {
     dispatch(checkUsername(username)).then(() => setCheckLoad(false));
     if (username != "") {
       if (/^[a-zA-Z0-9_-]{4,16}$/.test(username)) {
-        if (isAvailable == "false") {
-          setErrUsername("Username already taken");
-        } else {
+        if (isAvailable) {
           setErrUsername(null);
+        } else {
+          setErrUsername("Username already taken");
         }
       } else {
         setErrUsername("Username must be between 4-16 characters and only contain uppercase, lowercase, number, underscore, hyphen");

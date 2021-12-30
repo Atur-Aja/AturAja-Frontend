@@ -35,7 +35,7 @@ export default function ScheduleCard({ title, startTime, endTime, date, location
       </div>
       <div className="flex text-biruTua mt-3">
         <IconLocation />
-        <p className="text-black ml-3">{location}</p>
+        <p className="text-black ml-3">{location ? location : <p>-</p>}</p>
       </div>
       <div className="flex text-biruTua mt-3">
         <IconGroup />
