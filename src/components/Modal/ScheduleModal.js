@@ -63,49 +63,94 @@ export default function ScheduleModal({ onClose, show, schedule, selDate }) {
   const [recom, setRecom] = useState([]);
   const [selRecom, setSelRecom] = useState("");
 
+  const [errTitle, setErrTitle] = useState("");
+  const [errDate, setErrDate] = useState("");
+
   const dispatch = useDispatch();
-  const handleAddSchedule = (e) => {
+
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
+
+  const handleAddSchedule = async (e) => {
     e.preventDefault();
-    setAddLoad(true);
-    dispatch(createSchedule(title, description, location, date, start_time, end_time, repeat, notification, friend)).then(() => {
-      Swal.fire({
-        text: "Your schedule has been created successfully.",
-        icon: "success",
-        timer: 3000,
-        timerProgressBar: true,
+    if (title == "") {
+      setErrTitle("Title field is required");
+    }
+    if (date == "") {
+      setErrDate("Date field is required");
+    }
+
+    if (errTitle == null && errDate == null) {
+      setAddLoad(true);
+      dispatch(createSchedule(title, description, location, date, start_time, end_time, repeat, notification, friend)).then(() => {
+        Swal.fire({
+          text: "Your schedule has been created successfully.",
+          icon: "success",
+          timer: 3000,
+          timerProgressBar: true,
+        });
+        setAddLoad(false);
+        onClose();
       });
-      setAddLoad(false);
-      onClose();
-    });
+    } else {
+      Toast.fire({
+        icon: "warning",
+        title: "Please fill up the blank fields with valid data",
+      });
+    }
   };
+
   const handleUpdateSchedule = (e) => {
     e.preventDefault();
-    Swal.fire({
-      title: "Are you sure?",
-      text: "Are you sure want to update this schedule?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#c1c1c1",
-      confirmButtonText: "update",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        setAddLoad(true);
-        dispatch(
-          updateScheduleById(schedule.schedule.id, title, description, location, date, start_time, end_time, repeat, notification, friend)
-        ).then(() => {
-          Swal.fire({
-            title: "Updated!",
-            text: "Your schedule has been updated successfully.",
-            icon: "success",
-            timer: 3000,
-            timerProgressBar: true,
+    if (title == "") {
+      setErrTitle("Title field is required");
+    }
+    if (date == "") {
+      setErrDate("Date field is required");
+    }
+
+    if (errTitle == null && errDate == null) {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "Are you sure want to update this schedule?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#c1c1c1",
+        confirmButtonText: "update",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          setAddLoad(true);
+          dispatch(
+            updateScheduleById(schedule.schedule.id, title, description, location, date, start_time, end_time, repeat, notification, friend)
+          ).then(() => {
+            Swal.fire({
+              title: "Updated!",
+              text: "Your schedule has been updated successfully.",
+              icon: "success",
+              timer: 3000,
+              timerProgressBar: true,
+            });
+            setAddLoad(false);
+            onClose();
           });
-          setAddLoad(false);
-          onClose();
-        });
-      }
-    });
+        }
+      });
+    } else {
+      Toast.fire({
+        icon: "warning",
+        title: "Please fill up the blank fields with valid data",
+      });
+    }
   };
   const handleDeleteSchedule = (e) => {
     e.preventDefault();
@@ -208,6 +253,24 @@ export default function ScheduleModal({ onClose, show, schedule, selDate }) {
     }
   }, [date, start_time, end_time, friend]);
 
+  useEffect(() => {
+    if (title !== "" && title.length >= 3 && title.length <= 32) {
+      setErrTitle(null);
+    } else if (title !== "" && (title.length < 3 || title.length > 32)) {
+      setErrTitle("Title must be between 3-32 characters");
+    }
+  }, [title]);
+
+  useEffect(() => {
+    if (date !== "") {
+      setErrDate(null);
+    }
+  }, [date]);
+  useEffect(() => {
+    setErrTitle("");
+    setErrDate("");
+  }, [onClose]);
+
   function addZeroBefore(n) {
     return (n < 10 ? "0" : "") + n;
   }
@@ -243,6 +306,7 @@ export default function ScheduleModal({ onClose, show, schedule, selDate }) {
         <div className="flex mt-3">
           <div className="w-1/2 ml-2 mr-8">
             <InputField label={"Title"} placeholder={"Enter title here"} onChange={(title) => setTitle(title)} value={title} />
+            {errTitle && <p className="text-red-500 text-sm">{errTitle}</p>}
             <InputField
               label={"Description"}
               placeholder={"Enter description"}
@@ -314,6 +378,7 @@ export default function ScheduleModal({ onClose, show, schedule, selDate }) {
               value={date}
               type={"date"}
             />
+            {errDate && <p className="text-red-500 text-sm">{errDate}</p>}
             <div className="mt-2">
               <p className="font-semibold">Time</p>
               <label>From: </label>
