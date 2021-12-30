@@ -43,7 +43,7 @@ export default function SetProfile() {
   const handleSave = (e) => {
     e.preventDefault();
     setLoading(true);
-    if (fullName !== "" && image !== null && phoneNumber !== "") {
+    if (!errPhoto && !errName && !errPhoto) {
       dispatch(setProfile(fullName, image, phoneNumber))
         .then(() => {
           Toast.fire({
@@ -62,7 +62,7 @@ export default function SetProfile() {
     } else {
       Toast.fire({
         icon: "warning",
-        title: "Please fill up the blank fields",
+        title: "Please fill up the blank fields with valid data",
       });
       setLoading(false);
     }
@@ -82,15 +82,22 @@ export default function SetProfile() {
     if (image !== null) {
       setErrPhoto(null);
     }
+    if (image !== null && image.size > 2097152) {
+      setErrPhoto("Image may not be greater than 2MB");
+    }
   }, [image]);
   useEffect(() => {
-    if (fullName !== "") {
+    if (fullName !== "" && fullName.length >= 3 && fullName.length <= 32) {
       setErrName(null);
+    } else if (fullName !== "" && (fullName.length < 3 || fullName.length > 32)) {
+      setErrName("Fullname must be between 3-32 characters");
     }
   }, [fullName]);
   useEffect(() => {
-    if (phoneNumber !== "") {
+    if (phoneNumber !== "" && phoneNumber.length >= 10 && phoneNumber.length <= 16) {
       setErrPhone(null);
+    } else if (phoneNumber !== "" && (phoneNumber.length < 10 || phoneNumber.length > 16)) {
+      setErrPhone("Phone Number must be between 10-16 characters");
     }
   }, [phoneNumber]);
 
