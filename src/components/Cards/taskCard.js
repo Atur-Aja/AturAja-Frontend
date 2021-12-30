@@ -134,7 +134,7 @@ export default function TaskCard({ id, status, description, priority, title, tim
             }
             onClick={handleMarkAllStatus}
           >
-            {/* <IconCheck /> */}
+            <IconCheck />
           </div>
         </div>
       </div>
