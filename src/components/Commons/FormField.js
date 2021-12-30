@@ -40,7 +40,7 @@ const SelectField = ({ placeholder, label, options, value, onChange }) => {
   );
 };
 
-const AuthField = ({ type, placeholder, value, onChange, icon, onClick, onKeyPress, error }) => {
+const AuthField = ({ type, placeholder, value, onChange, icon, onClick, onKeyPress, error, loading }) => {
   const handleChange = (e) => {
     onChange && onChange(e.target.value);
   };
@@ -66,6 +66,7 @@ const AuthField = ({ type, placeholder, value, onChange, icon, onClick, onKeyPre
         onChange={handleChange}
         onKeyPress={handleKeyPress}
       />
+      {loading ? <div className="self-center loader ease-linear rounded-full border-2 border-t-2 border-gray-400 h-3 w-3"></div> : null}
       <div className="flex flex-wrap content-center cursor-pointer" onClick={handleClick}>
         {icon}
       </div>

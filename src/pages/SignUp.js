@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ReactComponent as Email } from "../assets/email.svg";
 import { ReactComponent as Eye } from "../assets/eye.svg";
 import { ReactComponent as EyeOff } from "../assets/eye-off.svg";
 import { ReactComponent as User } from "../assets/user.svg";
 import { Link } from "react-router-dom";
-import { register } from "../redux/actions/auth";
+import { checkUsername, register } from "../redux/actions/auth";
 import { AuthField } from "../components/Commons/FormField";
 import { AuthButton } from "../components/Commons/LinkButton";
 import Swal from "sweetalert2";
@@ -43,6 +43,9 @@ export default function SignUp() {
   const [errPassword, setErrPassword] = useState(null);
   const [errPasswdVal, setErrPasswdVal] = useState(null);
 
+  const isAvailable = useSelector((state) => state.auth.isAvailable);
+  const [checkLoad, setCheckLoad] = useState(false);
+
   const dispatch = useDispatch();
 
   const handleRegister = (e) => {
@@ -77,14 +80,20 @@ export default function SignUp() {
   };
 
   useEffect(() => {
+    setCheckLoad(true);
+    dispatch(checkUsername(username)).then(() => setCheckLoad(false));
     if (username != "") {
       if (/^[a-zA-Z0-9_-]{4,16}$/.test(username)) {
-        setErrUsername(null);
+        if (isAvailable == "false") {
+          setErrUsername("Username already taken");
+        } else {
+          setErrUsername(null);
+        }
       } else {
         setErrUsername("Username must be between 4-16 characters and only contain uppercase, lowercase, number, underscore, hyphen");
       }
     }
-  }, [username]);
+  }, [username, isAvailable]);
 
   useEffect(() => {
     if (email != "") {
@@ -120,7 +129,14 @@ export default function SignUp() {
         <form>
           <div className="mx-4 grid">
             <p className="text-black text-base md:text-lg lg:text-xl font-bold place-self-center">Create your account</p>
-            <AuthField placeholder={"Username"} value={username} onChange={(username) => setUsername(username)} icon={<User />} error={errUsername} />
+            <AuthField
+              placeholder={"Username"}
+              value={username}
+              onChange={(username) => setUsername(username)}
+              icon={<User />}
+              error={errUsername}
+              loading={checkLoad}
+            />
             {errUsername && <p className="text-red-500 text-sm">{errUsername}</p>}
             <AuthField placeholder={"Email"} value={email} onChange={(email) => setEmail(email)} icon={<Email />} type={"email"} error={errEmail} />
             {errEmail && <p className="text-red-500 text-sm">{errEmail}</p>}
