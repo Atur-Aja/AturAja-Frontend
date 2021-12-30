@@ -40,42 +40,55 @@ export default function SetProfile() {
   const [errName, setErrName] = useState(null);
   const [errPhone, setErrPhone] = useState(null);
 
+  function fieldCheck() {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (image !== null && image.size < 2097152 && fullName !== "" && phoneNumber !== "") {
+          resolve();
+        }
+        if (image == null) {
+          setErrPhoto("This field is required");
+        }
+        if (fullName == "") {
+          setErrName("This field is required");
+        }
+        if (phoneNumber == "") {
+          setErrPhone("This field is required");
+        }
+        reject();
+      }, 300);
+    });
+  }
+
   const handleSave = (e) => {
     e.preventDefault();
-    setLoading(true);
-    if (!errPhoto && !errName && !errPhoto) {
-      dispatch(setProfile(fullName, image, phoneNumber))
-        .then(() => {
-          Toast.fire({
-            icon: "success",
-            title: "Profil updated successfully",
-          });
-          history.push("/home");
-        })
-        .catch(() => {
-          Toast.fire({
-            icon: "warning",
-            title: "The given data was invalid",
-          });
-          setLoading(false);
-        });
-    } else {
-      Toast.fire({
-        icon: "warning",
-        title: "Please fill up the blank fields with valid data",
-      });
-      setLoading(false);
-    }
 
-    if (image == null) {
-      setErrPhoto("This field is required");
-    }
-    if (fullName == "") {
-      setErrName("This field is required");
-    }
-    if (phoneNumber == "") {
-      setErrPhone("This field is required");
-    }
+    fieldCheck()
+      .then(() => {
+        setLoading(true);
+        dispatch(setProfile(fullName, image, phoneNumber))
+          .then(() => {
+            Toast.fire({
+              icon: "success",
+              title: "Profil updated successfully",
+            });
+            history.push("/home");
+          })
+          .catch(() => {
+            Toast.fire({
+              icon: "warning",
+              title: "The given data was invalid",
+            });
+            setLoading(false);
+          });
+      })
+      .catch(() => {
+        Toast.fire({
+          icon: "warning",
+          title: "Please fill up the blank fields with valid data",
+        });
+        setLoading(false);
+      });
   };
 
   useEffect(() => {
