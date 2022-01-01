@@ -25,7 +25,7 @@ const SetupServices = (store) => {
       return response;
     },
     (error) => {
-      if (error.response.status === UNAUTHORIZED) {
+      if (error.response.status === UNAUTHORIZED && window.location.href != "http://localhost:3000/") {
         dispatch(logout());
         window.location.href = "/login";
       }
