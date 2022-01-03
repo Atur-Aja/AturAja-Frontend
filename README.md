@@ -67,3 +67,4 @@ Target untuk Sprint 3 :
 - Pada Task (Menambahkan tag pada Task untuk kolaborasi dengan teman, agar mengetahui siapa yang mengerjakan task tersebut)
 - Memperbaiki tampilan dan responsivitas web (Merupakan komentar dari Sprint Review-2) 
 
+Link website yang sudah dideploy : https://aturaja.me/
