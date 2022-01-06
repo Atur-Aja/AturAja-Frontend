@@ -291,18 +291,20 @@ export default function TaskModal({ onClose, show, task, selDate }) {
   };
 
   const setCurrentDate = () => {
-    var year = selDate.year;
-    var month = selDate.month;
-    var day = selDate.day;
+    if (selDate) {
+      var year = selDate.year;
+      var month = selDate.month;
+      var day = selDate.day;
 
-    if (month < 10) {
-      month = "0" + selDate.month;
-    }
-    if (day < 10) {
-      day = "0" + selDate.day;
-    }
+      if (month < 10) {
+        month = "0" + selDate.month;
+      }
+      if (day < 10) {
+        day = "0" + selDate.day;
+      }
 
-    setDueDate(year + "-" + month + "-" + day);
+      setDueDate(year + "-" + month + "-" + day);
+    }
   };
 
   const handleMarkTodo = (e, idx) => {
