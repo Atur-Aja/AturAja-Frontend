@@ -18,9 +18,11 @@ export default function Friend() {
     dispatch(getAllFriend()).then(() => setLoadFriends(false));
   }, [dispatch]);
 
-  const closeFriend = (e) => {
+  const closeFriend = () => {
     dispatch(clearSearch());
     dispatch(toggleCreate(false));
+    setLoadFriends(true);
+    dispatch(getAllFriend()).then(() => setLoadFriends(false));
   };
 
   return (
