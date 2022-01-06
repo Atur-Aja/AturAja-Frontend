@@ -48,7 +48,7 @@ export default function NewPassword() {
           icon: "success",
           showCancelButton: false,
           confirmButtonColor: "#3085d6",
-          confirmButtonText: "back to login",
+          confirmButtonText: "Back to Login",
         }).then((result) => {
           if (result.isConfirmed) {
             history.push("/login");
