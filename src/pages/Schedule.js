@@ -87,7 +87,8 @@ export default function Schedule() {
   const closeSchedule = () => {
     setSchedule({});
     dispatch(clearSearch());
-    dispatch(getAllSchedule());
+    setLoadSchedules(true);
+    dispatch(getAllSchedule()).then(() => setLoadSchedules(false));
     setScheduleModal(false);
     dispatch(toggleCreate(false));
   };

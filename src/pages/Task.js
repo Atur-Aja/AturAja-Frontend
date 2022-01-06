@@ -92,7 +92,8 @@ export default function Task() {
   const closeTask = () => {
     setTask({});
     dispatch(clearSearch());
-    dispatch(getAllTask());
+    setLoadTasks(true);
+    dispatch(getAllTask()).then(() => setLoadTasks(false));
     setTaskModal(false);
     dispatch(toggleCreate(false));
   };
