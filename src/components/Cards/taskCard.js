@@ -104,19 +104,14 @@ export default function TaskCard({ id, status, description, priority, title, tim
   };
 
   useEffect(() => {
-    const checked = todoStatus.filter((data) => data.status == true);
-    if (todoStatus.length == checked.length) {
-      setAllStatus(true);
-    }
-  }, [todoStatus]);
-
-  useEffect(() => {
     setAllStatus(status);
     const checked = todoStatus.filter((data) => data.status == true);
     if (todoStatus.length != checked.length) {
       setAllStatus(false);
+    } else {
+      setAllStatus(true);
     }
-  }, []);
+  }, [todoStatus]);
 
   return (
     <div className="bg-white shadow-lg rounded-md px-4 py-2 mt-4 h-48 cursor-pointer">
