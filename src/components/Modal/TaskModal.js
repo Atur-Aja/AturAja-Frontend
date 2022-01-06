@@ -50,6 +50,9 @@ export default function TaskModal({ onClose, show, task, selDate }) {
   const [errTitle, setErrTitle] = useState("");
   const [errDate, setErrDate] = useState("");
 
+  console.log("todos: ", todos);
+  console.log("newtodos: ", newTodos);
+
   const Toast = Swal.mixin({
     toast: true,
     position: "top-end",
@@ -254,6 +257,7 @@ export default function TaskModal({ onClose, show, task, selDate }) {
     }
 
     setTodos([]);
+    setNewTodos([]);
     if (task.todo?.length) {
       let todo = task.todo.map((list) => list);
       setTodos(todo);
