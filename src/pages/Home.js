@@ -137,7 +137,7 @@ export default function HomePage() {
                 return (
                   <div key={list.schedule.id} onClick={() => handleListSchedule(list)}>
                     <ScheduleCard
-                      title={schedule.title}
+                      title={list.schedule.title}
                       startTime={moment(list.schedule.start_time, "HH:mm:ss").format("LT")}
                       endTime={moment(list.schedule.end_time, "HH:mm:ss").format("LT")}
                       date={moment(list.schedule.date).format("ll")}
