@@ -76,7 +76,8 @@ export default function FriendModal({ onClose, show }) {
         title: "Successfully accept invitation",
       });
     });
-    dispatch(getAllFriendReq());
+    setLoadWaiting(true);
+    dispatch(getAllFriendReq()).then(() => setLoadWaiting(false));
   };
   const handleDeclineRequest = (user_id, i) => {
     let newArr = [...loadDec];
@@ -89,7 +90,8 @@ export default function FriendModal({ onClose, show }) {
         title: "Successfully decline invitation",
       });
     });
-    dispatch(getAllFriendReq());
+    setLoadWaiting(true);
+    dispatch(getAllFriendReq()).then(() => setLoadWaiting(false));
   };
 
   if (!show) return null;
