@@ -236,7 +236,7 @@ export default function TaskModal({ onClose, show, task, selDate }) {
       setTitle("");
       setDescription("");
       setFriend([]);
-      setDueDate(today.toISOString().split("T")[0]);
+      setDueDate(new Date(today.getTime() - today.getTimezoneOffset() * 60 * 1000).toISOString().split("T")[0]);
       setCurrentTime();
       setPriority(priorityOptions[0].value);
       setPeople([]);

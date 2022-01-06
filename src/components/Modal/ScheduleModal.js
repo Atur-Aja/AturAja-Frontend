@@ -216,7 +216,7 @@ export default function ScheduleModal({ onClose, show, schedule, selDate }) {
       setTitle("");
       setDescription("");
       setLocation("");
-      setDate(today.toISOString().split("T")[0]);
+      setDate(new Date(today.getTime() - today.getTimezoneOffset() * 60 * 1000).toISOString().split("T")[0]);
       setFriend([]);
       setCurrentTime();
       setRepeat(repeatOptions[3].value);
