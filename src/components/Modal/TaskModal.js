@@ -5,7 +5,7 @@ import { createTask, deleteTaskById, updateTaskById } from "../../redux/actions/
 import { GreenButton, WhiteButton, DeleteButton } from "../Commons/LinkButton";
 import { IconPlus, IconDelete, IconSearch, IconCheck } from "../Icons";
 import { createTodo, deleteTodoById, updateTodoById } from "../../redux/actions/todo";
-import { searchFriend } from "../../redux/actions/friend";
+import { clearSearch, searchFriend } from "../../redux/actions/friend";
 import Swal from "sweetalert2";
 import { baseUrl } from "../../helpers/config";
 
@@ -239,8 +239,9 @@ export default function TaskModal({ onClose, show, task, selDate }) {
       setDueDate(today.toISOString().split("T")[0]);
       setCurrentTime();
       setPriority(priorityOptions[0].value);
+      setPeople([]);
     }
-
+    setName("");
     if (selDate) {
       setCurrentDate();
     }

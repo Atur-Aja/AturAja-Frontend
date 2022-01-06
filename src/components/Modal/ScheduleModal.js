@@ -221,8 +221,9 @@ export default function ScheduleModal({ onClose, show, schedule, selDate }) {
       setCurrentTime();
       setRepeat(repeatOptions[3].value);
       setNotification(notificationOptions[2].value);
+      setPeople([]);
     }
-
+    setName("");
     if (selDate) {
       setCurrentDate();
     }
