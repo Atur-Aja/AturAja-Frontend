@@ -234,8 +234,8 @@ export default function TaskModal({ onClose, show, task, selDate }) {
     } else {
       setTitle("");
       setDescription("");
-      setDueDate("");
       setFriend([]);
+      setCurrentDate();
       setCurrentTime();
       setPriority(priorityOptions[0].value);
     }
@@ -287,8 +287,22 @@ export default function TaskModal({ onClose, show, task, selDate }) {
       hours = addZeroBefore(date.getHours() + 1);
     }
     const minutes = addZeroBefore(date.getMinutes());
-    setDueDate(selDate);
     setDueTime(hours + ":" + minutes);
+  };
+
+  const setCurrentDate = () => {
+    var year = selDate.year;
+    var month = selDate.month;
+    var day = selDate.day;
+
+    if (month < 10) {
+      month = "0" + selDate.month;
+    }
+    if (day < 10) {
+      day = "0" + selDate.day;
+    }
+
+    setDueDate(year + "-" + month + "-" + day);
   };
 
   const handleMarkTodo = (e, idx) => {
@@ -303,7 +317,10 @@ export default function TaskModal({ onClose, show, task, selDate }) {
 
   return (
     <div className="fixed z-50 top-0 bottom-0 left-0 right-0 bg-filter flex items-center justify-center" onClick={onClose}>
-      <div className="invisible md:visible md:w-screen lg:w-2/5 md:mx-5 py-3 px-6 shadow-xl rounded-md justify-self-end bg-white" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="invisible md:visible md:w-screen lg:w-2/5 md:mx-5 py-3 px-6 shadow-xl rounded-md justify-self-end bg-white"
+        onClick={(e) => e.stopPropagation()}
+      >
         <p className="font-bold text-2xl text-center">{(task.task?.id && "Detail") || "New Task"}</p>
         <div className="flex">
           <div className="w-1/2 ml-2 mr-8">
@@ -490,55 +507,55 @@ export default function TaskModal({ onClose, show, task, selDate }) {
                 ))) ||
                 null}
               <div>
-              <InputField label={"Due Date"} onChange={(date) => setDueDate(date)} value={due_date} type={"date"} />
-              <input type="time" name="time" value={due_time} className="w-full border rounded-lg text-sm px-2 py-1" onChange={onChangeDueTime} />
-              <SelectField
-                placeholder={"choose priority"}
-                label={"Priority"}
-                options={priorityOptions}
-                value={priority}
-                onChange={(priority) => setPriority(priority)}
-              />
-              <p className="font-semibold mt-4">To do :</p>
-              <div className="flex">
-                <input
-                  type="text"
-                  className="ml-2 text-sm appearance-none bg-transparent focus:outline-none"
-                  placeholder="+ add todo"
-                  value={text}
-                  onChange={onChangeText}
+                <InputField label={"Due Date"} onChange={(date) => setDueDate(date)} value={due_date} type={"date"} />
+                <input type="time" name="time" value={due_time} className="w-full border rounded-lg text-sm px-2 py-1" onChange={onChangeDueTime} />
+                <SelectField
+                  placeholder={"choose priority"}
+                  label={"Priority"}
+                  options={priorityOptions}
+                  value={priority}
+                  onChange={(priority) => setPriority(priority)}
                 />
-                <IconPlus width={"25"} height={"25"} onClick={handleAddTodos} />
+                <p className="font-semibold mt-4">To do :</p>
+                <div className="flex">
+                  <input
+                    type="text"
+                    className="ml-2 text-sm appearance-none bg-transparent focus:outline-none"
+                    placeholder="+ add todo"
+                    value={text}
+                    onChange={onChangeText}
+                  />
+                  <IconPlus width={"25"} height={"25"} onClick={handleAddTodos} />
+                </div>
+                <div className="ml-2 text-sm h-24 overflow-y-auto">
+                  {(todos?.length &&
+                    todos.map((todo, i) => (
+                      <div className="flex my-1" key={i}>
+                        {task.task?.id && (
+                          <input
+                            key={i}
+                            type="checkbox"
+                            className="w-4 h-4 mx-2 self-center cursor-pointer border border-gray-500 rounded-sm bg-abuMuda appearance-none checked:bg-biruTua checked:border-transparent"
+                          />
+                        )}
+                        <input type="text" className="w-24" value={todo.name} onChange={(e) => updateTodo(e.target.value, i)} />
+                        {/* <p>{todo.name}</p> */}
+                        <IconDelete width={"16"} height={"16"} onClick={() => handleDeleteTodos(i, todo.id)} />
+                      </div>
+                    ))) ||
+                    null}
+                </div>
               </div>
-              <div className="ml-2 text-sm h-24 overflow-y-auto">
-                {(todos?.length &&
-                  todos.map((todo, i) => (
-                    <div className="flex my-1" key={i}>
-                      {task.task?.id && (
-                        <input
-                          key={i}
-                          type="checkbox"
-                          className="w-4 h-4 mx-2 self-center cursor-pointer border border-gray-500 rounded-sm bg-abuMuda appearance-none checked:bg-biruTua checked:border-transparent"
-                        />
-                      )}
-                      <input type="text" className="w-24" value={todo.name} onChange={(e) => updateTodo(e.target.value, i)} />
-                      {/* <p>{todo.name}</p> */}
-                      <IconDelete width={"16"} height={"16"} onClick={() => handleDeleteTodos(i, todo.id)} />
-                    </div>
-                  ))) ||
-                  null}
-              </div>
-            </div>
             </div>
           </div>
-        <div className="flex justify-end my-4 mr-2">
-          {task.task?.id && <DeleteButton onClick={handleDeleteTask} loading={delLoad} />}
-          <WhiteButton onClick={onClose} text={"cancel"} />
-          {(task.task?.id && <GreenButton onClick={handleUpdateTask} loading={addLoad} text={"update"} />) || (
-            <GreenButton onClick={handleAddTask} loading={addLoad} text={"save"} />
-          )}
+          <div className="flex justify-end my-4 mr-2">
+            {task.task?.id && <DeleteButton onClick={handleDeleteTask} loading={delLoad} />}
+            <WhiteButton onClick={onClose} text={"cancel"} />
+            {(task.task?.id && <GreenButton onClick={handleUpdateTask} loading={addLoad} text={"update"} />) || (
+              <GreenButton onClick={handleAddTask} loading={addLoad} text={"save"} />
+            )}
+          </div>
         </div>
-      </div>
       </div>
     </div>
   );

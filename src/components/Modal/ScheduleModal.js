@@ -215,8 +215,8 @@ export default function ScheduleModal({ onClose, show, schedule, selDate }) {
       setTitle("");
       setDescription("");
       setLocation("");
-      setDate("");
       setFriend([]);
+      setCurrentDate();
       setCurrentTime();
       setRepeat(repeatOptions[3].value);
       setNotification(notificationOptions[2].value);
@@ -285,7 +285,6 @@ export default function ScheduleModal({ onClose, show, schedule, selDate }) {
   }
 
   const setCurrentTime = () => {
-    setDate(selDate);
     const date = new Date();
     var startHours = "0";
     var endHours = "0";
@@ -306,11 +305,29 @@ export default function ScheduleModal({ onClose, show, schedule, selDate }) {
     setEndTime(endHours + ":" + minutes);
   };
 
+  const setCurrentDate = () => {
+    var year = selDate.year;
+    var month = selDate.month;
+    var day = selDate.day;
+
+    if (month < 10) {
+      month = "0" + selDate.month;
+    }
+    if (day < 10) {
+      day = "0" + selDate.day;
+    }
+
+    setDate(year + "-" + month + "-" + day);
+  };
+
   if (!show) return null;
 
   return (
     <div className="fixed z-50 top-0 bottom-0 left-0 right-0 bg-filter flex items-center justify-center" onClick={onClose}>
-      <div className="invisible md:visible md:w-screen lg:w-2/5 md:mx-5 py-3 px-6 shadow-xl rounded-md justify-self-end bg-white" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="invisible md:visible md:w-screen lg:w-2/5 md:mx-5 py-3 px-6 shadow-xl rounded-md justify-self-end bg-white"
+        onClick={(e) => e.stopPropagation()}
+      >
         <p className="font-bold text-2xl text-center">{(schedule.schedule?.id && "Detail") || "New Schedule"}</p>
         <div className="flex mt-3">
           <div className="w-1/2 ml-2 mr-8">
@@ -431,8 +448,8 @@ export default function ScheduleModal({ onClose, show, schedule, selDate }) {
       </div>
 
       <div className="flex items-center justify-center">
-      <div className="z-50 md:hidden overflow-auto w-60 h-112 shadow-xl rounded-md bg-white" onClick={(e) => e.stopPropagation()}>
-        <p className="font-bold text-xl text-center mt-2">{(schedule.schedule?.id && "Detail") || "New Schedule"}</p>
+        <div className="z-50 md:hidden overflow-auto w-60 h-112 shadow-xl rounded-md bg-white" onClick={(e) => e.stopPropagation()}>
+          <p className="font-bold text-xl text-center mt-2">{(schedule.schedule?.id && "Detail") || "New Schedule"}</p>
           <div className="flex-wrap mt-2">
             <div className="w-52 mx-4">
               <InputField label={"Title"} placeholder={"Enter title here"} onChange={(title) => setTitle(title)} value={title} />
@@ -505,11 +522,11 @@ export default function ScheduleModal({ onClose, show, schedule, selDate }) {
                 />
               </div>
               <div>
-                  <p className="font-semibold">Time</p>
-                  <label>From: </label>
-                  <input type="time" name="start" value={start_time} className="border rounded-lg text-sm px-2 py-1" onChange={onChangeStartTime} />
-                  <label className="flex md:ml-3">To: </label>
-                  <input type="time" name="start" value={end_time} className="border rounded-lg text-sm px-2 py-1" onChange={onChangeEndTime} />
+                <p className="font-semibold">Time</p>
+                <label>From: </label>
+                <input type="time" name="start" value={start_time} className="border rounded-lg text-sm px-2 py-1" onChange={onChangeStartTime} />
+                <label className="flex md:ml-3">To: </label>
+                <input type="time" name="start" value={end_time} className="border rounded-lg text-sm px-2 py-1" onChange={onChangeEndTime} />
               </div>
               {(recom?.length && (
                 <div className="flex">
@@ -535,16 +552,16 @@ export default function ScheduleModal({ onClose, show, schedule, selDate }) {
                   onChange={(notification) => setNotification(notification)}
                 />
               </div>
-          </div>
-          <div className="flex justify-end my-4 mr-2">
-            {schedule.schedule?.id && <DeleteButton onClick={handleDeleteSchedule} loading={delLoad} />}
-            <WhiteButton onClick={onClose} text={"cancel"} />
-            {(schedule.schedule?.id && <GreenButton onClick={handleUpdateSchedule} text={"update"} loading={addLoad} />) || (
-              <GreenButton onClick={handleAddSchedule} text={"save"} loading={addLoad} />
-            )}
+            </div>
+            <div className="flex justify-end my-4 mr-2">
+              {schedule.schedule?.id && <DeleteButton onClick={handleDeleteSchedule} loading={delLoad} />}
+              <WhiteButton onClick={onClose} text={"cancel"} />
+              {(schedule.schedule?.id && <GreenButton onClick={handleUpdateSchedule} text={"update"} loading={addLoad} />) || (
+                <GreenButton onClick={handleAddSchedule} text={"save"} loading={addLoad} />
+              )}
+            </div>
           </div>
         </div>
-      </div>
       </div>
     </div>
   );

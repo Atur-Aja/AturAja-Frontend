@@ -119,8 +119,8 @@ export default function HomePage() {
   return (
     <div className={"h-screen transition-all ease-in-out duration-200 " + (isSidebar ? "lg:ml-60" : "lg:ml-14")}>
       <CreateButton onClose={() => dispatch(toggleCreate(false))} show={isCreate} taskModal={showTask} scheduleModal={showSchedule} />
-      <TaskModal onClose={closeTask} show={taskModal} task={task} selDate={selectedDate} />
-      <ScheduleModal onClose={closeSchedule} show={scheduleModal} schedule={schedule} selDate={selectedDate} />
+      <TaskModal onClose={closeTask} show={taskModal} task={task} selDate={selectedDay} />
+      <ScheduleModal onClose={closeSchedule} show={scheduleModal} schedule={schedule} selDate={selectedDay} />
       <div className="h-full w-screen -mt-14 flex">
         <div className="md:w-72 lg:w-1/3 xl:w-2/5 py-16 px-4 overflow-y-auto">
           <p className="font-semibold text-xl">Schedule</p>
