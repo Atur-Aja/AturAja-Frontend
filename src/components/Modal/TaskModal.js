@@ -232,12 +232,17 @@ export default function TaskModal({ onClose, show, task, selDate }) {
       setDueTime(task.task.time);
       setPriority(task.task.priority);
     } else {
+      let today = new Date();
       setTitle("");
       setDescription("");
       setFriend([]);
-      setCurrentDate();
+      setDueDate(today.toISOString().split("T")[0]);
       setCurrentTime();
       setPriority(priorityOptions[0].value);
+    }
+
+    if (selDate) {
+      setCurrentDate();
     }
 
     if (task.member?.length) {
@@ -291,20 +296,18 @@ export default function TaskModal({ onClose, show, task, selDate }) {
   };
 
   const setCurrentDate = () => {
-    if (selDate) {
-      var year = selDate.year;
-      var month = selDate.month;
-      var day = selDate.day;
+    var year = selDate.year;
+    var month = selDate.month;
+    var day = selDate.day;
 
-      if (month < 10) {
-        month = "0" + selDate.month;
-      }
-      if (day < 10) {
-        day = "0" + selDate.day;
-      }
-
-      setDueDate(year + "-" + month + "-" + day);
+    if (month < 10) {
+      month = "0" + selDate.month;
     }
+    if (day < 10) {
+      day = "0" + selDate.day;
+    }
+
+    setDueDate(year + "-" + month + "-" + day);
   };
 
   const handleMarkTodo = (e, idx) => {

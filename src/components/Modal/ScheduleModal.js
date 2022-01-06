@@ -212,14 +212,19 @@ export default function ScheduleModal({ onClose, show, schedule, selDate }) {
         setFriend([...peopleIds]);
       }
     } else {
+      let today = new Date();
       setTitle("");
       setDescription("");
       setLocation("");
+      setDate(today.toISOString().split("T")[0]);
       setFriend([]);
-      setCurrentDate();
       setCurrentTime();
       setRepeat(repeatOptions[3].value);
       setNotification(notificationOptions[2].value);
+    }
+
+    if (selDate) {
+      setCurrentDate();
     }
   }, [schedule, show]);
 
@@ -306,20 +311,18 @@ export default function ScheduleModal({ onClose, show, schedule, selDate }) {
   };
 
   const setCurrentDate = () => {
-    if (selDate) {
-      var year = selDate.year;
-      var month = selDate.month;
-      var day = selDate.day;
+    var year = selDate.year;
+    var month = selDate.month;
+    var day = selDate.day;
 
-      if (month < 10) {
-        month = "0" + selDate.month;
-      }
-      if (day < 10) {
-        day = "0" + selDate.day;
-      }
-
-      setDate(year + "-" + month + "-" + day);
+    if (month < 10) {
+      month = "0" + selDate.month;
     }
+    if (day < 10) {
+      day = "0" + selDate.day;
+    }
+
+    setDate(year + "-" + month + "-" + day);
   };
 
   if (!show) return null;
