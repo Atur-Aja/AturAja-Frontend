@@ -207,11 +207,10 @@ export default function LandingPage() {
         </div>
         <a href="https://play.google.com/store/apps/details?id=com.aturaja.aturaja" target="_blank">
           <img src={gplay} alt="google play" className="w-40" />
-          {/* <button className="bg-biruTua hover:bg-biru text-white font-semibold px-6 md:px-8 py-2 rounded-full shadow-2xl">Download for Mobile</button> */}
         </a>
       </div>
       <div className="w-full md:w-1/2 flex items-center justify-center">
-        <div className="w-60 h-96 md:w-72 md:h-112 lg:w-96 lg:h-128 xl:w-112 xl:h-144 rounded-xl px-2 md:px-4 lg:px-6 py-4 xl:py-16 shadow-2xl bg-abuMuda">
+        <div className="w-60 h-96 md:w-72 md:h-112 lg:w-96 lg:h-128 xl:w-112 xl:h-144 rounded-xl px-2 md:px-4 lg:px-6 py-4 shadow-2xl bg-abuMuda">
           <form>
             {isRegister ? (
               <>
@@ -274,7 +273,7 @@ export default function LandingPage() {
                 </div>
               </>
             ) : (
-              <div className="mt-5 mx-2">
+              <div className="mx-2">
                 <>
                   <div className="flex flex-wrap content-center justify-center">
                     <img src={Logo} className="w-14 md:w-16 lg:w-20 2xl:w-24" alt="logo" />
@@ -284,6 +283,17 @@ export default function LandingPage() {
                         <br />
                         aja
                       </p>
+                    </div>
+                  </div>
+                  <div className="px-4 py-2 rounded-lg bg-teal-200 text-teal-700 text-sm">
+                    <p className="font-semibold">Testing Credential</p>
+                    <div className="flex">
+                      <p>Username:</p>
+                      <p className="font-semibold ml-1">demo1</p>
+                    </div>
+                    <div className="flex">
+                      <p>Password:</p>
+                      <p className="font-semibold ml-1">Rahasia1</p>
                     </div>
                   </div>
                   <>

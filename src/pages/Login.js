@@ -106,7 +106,7 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-biruTua">
-      <div className="w-80 h-112 md:w-96 md:h-128 lg:w-112 lg:h-144 rounded-xl px-2 md:px-4 lg:px-8 py-14 bg-abuMuda">
+      <div className="w-80 h-112 md:w-96 md:h-128 lg:w-112 lg:h-144 rounded-xl px-2 md:px-4 lg:px-8 py-4 bg-abuMuda grid">
         <div className="flex flex-wrap content-center justify-center">
           <img src={Logo} className="w-16 md:w-20 lg:w-24" alt="logo" />
           <div className="ml-4 font-comforta text-2xl md:text-3xl lg:text-4xl font-semibold grid place-content-center">
@@ -117,8 +117,19 @@ export default function Login() {
             </p>
           </div>
         </div>
+        <div className="w-11/12 mt-5 px-4 py-2 rounded-lg bg-teal-200 text-teal-700 text-sm justify-self-center">
+          <p className="font-semibold">Testing Credential</p>
+          <div className="flex">
+            <p>Username:</p>
+            <p className="font-semibold ml-1">demo1</p>
+          </div>
+          <div className="flex">
+            <p>Password:</p>
+            <p className="font-semibold ml-1">Rahasia1</p>
+          </div>
+        </div>
         <form>
-          <div className="mt-10 mx-4">
+          <div className="mx-4">
             <AuthField placeholder={"Username / Email"} value={email} onChange={(email) => setEmail(email)} icon={<Email />} />
             <AuthField
               placeholder={"Password"}
